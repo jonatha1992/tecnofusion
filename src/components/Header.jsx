@@ -27,6 +27,24 @@ function Header() {
     setAnchorElNav(null);
   };
 
+  const handleNavClick = (event, href) => {
+    event.preventDefault();
+    handleCloseNavMenu();
+
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      const headerOffset = 64; // Ajusta este valor según la altura de tu header
+      const elementPosition = targetElement.getBoundingClientRect().top;
+      const offsetPosition =
+        elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <AppBar position="sticky">
       <Container maxWidth="xl">
@@ -79,15 +97,11 @@ function Header() {
               }}
             >
               {navItems.map((item) => (
-                <MenuItem key={item.href} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <a
-                      href={item.href}
-                      style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                      {item.label}
-                    </a>
-                  </Typography>
+                <MenuItem
+                  key={item.href}
+                  onClick={(event) => handleNavClick(event, item.href)}
+                >
+                  <Typography textAlign="center">{item.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -115,8 +129,7 @@ function Header() {
             {navItems.map((item) => (
               <Button
                 key={item.href}
-                href={item.href}
-                onClick={handleCloseNavMenu}
+                onClick={(event) => handleNavClick(event, item.href)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {item.label}
