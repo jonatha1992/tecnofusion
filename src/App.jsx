@@ -66,9 +66,21 @@ function App() {
     <ThemeProvider theme={theme}>
       <Layout>
         <Hero />
-        <Section title="Sección 1" id="seccion1" />
-        <Section title="Sección 2" id="seccion2" />
-        <Section title="Sección 3" id="seccion3" />
+        <Section
+          title="Sección 1"
+          id="seccion1"
+          gradientClass="bg-radial-gradient-right"
+        />
+        <Section
+          title="Sección 2"
+          id="seccion2"
+          gradientClass="bg-radial-gradient-left"
+        />
+        <Section
+          title="Sección 3"
+          id="seccion3"
+          gradientClass="bg-radial-gradient-right"
+        />
       </Layout>
     </ThemeProvider>
   );

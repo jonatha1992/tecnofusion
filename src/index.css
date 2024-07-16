@@ -4,7 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
+.bg-radial-gradient-right {
+    background: radial-gradient(circle at bottom right, #131842 10%, #111827 100%);
+}
 
+.bg-radial-gradient-left {
+    background: radial-gradient(circle at bottom left, #131842 10%, #111827 100%);
+}
+
+.bg-ellipsis-gradient-center {
+    background: radial-gradient(ellipse at center, #131842 40%, #111827 100%);
+}
 .text-gradient {
     background: linear-gradient(90deg, #ff7e5f, #feb47b);
     -webkit-background-clip: text;

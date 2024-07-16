@@ -1,9 +1,12 @@
 import React from "react";
 import { Box, Typography, Container } from "@mui/material";
 
-function Section({ title, id, children }) {
+function Section({ title, id, children, gradientClass }) {
   return (
-    <Box id={id} sx={{ py: 8, mt: 8, bgcolor: "background.default" }}>
+    <div
+      id={id}
+      className={`h-[90vh] ${gradientClass} text-white flex items-center justify-center`}
+    >
       <Container>
         <Typography variant="h3" component="h2" gutterBottom>
           {title}
@@ -14,7 +17,7 @@ function Section({ title, id, children }) {
           </Typography>
         )}
       </Container>
-    </Box>
+    </div>
   );
 }
 

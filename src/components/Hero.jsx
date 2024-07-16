@@ -16,7 +16,7 @@ function Hero() {
     autoplaySpeed: 4000,
   };
   return (
-    <div className="bg-gray-900 text-white flex flex-col items-center justify-around h-[90vh]">
+    <div className="bg-ellipsis-gradient-center text-white flex flex-col items-center justify-around h-[90vh]">
       <div className="container">
         <Slider {...settings}>
           <div className="text-center flex flex-col justify-center items-center h-full">
