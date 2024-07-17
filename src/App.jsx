@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import Hero from "./components/Hero";
 import Section from "./components/Section";
 import Contact from "./components/Contact";
+import WhatsAppChat from "./components/WhatsAppChat";
 const theme = createTheme({
     palette: {
         primary: {
@@ -69,6 +70,7 @@ function App() {
                 <Section title="Sección 2" id="seccion2" />
                 <Section title="Sección 3" id="seccion3" />
                 <Contact />
+                <WhatsAppChat />
             </Layout>
         </ThemeProvider>
     );
