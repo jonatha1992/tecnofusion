@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import CloseIcon from "@mui/icons-material/Close";
 
-const predefinedMessages = [
-    "HOLA, QUISIERA MÁS INFORMACIÓN SOBRE SUS SERVICIOS.",
-    "¿CUÁLES SON SUS HORARIOS DE ATENCIÓN?",
-    "ME GUSTARÍA AGENDAR UNA CITA.",
-];
+const predefinedMessages = ["Cuáles son sus horarios de atención?", "Me gustaría agendar una cita."];
 
 const WhatsAppChat = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +12,7 @@ const WhatsAppChat = () => {
 
     const handleSend = () => {
         if (message) {
-            window.open(`https://wa.me/TUNUMERODEWHATSAPP?text=${encodeURIComponent(message)}`, "_blank");
+            window.open(`https://wa.me/0?text=${encodeURIComponent(message)}`, "_blank");
             setMessage("");
         }
     };
@@ -32,13 +28,13 @@ const WhatsAppChat = () => {
 
             {isOpen && (
                 <div className="fixed bottom-24 right-5 w-80 bg-[#f0e6d2] rounded-lg shadow-xl p-4 z-[9999]">
-                    <h6 className="text-lg font-semibold mb-4 text-gray-800">Chatea con nosotros</h6>
+                    <h6 className="text-lg font-semibold mb-4 text-gray-800 text-center">Chatea con nosotros</h6>
 
                     <div className="mb-4 space-y-2">
                         {predefinedMessages.map((msg, index) => (
                             <button
                                 key={index}
-                                className="w-full text-left bg-white text-sm p-2 rounded mb-2 hover:bg-gray-100 transition duration-300"
+                                className="w-full text-left bg-white  text-gray-800 text-sm p-2 rounded mb-2 hover:bg-gray-100 transition duration-300 capitalize"
                                 onClick={() => setMessage(msg)}
                             >
                                 {msg}
