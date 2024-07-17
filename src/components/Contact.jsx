@@ -1,11 +1,27 @@
+import React, { useRef } from "react";
 import { Formik, Form } from "formik";
 import { validarNumeroTelefono } from "../helper/Validacion.js";
 import * as Yup from "yup";
 import emailjs from "@emailjs/browser";
-import { useRef } from "react";
 import { countries as countriesList } from "countries-list";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+// Material UI imports
+import { TextField, Button, Select, MenuItem, FormControl, InputLabel, createTheme, ThemeProvider } from "@mui/material";
+
+// Crear un tema oscuro personalizado
+const darkTheme = createTheme({
+    palette: {
+        mode: "dark",
+        primary: {
+            main: "#e57373", // Un rojo claro para el botón
+        },
+        text: {
+            primary: "#ffffff", // Texto blanco
+        },
+    },
+});
 
 // Obtener la lista de países con sus prefijos telefónicos
 const countries = Object.keys(countriesList).map((code) => ({
@@ -46,121 +62,141 @@ const Contact = () => {
         resetForm();
     };
 
+    const textFieldSx = {
+        input: { color: "white" },
+        label: { color: "white" },
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": { borderColor: "white" },
+            "&:hover fieldset": { borderColor: "white" },
+            "&.Mui-focused fieldset": { borderColor: "white" },
+        },
+    };
+
     return (
-        <div className="bg-gray-900 text-white py-16">
-            <div className="container mx-auto px-4">
-                <div className="flex flex-wrap -mx-4">
-                    <ToastContainer
-                        autoClose={10000}
-                        className="toast-container"
-                        style={{
-                            position: "relative",
-                            top: "0",
-                            zIndex: "9999",
-                        }}
-                    />
-                    <div className="w-full md:w-1/2 px-4 flex justify-center">
-                        <Formik
-                            initialValues={{
-                                nombre: "",
-                                telefono: "",
-                                email: "",
-                                mensaje: "",
-                                country: defaultCountryValue,
+        <ThemeProvider theme={darkTheme}>
+            <div className="bg-gray-900 text-white py-16">
+                <div className="container mx-auto px-4">
+                    <div className="flex flex-wrap -mx-4">
+                        <ToastContainer
+                            autoClose={10000}
+                            className="toast-container"
+                            style={{
+                                position: "relative",
+                                top: "0",
+                                zIndex: "9999",
                             }}
-                            validationSchema={validationSchema}
-                            onSubmit={handleSubmit}
-                            validateOnSubmit={true}
-                            validateOnChange={false}
-                            validateOnBlur={false}
-                        >
-                            {({ errors, touched, setFieldValue }) => (
-                                <Form className="w-full max-w-lg" ref={formRef}>
-                                    <h1 className="text-3xl font-bold text-center mb-6">Contacto</h1>
-                                    <div className="mb-4">
-                                        <input
-                                            type="text"
-                                            name="nombre"
-                                            placeholder="Nombre Completo"
-                                            className={`w-full px-4 py-2 rounded-md bg-gray-100 text-gray-900 ${
-                                                touched.nombre && errors.nombre ? "border-red-500" : "border-gray-400"
-                                            }`}
-                                            onChange={(e) => setFieldValue("nombre", e.target.value)}
-                                        />
-                                        {touched.nombre && errors.nombre && (
-                                            <div className="text-red-500 text-sm mt-1">{errors.nombre}</div>
-                                        )}
-                                    </div>
-                                    <div className="flex mb-4">
-                                        <div className="w-1/3 mr-2">
-                                            <select
-                                                name="country"
-                                                className="w-full px-4 py-2 rounded-md bg-gray-900 text-white"
-                                                onChange={(e) => setFieldValue("country", e.target.value)}
-                                                value={defaultCountryValue}
-                                            >
-                                                {countries.map((country, index) => (
-                                                    <option key={index} value={country.value}>
-                                                        {country.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div className="w-2/3">
-                                            <input
-                                                type="text"
-                                                name="telefono"
-                                                placeholder="Número sin prefijo"
-                                                className={`w-full px-4 py-2 rounded-md bg-gray-100 text-gray-900 ${
-                                                    touched.telefono && errors.telefono ? "border-red-500" : "border-gray-400"
-                                                }`}
-                                                onChange={(e) => setFieldValue("telefono", e.target.value)}
+                        />
+                        <div className="w-full md:w-1/2 px-4 flex justify-center">
+                            <Formik
+                                initialValues={{
+                                    nombre: "",
+                                    telefono: "",
+                                    email: "",
+                                    mensaje: "",
+                                    country: defaultCountryValue,
+                                }}
+                                validationSchema={validationSchema}
+                                onSubmit={handleSubmit}
+                                validateOnSubmit={true}
+                                validateOnChange={false}
+                                validateOnBlur={false}
+                            >
+                                {({ errors, touched, setFieldValue }) => (
+                                    <Form className="w-full max-w-lg" ref={formRef}>
+                                        <h1 className="text-3xl font-bold text-center mb-6 text-white">Contacto</h1>
+                                        <div className="mb-4">
+                                            <TextField
+                                                fullWidth
+                                                name="nombre"
+                                                label="Nombre Completo"
+                                                variant="outlined"
+                                                error={touched.nombre && Boolean(errors.nombre)}
+                                                helperText={touched.nombre && errors.nombre}
+                                                onChange={(e) => setFieldValue("nombre", e.target.value)}
+                                                sx={textFieldSx}
                                             />
-                                            {touched.telefono && errors.telefono && (
-                                                <div className="text-red-500 text-sm mt-1">{errors.telefono}</div>
-                                            )}
                                         </div>
-                                    </div>
-                                    <div className="mb-4">
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            placeholder="Email"
-                                            className={`w-full px-4 py-2 rounded-md bg-gray-100 text-gray-900 ${
-                                                touched.email && errors.email ? "border-red-500" : "border-gray-400"
-                                            }`}
-                                            onChange={(e) => setFieldValue("email", e.target.value)}
-                                        />
-                                        {touched.email && errors.email && <div className="text-red-500 text-sm mt-1">{errors.email}</div>}
-                                    </div>
-                                    <div className="mb-4">
-                                        <textarea
-                                            name="mensaje"
-                                            placeholder="Mensaje"
-                                            rows={3}
-                                            className={`w-full px-4 py-2 rounded-md bg-gray-100 text-gray-900 ${
-                                                touched.mensaje && errors.mensaje ? "border-red-500" : "border-gray-400"
-                                            }`}
-                                            onChange={(e) => setFieldValue("mensaje", e.target.value)}
-                                        />
-                                        {touched.mensaje && errors.mensaje && (
-                                            <div className="text-red-500 text-sm mt-1">{errors.mensaje}</div>
-                                        )}
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded w-full mt-4"
-                                    >
-                                        Enviar
-                                    </button>
-                                </Form>
-                            )}
-                        </Formik>
+                                        <div className="flex mb-4">
+                                            <div className="w-1/3 mr-2">
+                                                <FormControl fullWidth>
+                                                    <InputLabel sx={{ color: "white" }}>País</InputLabel>
+                                                    <Select
+                                                        name="country"
+                                                        value={defaultCountryValue}
+                                                        label="País"
+                                                        onChange={(e) => setFieldValue("country", e.target.value)}
+                                                        sx={{
+                                                            color: "white",
+                                                            ".MuiOutlinedInput-notchedOutline": {
+                                                                borderColor: "white",
+                                                            },
+                                                            "&:hover .MuiOutlinedInput-notchedOutline": {
+                                                                borderColor: "white",
+                                                            },
+                                                            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                                                borderColor: "white",
+                                                            },
+                                                        }}
+                                                    >
+                                                        {countries.map((country, index) => (
+                                                            <MenuItem key={index} value={country.value}>
+                                                                {country.label}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </div>
+                                            <div className="w-2/3">
+                                                <TextField
+                                                    fullWidth
+                                                    name="telefono"
+                                                    label="Número sin prefijo"
+                                                    variant="outlined"
+                                                    error={touched.telefono && Boolean(errors.telefono)}
+                                                    helperText={touched.telefono && errors.telefono}
+                                                    onChange={(e) => setFieldValue("telefono", e.target.value)}
+                                                    sx={textFieldSx}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="mb-4">
+                                            <TextField
+                                                fullWidth
+                                                name="email"
+                                                label="Email"
+                                                variant="outlined"
+                                                error={touched.email && Boolean(errors.email)}
+                                                helperText={touched.email && errors.email}
+                                                onChange={(e) => setFieldValue("email", e.target.value)}
+                                                sx={textFieldSx}
+                                            />
+                                        </div>
+                                        <div className="mb-4">
+                                            <TextField
+                                                fullWidth
+                                                name="mensaje"
+                                                label="Mensaje"
+                                                variant="outlined"
+                                                multiline
+                                                rows={3}
+                                                error={touched.mensaje && Boolean(errors.mensaje)}
+                                                helperText={touched.mensaje && errors.mensaje}
+                                                onChange={(e) => setFieldValue("mensaje", e.target.value)}
+                                                sx={textFieldSx}
+                                            />
+                                        </div>
+                                        <Button type="submit" variant="contained" color="primary" fullWidth size="large" className="mt-4">
+                                            Enviar
+                                        </Button>
+                                    </Form>
+                                )}
+                            </Formik>
+                        </div>
+                        <div className="w-full md:w-1/2 px-4 flex justify-center items-center mt-8 md:mt-0"></div>
                     </div>
-                    <div className="w-full md:w-1/2 px-4 flex justify-center items-center mt-8 md:mt-0"></div>
                 </div>
             </div>
-        </div>
+        </ThemeProvider>
     );
 };
 
