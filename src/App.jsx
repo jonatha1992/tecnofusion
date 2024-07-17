@@ -13,8 +13,8 @@ const theme = createTheme({
       main: "#E68369",
     },
     background: {
-      default: "#FBF6E2",
-      paper: "#ECCEAE",
+      default: "#131842",
+      paper: "transparent",
     },
     text: {
       primary: "#131842",
@@ -24,7 +24,8 @@ const theme = createTheme({
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
-      color: "#131842",
+      color: "#E68369",
+      fontWeight: "700",
     },
     h2: {
       color: "#131842",
@@ -33,7 +34,7 @@ const theme = createTheme({
       color: "#131842",
     },
     body1: {
-      color: "#131842",
+      color: "#ffffff",
     },
   },
   components: {
@@ -51,7 +52,7 @@ const theme = createTheme({
         },
         containedPrimary: {
           backgroundColor: "#E68369",
-          color: "#FBF6E2",
+          color: "#ffffff",
           "&:hover": {
             backgroundColor: "#d57257",
           },
@@ -67,8 +68,8 @@ function App() {
       <Layout>
         <Hero />
         <Section
-          title="Sección 1"
-          id="seccion1"
+          title="Proyectos"
+          id="proyectos"
           gradientClass="bg-radial-gradient-right"
         />
         <Section
