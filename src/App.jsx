@@ -84,6 +84,8 @@ function App() {
           id="seccion3"
           gradientClass="bg-radial-gradient-right"
         />
+        <Contact></Contact>
+        <WhatsAppChat />
       </Layout>
     </ThemeProvider>
   );
