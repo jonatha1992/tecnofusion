@@ -61,17 +61,16 @@ const theme = createTheme({
 });
 
 function App() {
-    return (
-        <ThemeProvider theme={theme}>
-            <Layout>
-                <Hero />
-                <Section title="Sección 1" id="seccion1" />
-                <Section title="Sección 2" id="seccion2" />
-                <Section title="Sección 3" id="seccion3" />
-                <Contact />
-            </Layout>
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider theme={theme}>
+      <Layout>
+        <Hero />
+        <Section title="Sección 1" id="seccion1" />
+        <Section title="Sección 2" id="seccion2" />
+        <Section title="Sección 3" id="seccion3" />
+      </Layout>
+    </ThemeProvider>
+  );
 }
 
 export default App;
