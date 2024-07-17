@@ -22,7 +22,8 @@ function Section({ title, id, children, gradientClass }) {
       <Container>
         <Typography
           variant="h1"
-          className="text-4xl md:text-6xl font-bold mb-8 text-gradient pb-10"
+          sx={{ fontSize: "4rem", mb: 8 }}
+          className="text-gradient"
         >
           {title}
         </Typography>
@@ -47,6 +48,20 @@ function Section({ title, id, children, gradientClass }) {
                 <ProjectCard
                   title="Proyecto 3"
                   description="Descripción del proyecto 3"
+                  image="https://uizard.io/static/ad6ed79a8d0a71b0ae07d216a95824f1/0cfa7/e33b6844ef5e56ea7e36dc6b9e9b520bf8fa69c0-1440x835.webp"
+                  githubLink="https://github.com/proyecto3"
+                  previewLink="https://preview.com/proyecto3"
+                />
+                <ProjectCard
+                  title="Proyecto 4"
+                  description="Descripción del proyecto 4"
+                  image="https://uizard.io/static/ad6ed79a8d0a71b0ae07d216a95824f1/0cfa7/e33b6844ef5e56ea7e36dc6b9e9b520bf8fa69c0-1440x835.webp"
+                  githubLink="https://github.com/proyecto3"
+                  previewLink="https://preview.com/proyecto3"
+                />
+                <ProjectCard
+                  title="Proyecto 5"
+                  description="Descripción del proyecto 5"
                   image="https://uizard.io/static/ad6ed79a8d0a71b0ae07d216a95824f1/0cfa7/e33b6844ef5e56ea7e36dc6b9e9b520bf8fa69c0-1440x835.webp"
                   githubLink="https://github.com/proyecto3"
                   previewLink="https://preview.com/proyecto3"
