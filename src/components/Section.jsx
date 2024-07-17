@@ -17,12 +17,12 @@ function Section({ title, id, children, gradientClass }) {
   return (
     <div
       id={id}
-      className={`min-h-[90vh] ${gradientClass} text-white flex items-center justify-center`}
+      className={`min-h-[100vh] ${gradientClass} text-white flex items-center justify-center`}
     >
       <Container>
         <Typography
           variant="h1"
-          className="text-4xl md:text-6xl font-bold mb-8 text-gradient"
+          className="text-4xl md:text-6xl font-bold mb-8 text-gradient pb-10"
         >
           {title}
         </Typography>
@@ -73,8 +73,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink }) {
         maxWidth: 345,
         backgroundColor: "#131842",
         color: "white",
-        boxShadow:
-          "0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.3)",
+        boxShadow: "0 0 10px #131842, 0 0 20px #131842, 0 0 30px #3e4dcf",
       }}
       className="transition-transform transform hover:scale-105"
     >
@@ -84,7 +83,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink }) {
           gutterBottom
           variant="h5"
           component="div"
-          sx={{ color: "white", fontWeight: "bold" }}
+          sx={{ color: "#ff7e5f", fontWeight: "bold" }}
         >
           {title}
         </Typography>

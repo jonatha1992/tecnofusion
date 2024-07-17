@@ -1,9 +1,11 @@
+import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Layout from "./components/Layout";
 import Hero from "./components/Hero";
 import Section from "./components/Section";
 import Contact from "./components/Contact";
 import WhatsAppChat from "./components/WhatsAppChat";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -41,19 +43,25 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: "#131842",
+          backgroundColor: "#13184200",
         },
-        secondary: {
-            main: "#E68369",
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
         },
         containedPrimary: {
-          backgroundColor: "#E68369",
+          backgroundColor: "#13184200",
           color: "#ffffff",
           "&:hover": {
-            backgroundColor: "#d57257",
+            backgroundColor: "#13184200",
           },
         },
+      },
     },
+  },
 });
 
 function App() {
