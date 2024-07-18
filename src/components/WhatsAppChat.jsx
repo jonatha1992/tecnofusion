@@ -1,76 +1,111 @@
 import React, { useState } from "react";
+import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Box, Typography, IconButton, Autocomplete } from "@mui/material";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import CloseIcon from "@mui/icons-material/Close";
-
-const predefinedMessages = ["Cuáles son sus horarios de atención?", "Me gustaría agendar una cita."];
+import { useTheme } from "@mui/material/styles";
 
 const WhatsAppChat = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [name, setName] = useState("");
     const [country, setCountry] = useState("Argentina");
+    const theme = useTheme();
 
+    const textFieldStyle = {
+        "& .MuiInputLabel-root": { color: theme.palette.primary.main },
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": { borderColor: theme.palette.primary.main },
+            "&:hover fieldset": { borderColor: theme.palette.primary.main },
+            "&.Mui-focused fieldset": { borderColor: theme.palette.primary.main },
+        },
+        "& .MuiInputBase-input": { color: theme.palette.primary.main },
+    };
+
+    const autoCompleteItemStyle = {
+        backgroundColor: theme.palette.primary.main,
+        color: "white",
+        "&:hover": {
+            backgroundColor: theme.palette.secondary.light,
+        },
+    };
     const handleSend = () => {
         if (message) {
-            window.open(`https://wa.me/0?text=${encodeURIComponent(message)}`, "_blank");
+            window.open(`https://wa.me/5491160235647?text=${encodeURIComponent(message)}`, "_blank");
             setMessage("");
         }
     };
 
     return (
         <>
-            <button
-                className="fixed bottom-5 right-5 w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-colors z-50"
+            <IconButton
+                sx={{
+                    position: "fixed",
+                    bottom: 20,
+                    right: 20,
+                    backgroundColor: "green",
+                    color: "white",
+                    "&:hover": { backgroundColor: "darkgreen" },
+                }}
                 onClick={() => setIsOpen(!isOpen)}
             >
-                {isOpen ? <CloseIcon /> : <WhatsAppIcon style={{ fontSize: 30 }} />}
-            </button>
+                {isOpen ? <CloseIcon sx={{ fontSize: 40 }} /> : <WhatsAppIcon sx={{ fontSize: 40 }} />}
+            </IconButton>
 
             {isOpen && (
-                <div className="fixed bottom-24 right-5 w-80 bg-[#f0e6d2] rounded-lg shadow-xl p-4 z-[9999]">
-                    <h6 className="text-lg font-semibold mb-4 text-gray-800 text-center">Chatea con nosotros</h6>
-
-                    <div className="mb-4 space-y-2">
-                        {predefinedMessages.map((msg, index) => (
-                            <button
-                                key={index}
-                                className="w-full text-left bg-white  text-gray-800 text-sm p-2 rounded mb-2 hover:bg-gray-100 transition duration-300 capitalize"
-                                onClick={() => setMessage(msg)}
-                            >
-                                {msg}
-                            </button>
-                        ))}
-                    </div>
-
-                    <input
-                        type="text"
-                        placeholder="Escribe tu mensaje"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        className="w-full p-2 mb-2 border border-gray-300 rounded bg-white"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Nombre Completo"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full p-2 mb-2 border border-gray-300 rounded bg-white"
-                    />
-                    <select
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                        className="w-full p-2 mb-4 border border-gray-300 rounded bg-white"
+                <Box
+                    sx={{
+                        position: "fixed",
+                        bottom: 100,
+                        right: 20,
+                        width: 300,
+                        borderRadius: 2,
+                        overflow: "hidden",
+                        boxShadow: 3,
+                    }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: theme.palette.primary.main,
+                            padding: 2,
+                            width: "100%",
+                        }}
                     >
-                        <option value="Argentina">Argentina</option>
-                        {/* Agrega más países según sea necesario */}
-                    </select>
-                    <button
-                        onClick={handleSend}
-                        className="w-full bg-[#e57373] hover:bg-[#ef5350] text-white font-bold py-2 px-4 rounded transition duration-300"
-                    >
-                        ENVIAR
-                    </button>
-                </div>
+                        <Typography variant="h6" align="center" sx={{ color: "white" }}>
+                            Chatea con nosotros
+                        </Typography>
+                    </Box>
+                    <Box sx={{ mb: 2, padding: 2, backgroundColor: theme.palette.secondary.main }}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            placeholder="Nombre Completo"
+                            label="Nombre Completo"
+                            required
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            sx={{ ...textFieldStyle, mb: 2 }}
+                        />
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            placeholder="Escribe tu mensaje"
+                            label="Escribe tu mensaje"
+                            multiline
+                            rows={4}
+                            required
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            sx={{ ...textFieldStyle, mb: 2 }}
+                        />
+
+                        <button
+                            className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded w-full"
+                            onClick={handleSend}
+                        >
+                            ENVIAR
+                        </button>
+                    </Box>
+                </Box>
             )}
         </>
     );
