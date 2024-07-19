@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Formik, Form } from "formik";
 import { validarNumeroTelefono } from "../helper/Validacion.js";
 import * as Yup from "yup";
@@ -48,17 +48,45 @@ const Contact = () => {
         setErrors({});
         const phoneNumber = `${values.country}${values.telefono}`;
         try {
-            let result = await emailjs.sendForm("service_cg53wui", "template_3a2716m", formRef.current, "qHtG6A2I87n7CARUF", {
-                telefono: phoneNumber,
-            });
-            console.log(result.text);
+            // Enviar correo al destinatario principal
+            await emailjs.send(
+                "service_grmd3xg",
+                "template_3mvc41r", // Reemplaza con el ID de tu plantilla
+                {
+                    to_email: "tecnofusion.it@gmail.com", // Correo de la cuenta asociada
+                    from_name: values.nombre,
+                    subject: "Nuevo mensaje de " + values.nombre,
+                    name: "Equipo de Tecnofusión.IT",
+                    message_body: `Tienes un mensaje de ${values.nombre}:<br><br>${values.mensaje}`,
+                    email: values.email,
+                    telefono: phoneNumber,
+                },
+                "qHtG6A2I87n7CARUF"
+            );
+
+            // Enviar correo de confirmación al remitente
+            await emailjs.send(
+                "service_grmd3xg",
+                "template_3mvc41r", // Reemplaza con el ID de tu plantilla
+                {
+                    to_email: values.email, // Correo del remitente
+                    from_name: "Equipo de Tecnofusión.IT",
+                    subject: "Confirmación de envío de mensaje",
+                    name: values.nombre,
+                    message_body: `Tu mensaje ha sido enviado a Tecnofusión.IT con éxito. Mensaje enviado:${values.mensaje}`,
+                    email: "tecnofusion.it@gmail.com",
+                    telefono: phoneNumber,
+                },
+                "qHtG6A2I87n7CARUF"
+            );
+
             toast.success("¡La consulta se ha enviado con éxito!");
         } catch (error) {
             console.log(error.text);
             toast.error("¡Hubo un error al enviar la consulta!");
         }
 
-        setSubmitting(true);
+        setSubmitting(false);
         resetForm();
     };
 
