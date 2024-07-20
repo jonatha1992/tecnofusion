@@ -33,12 +33,12 @@ const countries = Object.keys(countriesList).map((code) => ({
 const defaultCountryValue = countries.find((country) => country.value === "+54")?.value || countries[0].value;
 
 const validationSchema = Yup.object().shape({
-    nombre: Yup.string().required("El nombre es obligatorio"),
-    telefono: Yup.string()
+    name: Yup.string().required("El nombre es obligatorio"),
+    telephone: Yup.string()
         .required("El número es obligatorio")
         .test("valido", "Número de teléfono no válido", (value) => validarNumeroTelefono(value)),
     email: Yup.string().email("El correo no es válido").required("El correo es obligatorio"),
-    mensaje: Yup.string().required("El mensaje es obligatorio"),
+    message: Yup.string().required("El mensaje es obligatorio"),
 });
 
 const Contact = () => {
@@ -46,20 +46,21 @@ const Contact = () => {
 
     const handleSubmit = async (values, { setSubmitting, resetForm, setErrors }) => {
         setErrors({});
-        const phoneNumber = `${values.country}${values.telefono}`;
+        const phoneNumber = `${values.country}${values.telephone}`;
+        console.log(phoneNumber);
         try {
             // Enviar correo al destinatario principal
             await emailjs.send(
                 "service_grmd3xg",
-                "template_3mvc41r", // Reemplaza con el ID de tu plantilla
+                "template_3a2716m", // Reemplaza con el ID de tu plantilla
                 {
                     to_email: "tecnofusion.it@gmail.com", // Correo de la cuenta asociada
-                    from_name: values.nombre,
-                    subject: "Nuevo mensaje de " + values.nombre,
-                    name: "Equipo de Tecnofusión.IT",
-                    message_body: `Tienes un mensaje de ${values.nombre}:<br><br>${values.mensaje}`,
+                    from_name: "Tecnofusión.IT",
+                    subject: "Nuevo mensaje de " + values.name,
+                    name: values.name,
+                    message: `${values.message}`,
                     email: values.email,
-                    telefono: phoneNumber,
+                    telephone: phoneNumber,
                 },
                 "qHtG6A2I87n7CARUF"
             );
@@ -70,24 +71,20 @@ const Contact = () => {
                 "template_3mvc41r", // Reemplaza con el ID de tu plantilla
                 {
                     to_email: values.email, // Correo del remitente
-                    from_name: "Equipo de Tecnofusión.IT",
+                    from_name: "Tecnofusión.IT",
                     subject: "Confirmación de envío de mensaje",
-                    name: values.nombre,
-                    message_body: `Tu mensaje ha sido enviado a Tecnofusión.IT con éxito. Mensaje enviado:${values.mensaje}`,
-                    email: "tecnofusion.it@gmail.com",
-                    telefono: phoneNumber,
+                    name: values.name,
                 },
                 "qHtG6A2I87n7CARUF"
             );
 
             toast.success("¡La consulta se ha enviado con éxito!");
+            resetForm();
         } catch (error) {
-            console.log(error.text);
             toast.error("¡Hubo un error al enviar la consulta!");
         }
 
         setSubmitting(false);
-        resetForm();
     };
 
     const textFieldSx = {
@@ -102,45 +99,38 @@ const Contact = () => {
 
     return (
         <ThemeProvider theme={darkTheme}>
-            <div className="bg-gray-900 text-white py-16">
+            <div className="bg-gray-900 text-white py-16 ">
                 <div className="container mx-auto px-4">
-                    <div className="flex flex-wrap -mx-4">
-                        <ToastContainer
-                            autoClose={10000}
-                            className="toast-container"
-                            style={{
-                                position: "relative",
-                                top: "0",
-                                zIndex: "9999",
-                            }}
-                        />
+                    <div className="flex mx-4 justify-center">
                         <div className="w-full md:w-1/2 px-4 flex justify-center">
                             <Formik
                                 initialValues={{
-                                    nombre: "",
-                                    telefono: "",
+                                    name: "",
+                                    telephone: "",
                                     email: "",
-                                    mensaje: "",
+                                    message: "",
                                     country: defaultCountryValue,
                                 }}
+                                enableReinitialize={true}
                                 validationSchema={validationSchema}
                                 onSubmit={handleSubmit}
                                 validateOnSubmit={true}
                                 validateOnChange={false}
                                 validateOnBlur={false}
                             >
-                                {({ errors, touched, setFieldValue }) => (
+                                {({ errors, touched, setFieldValue, values }) => (
                                     <Form className="w-full max-w-lg" ref={formRef}>
                                         <h1 className="text-3xl font-bold text-center mb-6 text-white">Contacto</h1>
                                         <div className="mb-4">
                                             <TextField
                                                 fullWidth
-                                                name="nombre"
+                                                name="name"
                                                 label="Nombre Completo"
                                                 variant="outlined"
-                                                error={touched.nombre && Boolean(errors.nombre)}
-                                                helperText={touched.nombre && errors.nombre}
-                                                onChange={(e) => setFieldValue("nombre", e.target.value)}
+                                                value={values.name}
+                                                error={touched.name && Boolean(errors.name)}
+                                                helperText={touched.name && errors.name}
+                                                onChange={(e) => setFieldValue("name", e.target.value)}
                                                 sx={textFieldSx}
                                             />
                                         </div>
@@ -177,12 +167,13 @@ const Contact = () => {
                                             <div className="w-2/3">
                                                 <TextField
                                                     fullWidth
-                                                    name="telefono"
+                                                    name="telephone"
                                                     label="Número sin prefijo"
                                                     variant="outlined"
-                                                    error={touched.telefono && Boolean(errors.telefono)}
-                                                    helperText={touched.telefono && errors.telefono}
-                                                    onChange={(e) => setFieldValue("telefono", e.target.value)}
+                                                    value={values.telephone}
+                                                    error={touched.telephone && Boolean(errors.telephone)}
+                                                    helperText={touched.telephone && errors.telephone}
+                                                    onChange={(e) => setFieldValue("telephone", e.target.value)}
                                                     sx={textFieldSx}
                                                 />
                                             </div>
@@ -193,6 +184,7 @@ const Contact = () => {
                                                 name="email"
                                                 label="Email"
                                                 variant="outlined"
+                                                value={values.email}
                                                 error={touched.email && Boolean(errors.email)}
                                                 helperText={touched.email && errors.email}
                                                 onChange={(e) => setFieldValue("email", e.target.value)}
@@ -202,14 +194,15 @@ const Contact = () => {
                                         <div className="mb-4">
                                             <TextField
                                                 fullWidth
-                                                name="mensaje"
+                                                name="message"
                                                 label="Mensaje"
                                                 variant="outlined"
+                                                value={values.message}
                                                 multiline
                                                 rows={3}
-                                                error={touched.mensaje && Boolean(errors.mensaje)}
-                                                helperText={touched.mensaje && errors.mensaje}
-                                                onChange={(e) => setFieldValue("mensaje", e.target.value)}
+                                                error={touched.message && Boolean(errors.message)}
+                                                helperText={touched.message && errors.message}
+                                                onChange={(e) => setFieldValue("message", e.target.value)}
                                                 sx={textFieldSx}
                                             />
                                         </div>
@@ -219,6 +212,12 @@ const Contact = () => {
                                     </Form>
                                 )}
                             </Formik>
+                            <ToastContainer
+                                autoClose={2000}
+                                style={{
+                                    zIndex: "9999",
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
