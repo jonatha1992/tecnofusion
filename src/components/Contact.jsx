@@ -47,7 +47,6 @@ const Contact = () => {
     const handleSubmit = async (values, { setSubmitting, resetForm, setErrors }) => {
         setErrors({});
         const phoneNumber = `${values.country}${values.telephone}`;
-        console.log(phoneNumber);
         try {
             // Enviar correo al destinatario principal
             await emailjs.send(
