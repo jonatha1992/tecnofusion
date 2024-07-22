@@ -16,10 +16,10 @@ function Hero() {
     autoplaySpeed: 4000,
   };
   return (
-    <div className="bg-ellipsis-gradient-center text-white flex flex-col items-center justify-around h-[100vh]">
+    <div className="bg-ellipsis-gradient-center text-white flex flex-col items-center justify-around h-[100vh] md:h-[60vh]">
       <div className="container">
         <Slider {...settings}>
-          <div className="text-center flex flex-col justify-center items-center h-full">
+          <div className=" flex flex-col justify-center items-center h-full">
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
               Bienvenido a mi <span className="text-gradient">Portfolio</span>
             </h1>
@@ -27,9 +27,17 @@ function Hero() {
               Desarrollador web apasionado por crear experiencias digitales
               increíbles
             </p>
+            <div className="container flex  space-x-4 mt-20">
+              <button className="bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] text-white py-2 px-4 rounded hover:bg-rose-600">
+                Contáctame
+              </button>
+              <button className="bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] text-white py-2 px-4 rounded hover:bg-rose-600">
+                Segundo Botón
+              </button>
+            </div>
           </div>
 
-          <div className="text-center flex flex-col justify-center items-center h-full">
+          <div className="text-end flex flex-col justify-center items-center h-full">
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
               Bienvenido a mi <span className="text-gradient">Portfolio2</span>
             </h1>
@@ -37,16 +45,16 @@ function Hero() {
               Desarrollador web apasionado por crear experiencias digitales
               increíbles
             </p>
+            <div className="container flex  space-x-4 justify-end mt-20">
+              <button className="bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] text-white py-2 px-4 rounded hover:bg-rose-600">
+                Contáctame
+              </button>
+              <button className="bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] text-white py-2 px-4 rounded hover:bg-rose-600">
+                Segundo Botón
+              </button>
+            </div>
           </div>
         </Slider>
-      </div>
-      <div className="flex justify-center space-x-4">
-        <button className="bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] text-white py-2 px-4 rounded hover:bg-rose-600">
-          Contáctame
-        </button>
-        <button className="bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] text-white py-2 px-4 rounded hover:bg-rose-600">
-          Segundo Botón
-        </button>
       </div>
     </div>
   );
