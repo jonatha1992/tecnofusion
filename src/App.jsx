@@ -33,7 +33,7 @@ const theme = createTheme({
       color: "#ffffff",
     },
     h3: {
-      color: "#131842",
+      color: "#ffffff",
     },
     body1: {
       color: "#ffffff",

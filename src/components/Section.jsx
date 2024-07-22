@@ -91,7 +91,7 @@ function Section({ title, id, children, gradientClass }) {
                   >
                     {title}
                   </Typography>
-                  <Typography variant="body1">
+                  <Typography variant="h3">
                     Este es nuestro equipo de trabajo!
                   </Typography>
                 </div>
