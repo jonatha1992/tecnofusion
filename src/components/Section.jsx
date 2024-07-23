@@ -23,21 +23,21 @@ function Section({ title, id, children, gradientClass }) {
                             {children || (
                                 <>
                                     <ProjectCard
-                                        title="Proyecto 1"
-                                        description="Descripción del proyecto 1"
+                                        title="AESFRON"
+                                        description="Pagina web de venta de Cursos en linea"
                                         image={img}
                                         githubLink="https://github.com/proyecto1"
                                         previewLink="https://preview.com/proyecto1"
                                     />
                                     <ProjectCard
-                                        title="Proyecto 2"
+                                        title="Contador de Calorias"
                                         description="Descripción del proyecto 2"
                                         image="https://uizard.io/static/cf424bbe243fbeea669a73e9a643b942/0cfa7/4f1d95da946fb3f71d54297dfb6e5de9fe712af3-1440x835.webp"
                                         githubLink="https://github.com/proyecto2"
                                         previewLink="https://preview.com/proyecto2"
                                     />
                                     <ProjectCard
-                                        title="Proyecto 3"
+                                        title="Citas Online"
                                         description="Descripción del proyecto 3"
                                         image="https://uizard.io/static/ad6ed79a8d0a71b0ae07d216a95824f1/0cfa7/e33b6844ef5e56ea7e36dc6b9e9b520bf8fa69c0-1440x835.webp"
                                         githubLink="https://github.com/proyecto3"
@@ -61,7 +61,7 @@ function Section({ title, id, children, gradientClass }) {
                             )}
                         </div>
                     </>
-                ) : id === "nosotros" ? (
+                ) : id === "Nosotros" ? (
                     <div className="min-h-screen flex items-center justify-center">
                         <div className="flex flex-wrap w-full max-w-screen-lg" style={{ height: "80vh" }}>
                             <div className="flex-1 min-w-[300px] p-4 flex flex-col justify-around">
@@ -84,7 +84,7 @@ function Section({ title, id, children, gradientClass }) {
                                     <div className="flex justify-between items-center">
                                         <Typography variant="h6">Jonathan Correa</Typography>
                                         <img alt="" src={foto_joni} className="inline-block h-20 w-20 rounded-full ring-2 ring-white" />
-                                        <Typography variant="h6">Full Stack WEB</Typography>
+                                        <Typography variant="h6">Analista Programador</Typography>
                                     </div>
                                     <div className="flex justify-between mt-4 items-end">
                                         <ul className="list-none ml-4 mt-2">
