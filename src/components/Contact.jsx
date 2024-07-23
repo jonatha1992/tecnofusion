@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { Formik, Form } from "formik";
 import { validarNumeroTelefono } from "../helper/Validacion.js";
 import * as Yup from "yup";
@@ -8,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Material UI imports
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel, createTheme, ThemeProvider } from "@mui/material";
+import { TextField, Button, Select, MenuItem, FormControl, InputLabel, createTheme, ThemeProvider, Typography } from "@mui/material";
 
 // Crear un tema oscuro personalizado
 const darkTheme = createTheme({
@@ -41,9 +40,7 @@ const validationSchema = Yup.object().shape({
     message: Yup.string().required("El mensaje es obligatorio"),
 });
 
-const Contact = () => {
-    const formRef = useRef();
-
+function Contact({ id, title }) {
     const handleSubmit = async (values, { setSubmitting, resetForm, setErrors }) => {
         setErrors({});
         const phoneNumber = `${values.country}${values.telephone}`;
@@ -118,8 +115,11 @@ const Contact = () => {
                                 validateOnBlur={false}
                             >
                                 {({ errors, touched, setFieldValue, values }) => (
-                                    <Form className="w-full max-w-lg" ref={formRef}>
-                                        <h1 className="text-3xl font-bold text-center mb-6 text-white">Contacto</h1>
+                                    <Form className="w-full max-w-lg" id={id}>
+                                        {/* <h1 className="text-3xl font-bold text-center mb-6 text-white">Contacto</h1> */}
+                                        <Typography variant="h1" sx={{ fontSize: "4rem", mb: 4 }} className="text-gradient">
+                                            {title}
+                                        </Typography>
                                         <div className="mb-4">
                                             <TextField
                                                 fullWidth
@@ -223,6 +223,6 @@ const Contact = () => {
             </div>
         </ThemeProvider>
     );
-};
+}
 
 export default Contact;
