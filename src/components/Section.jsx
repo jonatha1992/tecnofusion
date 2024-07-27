@@ -25,7 +25,7 @@ function Section({ title, id, children, gradientClass }) {
   return (
     <div
       id={id}
-      className={`min-h-[100vh] ${gradientClass} text-white flex items-center justify-center`}
+      className={`min-h-[100vh] sm:min-h-[200vh] ${gradientClass} text-white flex items-center justify-center`}
     >
       <Container>
         {id === "proyectos" ? (
@@ -83,7 +83,7 @@ function Section({ title, id, children, gradientClass }) {
             </div>
           </>
         ) : id === "Nosotros" ? (
-          <div className="min-h-screen flex items-center justify-center">
+          <div className=" flex items-center justify-center">
             <div
               className="flex flex-wrap w-full max-w-screen-lg"
               style={{ height: "80vh" }}
@@ -102,11 +102,11 @@ function Section({ title, id, children, gradientClass }) {
                   </Typography>
                 </div>
                 <div className="p-4 flex-col flex justify-end">
-                  <img src={svg1} alt="Imagen" className="" />
+                  <img src={svg1} alt="Imagen" className="max-w-full h-auto" />
                 </div>
               </div>
               <div className="flex-1 min-w-[300px] p-4 flex flex-col gap-4 justify-center">
-                <div className="bg-gray-700 p-4 flex-1">
+                <div className="bg-gray-700 p-4 flex-1 rounded-lg">
                   <div className="flex justify-between items-center">
                     <Typography variant="h6">Jonathan Correa</Typography>
                     <img
@@ -155,7 +155,7 @@ function Section({ title, id, children, gradientClass }) {
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-700 p-4 flex-1">
+                <div className="bg-gray-700 p-4 flex-1 rounded-lg">
                   <div className="flex justify-between items-center">
                     <Typography variant="h6">Franco More</Typography>
                     <img
@@ -196,18 +196,18 @@ function Section({ title, id, children, gradientClass }) {
                         MP, Stripe, Paypal
                       </li>
                       <li className="flex items-center">
-                        <CheckIcon className="h-5 w-5 text-green-500 mr-2" />4
-                        Años de experiencia freelance
+                        <CheckIcon className="h-5 w-5 text-green-500 mr-2" />
+                        Firebase, Firestore
                       </li>
                     </ul>
                     <div className="ml-4 mt-2 flex flex-col gap-2 h-full">
-                      <button className="flex items-center bg-gray-400 text-white px-4 py-2 rounded hover:bg-blue-600">
+                      <button className="flex items-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                         <FaGithub className="mr-2" />
                         GitHub
                       </button>
-                      <button className="flex items-center bg-blue-700 text-white px-4 py-2 rounded hover:bg-green-600">
-                        <LinkedInIcon />
-                        LinkedIn
+                      <button className="flex items-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                        <FaEye className="mr-2" />
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -215,13 +215,7 @@ function Section({ title, id, children, gradientClass }) {
               </div>
             </div>
           </div>
-        ) : (
-          children || (
-            <Typography variant="h4" className="text-2xl">
-              Contenido de la sección. Personaliza esto según tus necesidades.
-            </Typography>
-          )
-        )}
+        ) : null}
       </Container>
     </div>
   );
@@ -229,47 +223,32 @@ function Section({ title, id, children, gradientClass }) {
 
 function ProjectCard({ title, description, image, githubLink, previewLink }) {
   return (
-    <Card
-      sx={{
-        maxWidth: 345,
-        backgroundColor: "#131842",
-        color: "white",
-        boxShadow: "0 0 10px #131842, 0 0 20px #131842, 0 0 30px #3e4dcf",
-      }}
-      className="transition-transform transform hover:scale-105"
-    >
-      <CardMedia sx={{ height: 140 }} image={image} title={title} />
+    <Card sx={{ maxWidth: 345, bgcolor: "background.paper" }}>
+      <CardMedia component="img" height="140" image={image} alt={title} />
       <CardContent>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div"
-          sx={{ color: "#ff7e5f", fontWeight: "bold" }}
-        >
+        <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
-        <Typography variant="body2" sx={{ color: "white" }}>
+        <Typography variant="body2" color="text.description">
           {description}
         </Typography>
       </CardContent>
       <CardActions>
         <Button
           size="small"
+          color="secondary"
           href={githubLink}
           target="_blank"
-          startIcon={<GitHubIcon />}
-          sx={{ color: "white" }}
         >
-          GitHub
+          <GitHubIcon />
         </Button>
         <Button
           size="small"
+          color="secondary"
           href={previewLink}
           target="_blank"
-          startIcon={<PreviewIcon />}
-          sx={{ color: "white" }}
         >
-          Preview
+          <PreviewIcon />
         </Button>
       </CardActions>
     </Card>
