@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Box, Typography, IconButton, Autocomplete } from "@mui/material";
+import { useState } from "react";
+import { TextField, Box, Typography, IconButton } from "@mui/material";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/material/styles";
@@ -8,7 +8,6 @@ const WhatsAppChat = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [name, setName] = useState("");
-    const [country, setCountry] = useState("Argentina");
     const theme = useTheme();
 
     const textFieldStyle = {
@@ -21,13 +20,6 @@ const WhatsAppChat = () => {
         "& .MuiInputBase-input": { color: theme.palette.primary.main },
     };
 
-    const autoCompleteItemStyle = {
-        backgroundColor: theme.palette.primary.main,
-        color: "white",
-        "&:hover": {
-            backgroundColor: theme.palette.secondary.light,
-        },
-    };
     const handleSend = () => {
         if (message) {
             window.open(`https://wa.me/5491160235647?text=${encodeURIComponent(message)}`, "_blank");

@@ -1,4 +1,3 @@
-import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Layout from "./components/Layout";
 import Hero from "./components/Hero";
