@@ -1,6 +1,4 @@
-import React from "react";
 import {
-  Box,
   Typography,
   Container,
   Card,
@@ -11,7 +9,6 @@ import {
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import PreviewIcon from "@mui/icons-material/Preview";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { CheckIcon } from "@heroicons/react/outline";
 import { FaGithub, FaEye } from "react-icons/fa";
 import img from "../assets/imgApp.webp";

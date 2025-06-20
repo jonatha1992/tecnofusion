@@ -1,6 +1,6 @@
 import { countries as countriesList } from "countries-list";
 import { Country, State } from "country-state-city";
-import { db, doc, getDoc, getDocs, addDoc, collection } from "../firebase";
+import { db, addDoc, collection } from "../firebase";
 const countries = Country.getAllCountries().map(({ isoCode, name }) => ({
     label: name,
     value: isoCode,

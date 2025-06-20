@@ -1,6 +1,4 @@
-import React from "react";
 import {
-  Box,
   Typography,
   Container,
   Card,
@@ -78,8 +76,8 @@ function Proyects({ title, id, children, gradientClass }) {
               )}
             </div>
           </>
-
-           </Container>
+        ) : null}
+        </Container>
     </div>
   );
 }

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Typography, Container, Grid, Box } from "@mui/material";
 import CodeIcon from "@mui/icons-material/Code";
 import BrushIcon from "@mui/icons-material/Brush";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import CameraOutdoorIcon from "@mui/icons-material/CameraOutdoor";
 import BuildIcon from "@mui/icons-material/Build";
 
 function Servicios({ title, id, gradientClass }) {
@@ -32,9 +32,9 @@ function Servicios({ title, id, gradientClass }) {
             description: "Ofrecemos asesoramiento experto en tecnología para optimizar sus procesos de negocio.",
         },
         {
-            icon: <TrendingUpIcon fontSize="large" />,
-            title: "SEO y Marketing Digital",
-            description: "Mejoramos la visibilidad de su negocio en línea y aumentamos su tráfico web.",
+            icon: <CameraOutdoorIcon fontSize="large" />,
+            title: "Instalación de Cámaras CCTV",
+            description: "Implementamos sistemas de videovigilancia para proteger su hogar o negocio.",
         },
         {
             icon: <BuildIcon fontSize="large" />,
