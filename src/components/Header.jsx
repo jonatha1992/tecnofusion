@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 
 const navItems = [
+    { href: "#home", label: "Inicio" },
     { href: "#proyectos", label: "proyectos" },
     { href: "#Nosotros", label: "Nosotros" },
     { href: "#Servicios", label: "Servicios" },

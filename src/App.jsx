@@ -1,4 +1,3 @@
-import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Layout from "./components/Layout";
 import Hero from "./components/Hero";
@@ -84,12 +83,7 @@ function App() {
           id="Nosotros"
           gradientClass="bg-radial-gradient-left"
         />
-        <Section
-          title="Servicios"
-          id="Servicios"
-          gradientClass="bg-radial-gradient-left"
-        />
-        <Servicios title="Servicios" id="Servicios" />
+        <Servicios title="Servicios" id="Servicios" gradientClass="bg-radial-gradient-left" />
         <Contact title="Contacto" id="Contacto" />
         <WhatsAppChat />
       </Layout>
