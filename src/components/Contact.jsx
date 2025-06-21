@@ -48,7 +48,7 @@ function Contact({ id, title }) {
             // Enviar correo al destinatario principal
             await emailjs.send(
                 import.meta.env.VITE_EMAILJS_SERVICE_ID,
-                import.meta.env.VITE_EMAILJS_TEMPLATE_ID, // Reemplaza con el ID de tu plantilla
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
                 {
                     to_email: "tecnofusion.it@gmail.com", // Correo de la cuenta asociada
                     from_name: "Tecnofusión.IT",
@@ -59,6 +59,7 @@ function Contact({ id, title }) {
                     telephone: phoneNumber,
                 },
                 import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+                import.meta.env.VITE_EMAILJS_USER_ID
             );
 
             // Enviar correo de confirmación al remitente
@@ -72,6 +73,7 @@ function Contact({ id, title }) {
                     name: values.name,
                 },
                 import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+                import.meta.env.VITE_EMAILJS_USER_ID
             );
 
             toast.success("¡La consulta se ha enviado con éxito!");

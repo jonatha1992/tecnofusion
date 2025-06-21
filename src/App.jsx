@@ -2,6 +2,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Layout from "./components/Layout";
 import Hero from "./components/Hero";
 import Section from "./components/Section";
+import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import WhatsAppChat from "./components/WhatsAppChat";
 import Servicios from "./components/Servicios";
@@ -73,7 +74,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Layout>
         <Hero />
-        <Section
+        <Projects
           title="Proyectos"
           id="proyectos"
           gradientClass="bg-radial-gradient-right"
