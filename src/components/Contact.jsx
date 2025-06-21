@@ -47,8 +47,8 @@ function Contact({ id, title }) {
         try {
             // Enviar correo al destinatario principal
             await emailjs.send(
-                "service_grmd3xg",
-                "template_3a2716m", // Reemplaza con el ID de tu plantilla
+                import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID, // Reemplaza con el ID de tu plantilla
                 {
                     to_email: "tecnofusion.it@gmail.com", // Correo de la cuenta asociada
                     from_name: "Tecnofusión.IT",
@@ -58,20 +58,20 @@ function Contact({ id, title }) {
                     email: values.email,
                     telephone: phoneNumber,
                 },
-                "qHtG6A2I87n7CARUF"
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
             );
 
             // Enviar correo de confirmación al remitente
             await emailjs.send(
-                "service_grmd3xg",
-                "template_3mvc41r", // Reemplaza con el ID de tu plantilla
+                import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                import.meta.env.VITE_EMAILJS_CONFIRM_TEMPLATE_ID, // Reemplaza con el ID de tu plantilla
                 {
                     to_email: values.email, // Correo del remitente
                     from_name: "Tecnofusión.IT",
                     subject: "Confirmación de envío de mensaje",
                     name: values.name,
                 },
-                "qHtG6A2I87n7CARUF"
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
             );
 
             toast.success("¡La consulta se ha enviado con éxito!");
