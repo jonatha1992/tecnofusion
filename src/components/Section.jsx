@@ -111,6 +111,7 @@ function Section({ title, id, children, gradientClass }) {
                   <div className="flex justify-between items-center">
                     <Typography variant="h6">Jonathan Correa</Typography>
                     <img
+                      alt="Jonathan Correa"
                       src={foto_joni}
                       alt="Foto de Jonathan Correa"
                       className="inline-block h-20 w-20 rounded-full ring-2 ring-white"
@@ -160,6 +161,7 @@ function Section({ title, id, children, gradientClass }) {
                   <div className="flex justify-between items-center">
                     <Typography variant="h6">Franco More</Typography>
                     <img
+                      alt="Franco More"
                       src={franco}
                       alt="Foto de Franco More"
                       className="inline-block h-20 w-20 rounded-full ring-2 ring-white"
