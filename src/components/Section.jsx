@@ -99,7 +99,11 @@ function Section({ title, id, children, gradientClass }) {
                   </Typography>
                 </div>
                 <div className="p-4 flex-col flex justify-end">
-                  <img src={svg1} alt="Imagen" className="max-w-full h-auto" />
+                  <img
+                    src={svg1}
+                    alt="Ilustraci\u00f3n representando al equipo de trabajo"
+                    className="max-w-full h-auto"
+                  />
                 </div>
               </div>
               <div className="flex-1 min-w-[300px] p-4 flex flex-col gap-4 justify-center">
@@ -107,8 +111,8 @@ function Section({ title, id, children, gradientClass }) {
                   <div className="flex justify-between items-center">
                     <Typography variant="h6">Jonathan Correa</Typography>
                     <img
-                      alt=""
                       src={foto_joni}
+                      alt="Foto de Jonathan Correa"
                       className="inline-block h-20 w-20 rounded-full ring-2 ring-white"
                     />
                     <Typography variant="h6">Analista Programador</Typography>
@@ -156,8 +160,8 @@ function Section({ title, id, children, gradientClass }) {
                   <div className="flex justify-between items-center">
                     <Typography variant="h6">Franco More</Typography>
                     <img
-                      alt=""
                       src={franco}
+                      alt="Foto de Franco More"
                       className="inline-block h-20 w-20 rounded-full ring-2 ring-white"
                     />
                     <Typography variant="h6">Full Stack WEB</Typography>
