@@ -76,6 +76,7 @@ function Header() {
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
                             color="inherit"
+                            tabIndex={0}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -98,7 +99,11 @@ function Header() {
                             }}
                         >
                             {navItems.map((item) => (
-                                <MenuItem key={item.href} onClick={(event) => handleNavClick(event, item.href)}>
+                                <MenuItem
+                                    key={item.href}
+                                    onClick={(event) => handleNavClick(event, item.href)}
+                                    tabIndex={0}
+                                >
                                     <Typography textAlign="center">{item.label}</Typography>
                                 </MenuItem>
                             ))}
@@ -129,6 +134,7 @@ function Header() {
                                 key={item.href}
                                 onClick={(event) => handleNavClick(event, item.href)}
                                 sx={{ my: 2, color: "white", display: "block" }}
+                                tabIndex={0}
                             >
                                 {item.label}
                             </Button>
