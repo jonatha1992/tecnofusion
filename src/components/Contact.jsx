@@ -58,19 +58,21 @@ function Contact({ id, title }) {
                     email: values.email,
                     telephone: phoneNumber,
                 },
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
                 import.meta.env.VITE_EMAILJS_USER_ID
             );
 
             // Enviar correo de confirmación al remitente
             await emailjs.send(
                 import.meta.env.VITE_EMAILJS_SERVICE_ID,
-                import.meta.env.VITE_EMAILJS_CONFIRM_TEMPLATE_ID,
+                import.meta.env.VITE_EMAILJS_CONFIRM_TEMPLATE_ID, // Reemplaza con el ID de tu plantilla
                 {
                     to_email: values.email, // Correo del remitente
                     from_name: "Tecnofusión.IT",
                     subject: "Confirmación de envío de mensaje",
                     name: values.name,
                 },
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
                 import.meta.env.VITE_EMAILJS_USER_ID
             );
 
