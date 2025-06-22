@@ -30,6 +30,12 @@ function Section({ title, id, gradientClass }) {
                   <Typography variant="h3">
                     Este es nuestro equipo de trabajo!
                   </Typography>
+                  <Typography variant="body1" className="mt-2">
+                    Somos un equipo profesional con un analista de sistemas, un
+                    ingeniero en sistemas informáticos y amplia experiencia en
+                    desarrollo web, consultoría IT y sistemas de CCTV y
+                    control de acceso.
+                  </Typography>
                 </div>
                 <div className="p-4 flex-col flex justify-end">
                   <img
@@ -44,7 +50,6 @@ function Section({ title, id, gradientClass }) {
                   <div className="flex justify-between items-center">
                     <Typography variant="h6">Jonathan Correa</Typography>
                     <img
-                      alt="Jonathan Correa"
                       src={foto_joni}
                       alt="Foto de Jonathan Correa"
                       className="inline-block h-20 w-20 rounded-full ring-2 ring-white"
@@ -94,7 +99,6 @@ function Section({ title, id, gradientClass }) {
                   <div className="flex justify-between items-center">
                     <Typography variant="h6">Franco More</Typography>
                     <img
-                      alt="Franco More"
                       src={franco}
                       alt="Foto de Franco More"
                       className="inline-block h-20 w-20 rounded-full ring-2 ring-white"
