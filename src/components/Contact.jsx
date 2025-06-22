@@ -95,7 +95,7 @@ function Contact({ id, title }) {
 
     return (
         <ThemeProvider theme={darkTheme}>
-            <div className="bg-gray-900 text-white py-16 ">
+            <div className="bg-gray-900 text-white py-12 animate-fade-in ">
                 <div className="container mx-auto px-4">
                     <div className="flex mx-4 justify-center">
                         <div className="w-full md:w-1/2 px-4 flex justify-center">
@@ -120,7 +120,7 @@ function Contact({ id, title }) {
                                         <Typography variant="h1" sx={{ fontSize: "4rem", mb: 4 }} className="text-gradient">
                                             {title}
                                         </Typography>
-                                        <div className="mb-4">
+                                        <div className="mb-2">
                                             <TextField
                                                 fullWidth
                                                 name="name"
@@ -133,7 +133,7 @@ function Contact({ id, title }) {
                                                 sx={textFieldSx}
                                             />
                                         </div>
-                                        <div className="flex mb-4">
+                                        <div className="flex mb-2">
                                             <div className="w-1/3 mr-2">
                                                 <FormControl fullWidth>
                                                     <InputLabel sx={{ color: "white" }}>País</InputLabel>
@@ -177,7 +177,7 @@ function Contact({ id, title }) {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="mb-4">
+                                        <div className="mb-2">
                                             <TextField
                                                 fullWidth
                                                 name="email"
@@ -190,7 +190,7 @@ function Contact({ id, title }) {
                                                 sx={textFieldSx}
                                             />
                                         </div>
-                                        <div className="mb-4">
+                                        <div className="mb-2">
                                             <TextField
                                                 fullWidth
                                                 name="message"
@@ -205,7 +205,7 @@ function Contact({ id, title }) {
                                                 sx={textFieldSx}
                                             />
                                         </div>
-                                        <Button type="submit" variant="contained" color="primary" fullWidth size="large" className="mt-4">
+                                        <Button type="submit" variant="contained" color="primary" fullWidth size="large" className="mt-2">
                                             Enviar
                                         </Button>
                                     </Form>

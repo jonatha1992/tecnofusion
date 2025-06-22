@@ -9,7 +9,7 @@ function Section({ title, id, gradientClass }) {
   return (
     <div
       id={id}
-      className={`min-h-[100vh] sm:min-h-[200vh] ${gradientClass} text-white flex items-center justify-center`}
+      className={`min-h-[100vh] sm:min-h-[200vh] ${gradientClass} text-white flex items-center justify-center animate-fade-in`}
     >
       <Container>
         {id === "Nosotros" ? (
@@ -29,6 +29,12 @@ function Section({ title, id, gradientClass }) {
                   </Typography>
                   <Typography variant="h3">
                     Este es nuestro equipo de trabajo!
+                  </Typography>
+                  <Typography variant="body1" className="mt-2">
+                    Somos un equipo profesional con un analista de sistemas, un
+                    ingeniero en sistemas informáticos y amplia experiencia en
+                    desarrollo web, consultoría IT y sistemas de CCTV y
+                    control de acceso.
                   </Typography>
                 </div>
                 <div className="p-4 flex-col flex justify-end">
