@@ -59,7 +59,6 @@ function Contact({ id, title }) {
                     telephone: phoneNumber,
                 },
                 import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-                import.meta.env.VITE_EMAILJS_USER_ID
             );
 
             // Enviar correo de confirmación al remitente
@@ -73,7 +72,6 @@ function Contact({ id, title }) {
                     name: values.name,
                 },
                 import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-                import.meta.env.VITE_EMAILJS_USER_ID
             );
 
             toast.success("¡La consulta se ha enviado con éxito!");

@@ -76,7 +76,7 @@ function Projects({ title, id, children, gradientClass }) {
 
 function ProjectCard({ title, description, image, githubLink, previewLink }) {
   return (
-    <Card className="bg-gray-800 text-white h-full flex flex-col justify-between hover:shadow-lg hover:shadow-green-500">
+    <Card className="bg-gray-800 text-white h-full flex flex-col justify-between hover:shadow-lg hover:shadow-green-500 transform transition-transform hover:scale-105">
       <CardMedia component="img" height="140" image={image} alt={title} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
