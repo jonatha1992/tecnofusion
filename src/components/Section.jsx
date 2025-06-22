@@ -9,7 +9,7 @@ function Section({ title, id, gradientClass }) {
   return (
     <div
       id={id}
-      className={`min-h-[100vh] sm:min-h-[200vh] ${gradientClass} text-white flex items-center justify-center`}
+      className={`min-h-[100vh] sm:min-h-[200vh] ${gradientClass} text-white flex items-center justify-center animate-fade-in`}
     >
       <Container>
         {id === "Nosotros" ? (

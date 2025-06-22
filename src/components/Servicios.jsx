@@ -44,7 +44,7 @@ function Servicios({ title, id, gradientClass }) {
     ];
 
     return (
-        <div id={id} className={`min-h-[100vh] ${gradientClass} text-white flex items-center justify-center`}>
+        <div id={id} className={`min-h-[100vh] ${gradientClass} text-white flex items-center justify-center animate-fade-in`}>
             <Container>
                 <Typography variant="h1" sx={{ fontSize: "4rem", mb: 8 }} className="text-gradient">
                     {title}
