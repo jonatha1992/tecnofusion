@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Typography, Container, Grid, Box } from "@mui/material";
+import { motion, useInView } from "framer-motion";
 import CodeIcon from "@mui/icons-material/Code";
 import BrushIcon from "@mui/icons-material/Brush";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";

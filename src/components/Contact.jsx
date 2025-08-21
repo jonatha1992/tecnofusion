@@ -5,6 +5,8 @@ import emailjs from "@emailjs/browser";
 import { countries as countriesList } from "countries-list";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 // Material UI imports
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, createTheme, ThemeProvider, Typography } from "@mui/material";
@@ -45,28 +47,26 @@ function Contact({ id, title }) {
         setErrors({});
         const phoneNumber = `${values.country}${values.telephone}`;
         try {
-            // Enviar correo al destinatario principal
+            // Enviar correo al destinatario principal (REQUEST template)
             await emailjs.send(
                 import.meta.env.VITE_EMAILJS_SERVICE_ID,
-                import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+                import.meta.env.VITE_EMAILJS_TEMPLATE_REQUEST,
                 {
-                    to_email: "tecnofusion.it@gmail.com", // Correo de la cuenta asociada
                     from_name: "Tecnofusión.IT",
                     subject: "Nuevo mensaje de " + values.name,
                     name: values.name,
-                    message: `${values.message}`,
+                    message: values.message,
                     email: values.email,
                     telephone: phoneNumber,
                 },
                 import.meta.env.VITE_EMAILJS_PUBLIC_KEY
             );
 
-            // Enviar correo de confirmación al remitente
+            // Enviar correo de confirmación al remitente (RESPONSE template)
             await emailjs.send(
                 import.meta.env.VITE_EMAILJS_SERVICE_ID,
-                import.meta.env.VITE_EMAILJS_CONFIRM_TEMPLATE_ID, // Reemplaza con el ID de tu plantilla
+                import.meta.env.VITE_EMAILJS_TEMPLATE_RESPONSE,
                 {
-                    to_email: values.email, // Correo del remitente
                     from_name: "Tecnofusión.IT",
                     subject: "Confirmación de envío de mensaje",
                     name: values.name,
