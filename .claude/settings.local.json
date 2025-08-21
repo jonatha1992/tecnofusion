@@ -4,7 +4,9 @@
       "WebSearch",
       "Bash(npm install:*)",
       "Bash(mkdir:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(git push:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

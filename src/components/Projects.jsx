@@ -39,20 +39,6 @@ function Projects({ title, id, children, gradientClass }) {
                 previewLink="https://preview.com/proyecto1"
               />
               <ProjectCard
-                title="Contador de Calorias"
-                description="Descripción del proyecto 2"
-                image="https://uizard.io/static/cf424bbe243fbeea669a73e9a643b942/0cfa7/4f1d95da946fb3f71d54297dfb6e5de9fe712af3-1440x835.webp"
-                githubLink="https://github.com/proyecto2"
-                previewLink="https://preview.com/proyecto2"
-              />
-              <ProjectCard
-                title="Citas Online"
-                description="Descripción del proyecto 3"
-                image="https://uizard.io/static/ad6ed79a8d0a71b0ae07d216a95824f1/0cfa7/e33b6844ef5e56ea7e36dc6b9e9b520bf8fa69c0-1440x835.webp"
-                githubLink="https://github.com/proyecto3"
-                previewLink="https://preview.com/proyecto3"
-              />
-              <ProjectCard
                 title="ChatBOT de WhatsApp"
                 description="Utilizando la API oficial de META, es posible desarrollar bots administrativos que reserven turnos, entre muchas otras funcionalidades."
                 image={backBOT}
