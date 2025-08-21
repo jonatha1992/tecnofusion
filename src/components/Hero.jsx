@@ -49,23 +49,32 @@ function Hero() {
     },
     tap: { scale: 0.95 }
   };
+  // Configuración de las partículas del fondo
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    initialX: Math.random() * window.innerWidth,
+    initialY: Math.random() * window.innerHeight,
+    duration: Math.random() * 3 + 2,
+    delay: Math.random() * 2
+  }));
+
   return (
-    <motion.div 
-      id="home" 
-      className="bg-ellipsis-gradient-center text-white flex flex-col items-center justify-around h-[100vh] md:h-[70vh] relative overflow-hidden"
+    <motion.section 
+      id="home"
+      className="relative min-h-screen w-full overflow-hidden bg-ellipsis-gradient-center text-white flex items-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      {/* Animated background particles */}
+      {/* Partículas animadas de fondo */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] rounded-full"
+        {particles.map(({ id, initialX, initialY, duration, delay }) => (
+          <motion.span
+            key={id}
+            className="absolute h-2 w-2 rounded-full bg-gradient-to-r from-[#ff7e5f] to-[#feb47b]"
             initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
+              x: initialX,
+              y: initialY,
               opacity: 0
             }}
             animate={{
@@ -73,18 +82,19 @@ function Hero() {
               opacity: [0, 0.6, 0]
             }}
             transition={{
-              duration: Math.random() * 3 + 2,
+              duration,
               repeat: Infinity,
-              delay: Math.random() * 2
+              delay
             }}
           />
         ))}
       </div>
-      
-      <div className="container relative z-10">
-        <Slider {...settings}>
+
+      {/* Contenido principal */}
+      <div className="container relative z-10 mx-auto px-4 w-full">
+        <Slider {...settings} className="w-full">
           <motion.div 
-            className="flex flex-col justify-center items-center h-full py-8"
+            className="flex flex-col items-center justify-center min-h-[80vh] w-full py-12"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -103,7 +113,7 @@ function Hero() {
               >
                 Tecnofusión.IT
               </motion.span>
-            </motion.div>
+  </motion.div>
             
             <motion.p 
               className="text-lg md:text-2xl leading-normal text-center max-w-3xl mt-6"
@@ -162,7 +172,7 @@ function Hero() {
               >
                 Tecnología
               </motion.span>
-            </motion.div>
+  </motion.div>
             
             <motion.p 
               className="text-lg md:text-2xl leading-normal text-center max-w-3xl mt-6"
@@ -197,11 +207,11 @@ function Hero() {
               >
                 👥 Conoce al Equipo
               </motion.button>
-            </motion.div>
-          </motion.div>
+  </motion.div>
+</motion.div>
         </Slider>
       </div>
-    </motion.div>
+    </motion.section>
   );
 }
 

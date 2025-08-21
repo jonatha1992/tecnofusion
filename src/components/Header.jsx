@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 const navItems = [
     { href: "#home", label: "Inicio" },
-    { href: "#proyectos", label: "proyectos" },
+    { href: "#proyectos", label: "Proyectos" },
     { href: "#Nosotros", label: "Nosotros" },
     { href: "#Servicios", label: "Servicios" },
     { href: "#Contacto", label: "Contacto" },
@@ -34,23 +33,35 @@ function Header() {
         event.preventDefault();
         handleCloseNavMenu();
 
-        const targetElement = document.querySelector(href);
-        if (targetElement) {
-            const headerOffset = 64; // Ajusta este valor según la altura de tu header
-            const elementPosition = targetElement.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        // Pequeño delay para asegurar que el menú se cierre primero en mobile
+        setTimeout(() => {
+            const targetElement = document.querySelector(href);
+            if (targetElement) {
+                const headerOffset = 80; // Aumentado para mejor posicionamiento
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth",
-            });
-        }
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth",
+                });
+            }
+        }, 100);
     };
 
     return (
-        <AppBar position="sticky">
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
+        <AppBar 
+            position="fixed" 
+            sx={{ 
+                zIndex: (theme) => theme.zIndex.drawer + 1,
+                backgroundColor: 'rgba(17, 24, 39, 0.95)', // Fondo oscuro con transparencia
+                backdropFilter: 'blur(10px)', // Efecto de vidrio esmerilado
+                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)', // Sombra sutil
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)' // Borde sutil
+            }}
+        >
+            <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3 } }}>
+                <Toolbar disableGutters sx={{ minHeight: '64px !important' }}>
                     <Typography
                         variant="h6"
                         noWrap
@@ -69,7 +80,7 @@ function Header() {
                         TECNOFUSIÓN.IT
                     </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, alignItems: 'center' }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -97,6 +108,22 @@ function Header() {
                             onClose={handleCloseNavMenu}
                             sx={{
                                 display: { xs: "block", md: "none" },
+                                '& .MuiPaper-root': {
+                                    width: '100%',
+                                    maxWidth: '100%',
+                                    left: '0 !important',
+                                    right: '0',
+                                    mx: 'auto',
+                                    backgroundColor: 'rgb(17, 24, 39)', // Mismo color que el header
+                                    backgroundImage: 'none',
+                                    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+                                    '& .MuiMenuItem-root': {
+                                        color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                        },
+                                    },
+                                },
                             }}
                         >
                             {navItems.map((item) => (
@@ -104,8 +131,23 @@ function Header() {
                                     key={item.href}
                                     onClick={(event) => handleNavClick(event, item.href)}
                                     tabIndex={0}
+                                    sx={{
+                                        py: 1.5,
+                                        '&:hover': {
+                                            backgroundColor: 'action.hover',
+                                        },
+                                    }}
                                 >
-                                    <Typography textAlign="center">{item.label}</Typography>
+                                    <Typography 
+                                        textAlign="center" 
+                                        width="100%"
+                                        sx={{
+                                            fontWeight: 500,
+                                            fontSize: '1.1rem',
+                                        }}
+                                    >
+                                        {item.label}
+                                    </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>

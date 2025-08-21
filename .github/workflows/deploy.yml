@@ -11,6 +11,9 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     
+    environment:
+      name: github-pages
+    
     permissions:
       contents: read
       pages: write

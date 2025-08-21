@@ -18,7 +18,7 @@ function Projects({ title, id, children, gradientClass }) {
   return (
     <div
       id={id}
-      className={`md:h-screen h-[130vh] ${gradientClass} text-white flex items-center justify-center`}
+      className={`md:h-screen min-h-screen py-20 ${gradientClass} text-white flex items-center justify-center`}
     >
       <Container>
         <Typography

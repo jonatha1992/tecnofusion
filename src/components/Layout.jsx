@@ -7,7 +7,7 @@ function Layout({ children }) {
         <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
             <CssBaseline />
             <Header />
-            <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default" }}>
+            <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", pt: "64px" }}>
                 {children}
             </Box>
             <Box
