@@ -18,6 +18,7 @@ jobs:
       contents: read
       pages: write
       id-token: write
+      actions: read  # Necesario para acceder a los secretos
 
     steps:
     - name: Checkout
@@ -35,10 +36,14 @@ jobs:
     - name: Build
       run: npm run build
       env:
-        VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-        VITE_EMAILJS_TEMPLATE_REQUEST: ${{ secrets.VITE_EMAILJS_TEMPLATE_REQUEST }}
-        VITE_EMAILJS_TEMPLATE_RESPONSE: ${{ secrets.VITE_EMAILJS_TEMPLATE_RESPONSE }}
-        VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+        # Usar secretos de GitHub
+        VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID || '' }}
+        VITE_EMAILJS_TEMPLATE_REQUEST: ${{ secrets.VITE_EMAILJS_TEMPLATE_REQUEST || '' }}
+        VITE_EMAILJS_TEMPLATE_RESPONSE: ${{ secrets.VITE_EMAILJS_TEMPLATE_RESPONSE || '' }}
+        VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY || '' }}
+      # Añadir manejo de errores
+      continue-on-error: false
+      timeout-minutes: 5
         
     - name: Setup Pages
       if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main'
