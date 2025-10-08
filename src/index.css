@@ -24,8 +24,12 @@
     background: linear-gradient(45deg, #ff7e5f, #feb47b, #ff6b9d);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     background-size: 200% 200%;
     animation: gradient-shift 3s ease infinite;
+    /* Evitar el fondo blanco durante las animaciones */
+    color: transparent !important;
+    will-change: transform, opacity;
 }
 
 @keyframes gradient-shift {
@@ -38,6 +42,20 @@
     50% {
         background-position: 100% 50%;
     }
+}
+
+/* Clase específica para texto animado con gradiente */
+.text-gradient-animated {
+    background: linear-gradient(45deg, #ff7e5f, #feb47b, #ff6b9d) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+    /* Forzar la renderización del gradiente */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 /* Glassmorphism effects */

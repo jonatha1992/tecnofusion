@@ -7,6 +7,28 @@ import heroVideo from "../assets/video-hero.mp4";
 
 function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [videoLoaded, setVideoLoaded] = useState(true);  // Asumimos que el video está disponible inicialmente
+  const videoRef = useState(null);
+
+  // Precargar el video para evitar parpadeo
+  useEffect(() => {
+    const video = document.createElement('video');
+    video.src = heroVideo;
+    video.muted = true;
+    video.preload = 'auto';
+
+    video.addEventListener('canplaythrough', () => {
+      setVideoLoaded(true);
+    });
+
+    video.addEventListener('error', () => {
+      console.log('Error precargando video');
+      setVideoLoaded(false);
+    });
+
+    // Iniciar precarga
+    video.load();
+  }, []);
 
   const settings = {
     dots: true,
@@ -28,6 +50,7 @@ function Hero() {
       opacity: 1,
       y: 0,
       transition: {
+        delay: 0.5, // Retraso para que el video aparezca primero
         duration: 0.8,
         staggerChildren: 0.3
       }
@@ -66,45 +89,38 @@ function Hero() {
   return (
     <motion.section
       id="home"
-      className="relative flex items-center w-full min-h-screen overflow-hidden text-white bg-ellipsis-gradient-center"
+      className="relative flex items-center w-full min-h-screen overflow-hidden text-white"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 0.5 }}
     >
-      {/* Fondo animado CSS (se usa mientras no hay video) */}
+      {/* Fondo de video */}
       <div className="absolute inset-0 z-0 w-full h-full">
-        {/* Fondo animado con gradientes */}
-        <div className="absolute inset-0 bg-moving-gradient"></div>
-
-        {/* Video de fondo (se mostrará cuando esté disponible) */}
+        {/* Video de fondo - siempre visible */}
         <video
-          className="absolute top-0 left-0 object-cover w-full h-full opacity-70"
+          className="absolute top-0 left-0 z-20 object-cover w-full h-full opacity-70"
           autoPlay
           muted
           loop
           playsInline
-          style={{ display: 'block' }}
-          onLoadedData={(e) => {
-            console.log('Video cargado exitosamente');
-            e.target.style.display = 'block';
-            // Ocultar el fondo CSS cuando el video carga
-            const gradientBg = e.target.parentElement.querySelector('.bg-moving-gradient');
-            if (gradientBg) gradientBg.style.display = 'none';
-          }}
+          preload="auto"
           onError={(e) => {
-            console.log('Video no encontrado, usando fondo animado CSS');
-            e.target.style.display = 'none';
+            console.log('Error cargando video, mostrando fondo CSS');
+            setVideoLoaded(false);
           }}
         >
           <source src={heroVideo} type="video/mp4" />
           Tu navegador no soporta videos HTML5.
         </video>
 
+        {/* Fondo CSS de respaldo - solo visible si el video falla completamente */}
+        <div className={`absolute inset-0 bg-moving-gradient z-10 ${!videoLoaded ? 'opacity-100' : 'opacity-0 pointer-events-none'} transition-opacity duration-300`}></div>
+
         {/* Overlay sutil para mejorar la legibilidad del texto */}
-        <div className="absolute inset-0 bg-black bg-opacity-15"></div>
+        <div className="absolute inset-0 z-30 bg-black bg-opacity-15"></div>
 
         {/* Gradiente adicional muy sutil */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black/20"></div>
+        <div className="absolute inset-0 z-30 bg-gradient-to-b from-transparent via-black/5 to-black/20"></div>
       </div>
 
       {/* Partículas animadas de fondo (opcional, ahora más sutiles) */}
@@ -147,9 +163,9 @@ function Hero() {
                 className="mb-4 text-4xl font-bold md:text-6xl"
               />
               <motion.span
-                className="text-4xl font-bold text-gradient md:text-6xl"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
+                className="text-4xl font-bold text-gradient-animated md:text-6xl"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 1, duration: 0.5, type: "spring" }}
               >
                 Tecnofusión.IT
@@ -204,9 +220,9 @@ function Hero() {
                 delay={0.5}
               />
               <motion.span
-                className="text-4xl font-bold text-gradient md:text-6xl"
-                initial={{ scale: 0, rotate: -10 }}
-                animate={{ scale: 1, rotate: 0 }}
+                className="text-4xl font-bold text-gradient-animated md:text-6xl"
+                initial={{ scale: 0, rotate: -10, opacity: 0 }}
+                animate={{ scale: 1, rotate: 0, opacity: 1 }}
                 transition={{ delay: 1.5, duration: 0.6, type: "spring" }}
               >
                 Tecnología
