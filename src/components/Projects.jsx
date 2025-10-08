@@ -12,8 +12,6 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
-import img from "../assets/imgApp.webp";
-import backBOT from "../assets/back-BOT.jpg";
 import backSmart from "../assets/back-smart.jpg";
 
 const containerVariants = {
@@ -99,7 +97,7 @@ function Projects({ title, id, children, gradientClass }) {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3"
         >
           {children ||
             projects.map((p, i) => (

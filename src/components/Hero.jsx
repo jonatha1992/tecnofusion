@@ -3,6 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import heroVideo from "../assets/video-hero.mp4";
 
 function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -65,17 +66,53 @@ function Hero() {
   return (
     <motion.section
       id="home"
-      className="relative min-h-screen w-full overflow-hidden bg-ellipsis-gradient-center text-white flex items-center"
+      className="relative flex items-center w-full min-h-screen overflow-hidden text-white bg-ellipsis-gradient-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      {/* Partículas animadas de fondo */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Fondo animado CSS (se usa mientras no hay video) */}
+      <div className="absolute inset-0 z-0 w-full h-full">
+        {/* Fondo animado con gradientes */}
+        <div className="absolute inset-0 bg-moving-gradient"></div>
+
+        {/* Video de fondo (se mostrará cuando esté disponible) */}
+        <video
+          className="absolute top-0 left-0 object-cover w-full h-full opacity-70"
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{ display: 'block' }}
+          onLoadedData={(e) => {
+            console.log('Video cargado exitosamente');
+            e.target.style.display = 'block';
+            // Ocultar el fondo CSS cuando el video carga
+            const gradientBg = e.target.parentElement.querySelector('.bg-moving-gradient');
+            if (gradientBg) gradientBg.style.display = 'none';
+          }}
+          onError={(e) => {
+            console.log('Video no encontrado, usando fondo animado CSS');
+            e.target.style.display = 'none';
+          }}
+        >
+          <source src={heroVideo} type="video/mp4" />
+          Tu navegador no soporta videos HTML5.
+        </video>
+
+        {/* Overlay sutil para mejorar la legibilidad del texto */}
+        <div className="absolute inset-0 bg-black bg-opacity-15"></div>
+
+        {/* Gradiente adicional muy sutil */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black/20"></div>
+      </div>
+
+      {/* Partículas animadas de fondo (opcional, ahora más sutiles) */}
+      <div className="absolute inset-0 z-10 overflow-hidden">
         {particles.map(({ id, initialX, initialY, duration, delay }) => (
           <motion.span
             key={id}
-            className="absolute h-2 w-2 rounded-full bg-gradient-to-r from-[#ff7e5f] to-[#feb47b]"
+            className="absolute h-1 w-1 rounded-full bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] opacity-60"
             initial={{
               x: initialX,
               y: initialY,
@@ -83,7 +120,7 @@ function Hero() {
             }}
             animate={{
               y: [null, Math.random() * window.innerHeight],
-              opacity: [0, 0.6, 0]
+              opacity: [0, 0.4, 0]
             }}
             transition={{
               duration,
@@ -95,7 +132,7 @@ function Hero() {
       </div>
 
       {/* Contenido principal */}
-      <div className="container relative z-10 mx-auto px-4 w-full">
+      <div className="container relative z-20 w-full px-4 mx-auto">
         <Slider {...settings} className="w-full">
           <motion.div
             className="flex flex-col items-center justify-center min-h-[80vh] w-full py-12"
@@ -107,10 +144,10 @@ function Hero() {
             <motion.div variants={itemVariants}>
               <TypewriterEffect
                 text="Bienvenido a "
-                className="text-4xl md:text-6xl font-bold mb-4"
+                className="mb-4 text-4xl font-bold md:text-6xl"
               />
               <motion.span
-                className="text-gradient text-4xl md:text-6xl font-bold"
+                className="text-4xl font-bold text-gradient md:text-6xl"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 1, duration: 0.5, type: "spring" }}
@@ -120,14 +157,14 @@ function Hero() {
             </motion.div>
 
             <motion.p
-              className="text-lg md:text-2xl leading-normal text-center max-w-3xl mt-6"
+              className="max-w-3xl mt-6 text-lg leading-normal text-center md:text-2xl"
               variants={itemVariants}
             >
               Desarrollamos experiencias digitales innovadoras que transforman ideas en realidad
             </motion.p>
 
             <motion.div
-              className="hero-button-container mt-12"
+              className="mt-12 hero-button-container"
               variants={itemVariants}
             >
               <motion.button
@@ -154,7 +191,7 @@ function Hero() {
           </motion.div>
 
           <motion.div
-            className="flex flex-col justify-center items-center h-full py-8"
+            className="flex flex-col items-center justify-center h-full py-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -163,11 +200,11 @@ function Hero() {
             <motion.div variants={itemVariants} className="text-center">
               <TypewriterEffect
                 text="Innovación & "
-                className="text-4xl md:text-6xl font-bold mb-4"
+                className="mb-4 text-4xl font-bold md:text-6xl"
                 delay={0.5}
               />
               <motion.span
-                className="text-gradient text-4xl md:text-6xl font-bold"
+                className="text-4xl font-bold text-gradient md:text-6xl"
                 initial={{ scale: 0, rotate: -10 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 1.5, duration: 0.6, type: "spring" }}
@@ -177,14 +214,14 @@ function Hero() {
             </motion.div>
 
             <motion.p
-              className="text-lg md:text-2xl leading-normal text-center max-w-3xl mt-6"
+              className="max-w-3xl mt-6 text-lg leading-normal text-center md:text-2xl"
               variants={itemVariants}
             >
               Creamos soluciones digitales que impulsan el crecimiento de tu negocio
             </motion.p>
 
             <motion.div
-              className="hero-button-container mt-12"
+              className="mt-12 hero-button-container"
               variants={itemVariants}
             >
               <motion.button

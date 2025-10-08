@@ -117,7 +117,7 @@ function Contact({ id, title, gradientClass }) {
                                     Teléfono
                                 </Typography>
                                 <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
-                                    +54 9 11 5544-3322
+                                    +54 9 11-5991-0666
                                 </Typography>
                             </Card>
 
@@ -139,7 +139,7 @@ function Contact({ id, title, gradientClass }) {
                                     Email
                                 </Typography>
                                 <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
-                                    contacto@tecnofusion.dev
+                                    Tecnofusion.it@gmail.com
                                 </Typography>
                             </Card>
 
