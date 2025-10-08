@@ -11,10 +11,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Environment Setup
 
-Create a `.env` file with these required variables (all prefixed with `VITE_` for Vite exposure):
+Create a `.env.local` (or `.env`) file with these variables (all prefixed with `VITE_` for Vite exposure). A starter is provided in `.env.example`.
 
 ```bash
-# Firebase Configuration
+# Firebase Configuration (optional)
 VITE_FIREBASE_API_KEY=
 VITE_FIREBASE_AUTH_DOMAIN=
 VITE_FIREBASE_PROJECT_ID=
@@ -22,10 +22,10 @@ VITE_FIREBASE_STORAGE_BUCKET=
 VITE_FIREBASE_MESSAGING_SENDER_ID=
 VITE_FIREBASE_APP_ID=
 
-# EmailJS Configuration
+# EmailJS Configuration (required for Contact form)
 VITE_EMAILJS_SERVICE_ID=
-VITE_EMAILJS_TEMPLATE_ID=
-VITE_EMAILJS_CONFIRM_TEMPLATE_ID=
+VITE_EMAILJS_TEMPLATE_REQUEST=
+VITE_EMAILJS_TEMPLATE_RESPONSE=
 VITE_EMAILJS_PUBLIC_KEY=
 ```
 

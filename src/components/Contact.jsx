@@ -1,227 +1,185 @@
-import { Formik, Form } from "formik";
-import { validarNumeroTelefono } from "../helper/Validacion.js";
-import * as Yup from "yup";
-import emailjs from "@emailjs/browser";
-import { countries as countriesList } from "countries-list";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Typography, Container, Box, Button, Card, CardContent } from "@mui/material";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailIcon from "@mui/icons-material/Email";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
-// Material UI imports
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel, createTheme, ThemeProvider, Typography } from "@mui/material";
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+};
 
-// Crear un tema oscuro personalizado
-const darkTheme = createTheme({
-    palette: {
-        mode: "dark",
-        primary: {
-            main: "#e57373", // Un rojo claro para el botón
-        },
-        text: {
-            primary: "#ffffff", // Texto blanco
-        },
-    },
-});
+const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
-// Obtener la lista de países con sus prefijos telefónicos
-const countries = Object.keys(countriesList).map((code) => ({
-    label: `${countriesList[code].name} (+${countriesList[code].phone})`,
-    value: `+${countriesList[code].phone}`,
-}));
+function Contact({ id, title, gradientClass }) {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-// Encuentra el valor que corresponde a Argentina (+54)
-const defaultCountryValue = countries.find((country) => country.value === "+54")?.value || countries[0].value;
-
-const validationSchema = Yup.object().shape({
-    name: Yup.string().required("El nombre es obligatorio"),
-    telephone: Yup.string()
-        .required("El número es obligatorio")
-        .test("valido", "Número de teléfono no válido", (value) => validarNumeroTelefono(value)),
-    email: Yup.string().email("El correo no es válido").required("El correo es obligatorio"),
-    message: Yup.string().required("El mensaje es obligatorio"),
-});
-
-function Contact({ id, title }) {
-    const handleSubmit = async (values, { setSubmitting, resetForm, setErrors }) => {
-        setErrors({});
-        const phoneNumber = `${values.country}${values.telephone}`;
-        try {
-            // Enviar correo al destinatario principal (REQUEST template)
-            await emailjs.send(
-                import.meta.env.VITE_EMAILJS_SERVICE_ID,
-                import.meta.env.VITE_EMAILJS_TEMPLATE_REQUEST,
-                {
-                    from_name: "Tecnofusión.IT",
-                    subject: "Nuevo mensaje de " + values.name,
-                    name: values.name,
-                    message: values.message,
-                    email: values.email,
-                    telephone: phoneNumber,
-                },
-                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-            );
-
-            // Enviar correo de confirmación al remitente (RESPONSE template)
-            await emailjs.send(
-                import.meta.env.VITE_EMAILJS_SERVICE_ID,
-                import.meta.env.VITE_EMAILJS_TEMPLATE_RESPONSE,
-                {
-                    from_name: "Tecnofusión.IT",
-                    subject: "Confirmación de envío de mensaje",
-                    name: values.name,
-                },
-                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-            );
-
-            toast.success("¡La consulta se ha enviado con éxito!");
-            resetForm();
-        } catch (error) {
-            toast.error("¡Hubo un error al enviar la consulta!");
-        }
-
-        setSubmitting(false);
-    };
-
-    const textFieldSx = {
-        input: { color: "white" },
-        label: { color: "white" },
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": { borderColor: "white" },
-            "&:hover fieldset": { borderColor: "white" },
-            "&.Mui-focused fieldset": { borderColor: "white" },
-        },
+    const handleWhatsAppClick = () => {
+        const phoneNumber = "5491159910666"; // Tu número de WhatsApp
+        const message = "¡Hola! Me interesa conocer más sobre los servicios de Tecnofusión.IT";
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
     };
 
     return (
-        <ThemeProvider theme={darkTheme}>
-            <div className="bg-gray-900 text-white py-12 animate-fade-in ">
-                <div className="container mx-auto px-4">
-                    <div className="flex mx-4 justify-center">
-                        <div className="w-full md:w-1/2 px-4 flex justify-center">
-                            <Formik
-                                initialValues={{
-                                    name: "",
-                                    telephone: "",
-                                    email: "",
-                                    message: "",
-                                    country: defaultCountryValue,
-                                }}
-                                enableReinitialize={true}
-                                validationSchema={validationSchema}
-                                onSubmit={handleSubmit}
-                                validateOnSubmit={true}
-                                validateOnChange={false}
-                                validateOnBlur={false}
-                            >
-                                {({ errors, touched, setFieldValue, values }) => (
-                                    <Form className="w-full max-w-lg" id={id}>
-                                        {/* <h1 className="text-3xl font-bold text-center mb-6 text-white">Contacto</h1> */}
-                                        <Typography variant="h1" sx={{ fontSize: "4rem", mb: 4 }} className="text-gradient">
-                                            {title}
-                                        </Typography>
-                                        <div className="mb-2">
-                                            <TextField
-                                                fullWidth
-                                                name="name"
-                                                label="Nombre Completo"
-                                                variant="outlined"
-                                                value={values.name}
-                                                error={touched.name && Boolean(errors.name)}
-                                                helperText={touched.name && errors.name}
-                                                onChange={(e) => setFieldValue("name", e.target.value)}
-                                                sx={textFieldSx}
-                                            />
-                                        </div>
-                                        <div className="flex mb-2">
-                                            <div className="w-1/3 mr-2">
-                                                <FormControl fullWidth>
-                                                    <InputLabel sx={{ color: "white" }}>País</InputLabel>
-                                                    <Select
-                                                        name="country"
-                                                        value={defaultCountryValue}
-                                                        label="País"
-                                                        onChange={(e) => setFieldValue("country", e.target.value)}
-                                                        sx={{
-                                                            color: "white",
-                                                            ".MuiOutlinedInput-notchedOutline": {
-                                                                borderColor: "white",
-                                                            },
-                                                            "&:hover .MuiOutlinedInput-notchedOutline": {
-                                                                borderColor: "white",
-                                                            },
-                                                            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                                                borderColor: "white",
-                                                            },
-                                                        }}
-                                                    >
-                                                        {countries.map((country, index) => (
-                                                            <MenuItem key={index} value={country.value}>
-                                                                {country.label}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Select>
-                                                </FormControl>
-                                            </div>
-                                            <div className="w-2/3">
-                                                <TextField
-                                                    fullWidth
-                                                    name="telephone"
-                                                    label="Número sin prefijo"
-                                                    variant="outlined"
-                                                    value={values.telephone}
-                                                    error={touched.telephone && Boolean(errors.telephone)}
-                                                    helperText={touched.telephone && errors.telephone}
-                                                    onChange={(e) => setFieldValue("telephone", e.target.value)}
-                                                    sx={textFieldSx}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="mb-2">
-                                            <TextField
-                                                fullWidth
-                                                name="email"
-                                                label="Email"
-                                                variant="outlined"
-                                                value={values.email}
-                                                error={touched.email && Boolean(errors.email)}
-                                                helperText={touched.email && errors.email}
-                                                onChange={(e) => setFieldValue("email", e.target.value)}
-                                                sx={textFieldSx}
-                                            />
-                                        </div>
-                                        <div className="mb-2">
-                                            <TextField
-                                                fullWidth
-                                                name="message"
-                                                label="Mensaje"
-                                                variant="outlined"
-                                                value={values.message}
-                                                multiline
-                                                rows={3}
-                                                error={touched.message && Boolean(errors.message)}
-                                                helperText={touched.message && errors.message}
-                                                onChange={(e) => setFieldValue("message", e.target.value)}
-                                                sx={textFieldSx}
-                                            />
-                                        </div>
-                                        <Button type="submit" variant="contained" color="primary" fullWidth size="large" className="mt-2">
-                                            Enviar
-                                        </Button>
-                                    </Form>
-                                )}
-                            </Formik>
-                            <ToastContainer
-                                autoClose={2000}
-                                style={{
-                                    zIndex: "9999",
-                                }}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </ThemeProvider>
+        <section id={id} aria-labelledby={`${id}-title`} className={`min-h-[100vh] ${gradientClass} text-white py-20 flex items-center justify-center`}>
+            <Container maxWidth="lg">
+                <motion.div
+                    ref={ref}
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate={isInView ? "visible" : "hidden"}
+                    className="text-center"
+                >
+                    <motion.div variants={itemVariants}>
+                        <Typography id={`${id}-title`} variant="h1" sx={{ fontSize: "4rem", mb: 3 }} className="text-gradient">
+                            {title}
+                        </Typography>
+                        <Typography variant="h5" sx={{ opacity: 0.9, maxWidth: "800px", mx: "auto", mb: 6 }}>
+                            ¿Listo para transformar tu idea en realidad digital?
+                            Contáctanos directamente por WhatsApp y comencemos tu proyecto hoy mismo.
+                        </Typography>
+                    </motion.div>
+
+                    <motion.div variants={itemVariants} className="flex flex-col items-center max-w-4xl mx-auto space-y-8">
+                        {/* Botón principal de WhatsApp */}
+                        <Card sx={{
+                            backgroundColor: "rgba(37, 211, 102, 0.1)",
+                            backdropFilter: "blur(10px)",
+                            border: "2px solid rgba(37, 211, 102, 0.3)",
+                            borderRadius: 4,
+                            p: 4,
+                            width: "100%",
+                            maxWidth: "600px",
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                                backgroundColor: "rgba(37, 211, 102, 0.2)",
+                                borderColor: "rgba(37, 211, 102, 0.6)",
+                                transform: "translateY(-8px)",
+                                boxShadow: "0 20px 40px rgba(37, 211, 102, 0.3)"
+                            }
+                        }}>
+                            <CardContent sx={{ textAlign: "center" }}>
+                                <WhatsAppIcon sx={{ fontSize: "4rem", color: "#25D366", mb: 2 }} />
+                                <Typography variant="h4" sx={{ color: "white", fontWeight: "bold", mb: 2 }}>
+                                    Conversemos por WhatsApp
+                                </Typography>
+                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.8)", mb: 4, lineHeight: 1.6 }}>
+                                    Obtén respuesta inmediata a tus consultas. Nuestro equipo está disponible para
+                                    asesorarte y crear la solución perfecta para tu negocio.
+                                </Typography>
+                                <Button
+                                    onClick={handleWhatsAppClick}
+                                    size="large"
+                                    startIcon={<WhatsAppIcon />}
+                                    sx={{
+                                        backgroundColor: "#25D366",
+                                        color: "white",
+                                        px: 4,
+                                        py: 2,
+                                        fontSize: "1.2rem",
+                                        fontWeight: "bold",
+                                        borderRadius: 3,
+                                        "&:hover": {
+                                            backgroundColor: "#22c55e",
+                                            transform: "scale(1.05)"
+                                        }
+                                    }}
+                                >
+                                    Iniciar Conversación
+                                </Button>
+                            </CardContent>
+                        </Card>
+
+                        {/* Información de contacto adicional */}
+                        <motion.div variants={itemVariants} className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
+                            <Card sx={{
+                                backgroundColor: "rgba(255,255,255,0.05)",
+                                backdropFilter: "blur(10px)",
+                                border: "1px solid rgba(255,255,255,0.1)",
+                                borderRadius: 3,
+                                p: 3,
+                                textAlign: "center",
+                                transition: "all 0.3s ease",
+                                "&:hover": {
+                                    backgroundColor: "rgba(230, 131, 105, 0.1)",
+                                    borderColor: "rgba(230, 131, 105, 0.3)"
+                                }
+                            }}>
+                                <PhoneIcon sx={{ fontSize: "2.5rem", color: "#E68369", mb: 2 }} />
+                                <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 1 }}>
+                                    Teléfono
+                                </Typography>
+                                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
+                                    +54 9 11 5544-3322
+                                </Typography>
+                            </Card>
+
+                            <Card sx={{
+                                backgroundColor: "rgba(255,255,255,0.05)",
+                                backdropFilter: "blur(10px)",
+                                border: "1px solid rgba(255,255,255,0.1)",
+                                borderRadius: 3,
+                                p: 3,
+                                textAlign: "center",
+                                transition: "all 0.3s ease",
+                                "&:hover": {
+                                    backgroundColor: "rgba(230, 131, 105, 0.1)",
+                                    borderColor: "rgba(230, 131, 105, 0.3)"
+                                }
+                            }}>
+                                <EmailIcon sx={{ fontSize: "2.5rem", color: "#E68369", mb: 2 }} />
+                                <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 1 }}>
+                                    Email
+                                </Typography>
+                                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
+                                    contacto@tecnofusion.dev
+                                </Typography>
+                            </Card>
+
+                            <Card sx={{
+                                backgroundColor: "rgba(255,255,255,0.05)",
+                                backdropFilter: "blur(10px)",
+                                border: "1px solid rgba(255,255,255,0.1)",
+                                borderRadius: 3,
+                                p: 3,
+                                textAlign: "center",
+                                transition: "all 0.3s ease",
+                                "&:hover": {
+                                    backgroundColor: "rgba(230, 131, 105, 0.1)",
+                                    borderColor: "rgba(230, 131, 105, 0.3)"
+                                }
+                            }}>
+                                <LocationOnIcon sx={{ fontSize: "2.5rem", color: "#E68369", mb: 2 }} />
+                                <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 1 }}>
+                                    Ubicación
+                                </Typography>
+                                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
+                                    Buenos Aires, Argentina
+                                </Typography>
+                            </Card>
+                        </motion.div>
+
+                        {/* Call to action adicional */}
+                        <motion.div variants={itemVariants} className="text-center">
+                            <Typography variant="h6" sx={{ color: "rgba(255,255,255,0.8)", mb: 3 }}>
+                                🚀 ¿Tienes un proyecto en mente?
+                            </Typography>
+                            <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.7)", maxWidth: "600px", mx: "auto" }}>
+                                No esperes más. Cada día que pasa sin digitalizar tu negocio es una oportunidad perdida.
+                                Hablemos y hagamos realidad tu visión tecnológica.
+                            </Typography>
+                        </motion.div>
+                    </motion.div>
+                </motion.div>
+            </Container>
+        </section>
     );
 }
 

@@ -23,7 +23,22 @@ npm run dev
 
 ## Environment Variables
 
-Create a `.env` file in the project root and define the following variables. Vite only exposes variables prefixed with `VITE_`.
+- Copy `.env.example` to `.env.local` (preferred) or `.env` and set your values. Vite only exposes variables prefixed with `VITE_`.
+
+```bash
+cp .env.example .env.local # then edit values
+```
+
+### EmailJS (used by Contact form)
+
+| Variable | Description |
+| -------- | ----------- |
+| `VITE_EMAILJS_SERVICE_ID` | EmailJS service ID |
+| `VITE_EMAILJS_TEMPLATE_REQUEST` | Template ID for sending request to site owner |
+| `VITE_EMAILJS_TEMPLATE_RESPONSE` | Template ID for confirmation to sender |
+| `VITE_EMAILJS_PUBLIC_KEY` | EmailJS public key |
+
+### Firebase (optional)
 
 | Variable | Description |
 | -------- | ----------- |

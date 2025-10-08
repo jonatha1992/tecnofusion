@@ -1,98 +1,93 @@
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Suspense, lazy } from "react";
 import Layout from "./components/Layout";
 import Hero from "./components/Hero";
-import Section from "./components/Section";
-import Projects from "./components/Projects";
-import Contact from "./components/Contact";
-import WhatsAppChat from "./components/WhatsAppChat";
-import Servicios from "./components/Servicios";
+
+// Lazy load secciones pesadas para mejor rendimiento inicial
+const Projects = lazy(() => import("./components/Projects"));
+const Contact = lazy(() => import("./components/Contact"));
+const Servicios = lazy(() => import("./components/Servicios"));
+const WhatsAppChat = lazy(() => import("./components/WhatsAppChat"));
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#131842",
-    },
-    secondary: {
-      main: "#E68369",
-    },
-    background: {
-      default: "#131842",
-      paper: "transparent",
-    },
-    text: {
-      primary: "#131842",
-      secondary: "#E68369",
-      description: "#ffffff",
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    h1: {
-      color: "#E68369",
-      fontWeight: "700",
-    },
-    h2: {
-      color: "#ffffff",
-    },
-    h3: {
-      color: "#ffffff",
-    },
-    h5: {
-      color: " #E68369",
-    },
-    body1: {
-      color: "#ffffff",
-    },
-  },
-  components: {
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "rgba(19, 24, 66, 0.98)",
-          backdropFilter: "blur(15px)",
-          zIndex: 9999,
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
-        },
+palette: {
+primary: {
+main: "#131842",
+},
+secondary: {
+main: "#E68369",
+},
+background: {
+  default: "#131842",
+paper: "transparent",
+},
+text: {
+  primary: "#131842",
+    secondary: "#E68369",
+    description: "#ffffff",
+},
+},
+typography: {
+fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+h1: {
+  color: "#E68369",
+fontWeight: "700",
+},
+h2: {
+color: "#ffffff",
+},
+h3: {
+color: "#ffffff",
+},
+h5: {
+color: " #E68369",
+},
+  body1: {
+    color: "#ffffff",
+},
+},
+components: {
+  MuiAppBar: {
+    styleOverrides: {
+      root: {
+        backgroundColor: "rgba(19, 24, 66, 0.98)",
+        backdropFilter: "blur(15px)",
+        zIndex: 9999,
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
       },
     },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-        },
-        containedPrimary: {
+  },
+  MuiButton: {
+    styleOverrides: {
+      root: {
+        borderRadius: 8,
+      },
+      containedPrimary: {
+        backgroundColor: "#13184200",
+        color: "#ffffff",
+        "&:hover": {
           backgroundColor: "#13184200",
-          color: "#ffffff",
-          "&:hover": {
-            backgroundColor: "#13184200",
-          },
         },
       },
     },
   },
+}
 });
 
 function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      <Layout>
-        <Hero />
-        <Projects
-          title="Proyectos"
-          id="proyectos"
-          gradientClass="bg-radial-gradient-right"
-        />
-        <Section
-          title="Nosotros"
-          id="Nosotros"
-          gradientClass="bg-radial-gradient-left"
-        />
-        <Servicios title="Servicios" id="Servicios" gradientClass="bg-radial-gradient-left" />
-        <Contact title="Contacto" id="Contacto" />
-        <WhatsAppChat />
-      </Layout>
-    </ThemeProvider>
-  );
+return (
+<ThemeProvider theme={theme}>
+<Layout>
+<Hero />
+<Suspense fallback={<div style={{ minHeight: "60vh" }}></div>}>
+          <Projects title="Proyectos" id="proyectos" gradientClass="bg-radial-gradient-right" />
+          <Servicios title="Servicios" id="Servicios" gradientClass="bg-radial-gradient-left" />
+          <Contact title="Contacto" id="Contacto" />
+<WhatsAppChat />
+</Suspense>
+</Layout>
+</ThemeProvider>
+);
 }
 
 export default App;

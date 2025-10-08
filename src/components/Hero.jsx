@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
   const settings = {
     dots: true,
     fade: true,
@@ -17,13 +17,14 @@ function Hero() {
     waitForAnimate: false,
     autoplay: true,
     autoplaySpeed: 4000,
+    arrows: false,
     beforeChange: (oldIndex, newIndex) => setCurrentSlide(newIndex),
   };
-  
+
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: {
         duration: 0.8,
@@ -31,23 +32,26 @@ function Hero() {
       }
     }
   };
-  
+
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.6 }
     }
   };
-  
+
   const buttonVariants = {
-    hover: { 
-      scale: 1.05,
-      boxShadow: "0px 10px 30px rgba(255, 126, 95, 0.3)",
-      transition: { duration: 0.2 }
+    hover: {
+      scale: 1.02,
+      boxShadow: "0px 8px 25px rgba(255, 126, 95, 0.3)",
+      transition: { duration: 0.2, ease: "easeInOut" }
     },
-    tap: { scale: 0.95 }
+    tap: {
+      scale: 0.98,
+      transition: { duration: 0.1 }
+    }
   };
   // Configuración de las partículas del fondo
   const particles = Array.from({ length: 20 }, (_, i) => ({
@@ -59,7 +63,7 @@ function Hero() {
   }));
 
   return (
-    <motion.section 
+    <motion.section
       id="home"
       className="relative min-h-screen w-full overflow-hidden bg-ellipsis-gradient-center text-white flex items-center"
       initial={{ opacity: 0 }}
@@ -93,7 +97,7 @@ function Hero() {
       {/* Contenido principal */}
       <div className="container relative z-10 mx-auto px-4 w-full">
         <Slider {...settings} className="w-full">
-          <motion.div 
+          <motion.div
             className="flex flex-col items-center justify-center min-h-[80vh] w-full py-12"
             variants={containerVariants}
             initial="hidden"
@@ -101,11 +105,11 @@ function Hero() {
             key={`slide-${currentSlide}`}
           >
             <motion.div variants={itemVariants}>
-              <TypewriterEffect 
+              <TypewriterEffect
                 text="Bienvenido a "
                 className="text-4xl md:text-6xl font-bold mb-4"
               />
-              <motion.span 
+              <motion.span
                 className="text-gradient text-4xl md:text-6xl font-bold"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -113,45 +117,43 @@ function Hero() {
               >
                 Tecnofusión.IT
               </motion.span>
-  </motion.div>
-            
-            <motion.p 
+            </motion.div>
+
+            <motion.p
               className="text-lg md:text-2xl leading-normal text-center max-w-3xl mt-6"
               variants={itemVariants}
             >
               Desarrollamos experiencias digitales innovadoras que transforman ideas en realidad
             </motion.p>
-            
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 mt-12"
+
+            <motion.div
+              className="hero-button-container mt-12"
               variants={itemVariants}
             >
-              <motion.button 
-                className="bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] text-white py-4 px-8 rounded-full font-semibold shadow-lg backdrop-blur-sm"
+              <motion.button
+                className="hero-button hero-button-primary"
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="tap"
                 onClick={() => document.getElementById('Contacto')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                ✨ Contáctanos
+                <span className="button-icon">✨</span>
+                Contáctanos
               </motion.button>
-              <motion.button 
-                className="border border-white/30 text-white py-4 px-8 rounded-full font-semibold hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
+              <motion.button
+                className="hero-button hero-button-secondary"
                 variants={buttonVariants}
-                whileHover={{ 
-                  ...buttonVariants.hover, 
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  borderColor: "rgba(255, 126, 95, 0.5)"
-                }}
+                whileHover="hover"
                 whileTap="tap"
                 onClick={() => document.getElementById('proyectos')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                🚀 Ver Proyectos
+                <span className="button-icon">🚀</span>
+                Ver Proyectos
               </motion.button>
             </motion.div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="flex flex-col justify-center items-center h-full py-8"
             variants={containerVariants}
             initial="hidden"
@@ -159,12 +161,12 @@ function Hero() {
             key={`slide-${currentSlide}-2`}
           >
             <motion.div variants={itemVariants} className="text-center">
-              <TypewriterEffect 
+              <TypewriterEffect
                 text="Innovación & "
                 className="text-4xl md:text-6xl font-bold mb-4"
                 delay={0.5}
               />
-              <motion.span 
+              <motion.span
                 className="text-gradient text-4xl md:text-6xl font-bold"
                 initial={{ scale: 0, rotate: -10 }}
                 animate={{ scale: 1, rotate: 0 }}
@@ -172,43 +174,43 @@ function Hero() {
               >
                 Tecnología
               </motion.span>
-  </motion.div>
-            
-            <motion.p 
+            </motion.div>
+
+            <motion.p
               className="text-lg md:text-2xl leading-normal text-center max-w-3xl mt-6"
               variants={itemVariants}
             >
               Creamos soluciones digitales que impulsan el crecimiento de tu negocio
             </motion.p>
-            
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 mt-12"
+
+            <motion.div
+              className="hero-button-container mt-12"
               variants={itemVariants}
             >
-              <motion.button 
-                className="bg-gradient-to-r from-[#feb47b] to-[#ff7e5f] text-white py-4 px-8 rounded-full font-semibold shadow-lg backdrop-blur-sm"
+              <motion.button
+                className="hero-button hero-button-primary"
+                style={{ minWidth: '220px' }}
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="tap"
                 onClick={() => document.getElementById('Servicios')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                💼 Nuestros Servicios
+                <span className="button-icon">💼</span>
+                Nuestros Servicios
               </motion.button>
-              <motion.button 
-                className="border border-white/30 text-white py-4 px-8 rounded-full font-semibold hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
+              <motion.button
+                className="hero-button hero-button-secondary"
+                style={{ minWidth: '220px' }}
                 variants={buttonVariants}
-                whileHover={{ 
-                  ...buttonVariants.hover, 
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  borderColor: "rgba(254, 180, 123, 0.5)"
-                }}
+                whileHover="hover"
                 whileTap="tap"
-                onClick={() => document.getElementById('Nosotros')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById('Contacto')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                👥 Conoce al Equipo
+                <span className="button-icon">📅</span>
+                Agenda una consultoría
               </motion.button>
-  </motion.div>
-</motion.div>
+            </motion.div>
+          </motion.div>
         </Slider>
       </div>
     </motion.section>
@@ -219,18 +221,18 @@ function Hero() {
 function TypewriterEffect({ text, className, delay = 0 }) {
   const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   useEffect(() => {
     if (currentIndex < text.length) {
       const timeout = setTimeout(() => {
         setDisplayText(prev => prev + text[currentIndex]);
         setCurrentIndex(prev => prev + 1);
       }, 100 + delay * 1000);
-      
+
       return () => clearTimeout(timeout);
     }
   }, [currentIndex, text, delay]);
-  
+
   return (
     <span className={className}>
       {displayText}

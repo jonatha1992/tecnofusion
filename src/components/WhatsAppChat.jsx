@@ -30,6 +30,7 @@ const WhatsAppChat = () => {
     return (
         <>
             <IconButton
+                aria-label={isOpen ? "Cerrar chat de WhatsApp" : "Abrir chat de WhatsApp"}
                 sx={{
                     position: "fixed",
                     bottom: 20,
@@ -45,6 +46,8 @@ const WhatsAppChat = () => {
 
             {isOpen && (
                 <Box
+                    role="dialog"
+                    aria-label="Chat de WhatsApp"
                     sx={{
                         position: "fixed",
                         bottom: 100,
@@ -91,8 +94,16 @@ const WhatsAppChat = () => {
                         />
 
                         <button
-                            className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 px-4 rounded w-full"
-                            onClick={handleSend}
+                            type="button"
+                            className="bg-blue-800 hover:bg-blue-950 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded w-full"
+                            onClick={() => {
+                                if (message) {
+                                    const text = name ? `Hola, soy ${name}. ${message}` : message;
+                                    window.open(`https://wa.me/5491160235647?text=${encodeURIComponent(text)}`, "_blank");
+                                    setMessage("");
+                                }
+                            }}
+                            disabled={!message}
                         >
                             ENVIAR
                         </button>

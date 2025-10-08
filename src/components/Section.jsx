@@ -50,9 +50,10 @@ function Section({ title, id, gradientClass }) {
   };
 
   return (
-    <motion.div
+    <motion.section
       ref={ref}
       id={id}
+      aria-labelledby={`${id}-title`}
       className={`min-h-screen py-20 ${gradientClass} text-white flex items-center justify-center`}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
@@ -64,6 +65,7 @@ function Section({ title, id, gradientClass }) {
             {/* Header Section */}
             <motion.div className="text-center mb-16" variants={titleVariants}>
               <Typography
+                id={`${id}-title`}
                 variant="h1"
                 sx={{ fontSize: "4rem", textTransform: "capitalize" }}
                 className="text-gradient mb-6"
@@ -177,7 +179,7 @@ function Section({ title, id, gradientClass }) {
           </div>
         ) : null}
       </Container>
-    </motion.div>
+    </motion.section>
   );
 }
 
