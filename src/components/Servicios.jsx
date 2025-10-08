@@ -9,6 +9,7 @@ import BuildIcon from "@mui/icons-material/Build";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { motion, useInView } from "framer-motion";
+import cctvImg from "../assets/cctv.webp";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -91,7 +92,7 @@ function Servicios({ title, id, gradientClass }) {
             title: "Sistemas de Videovigilancia",
             shortDescription: "Soluciones completas de seguridad con tecnología IP de última generación.",
             fullDescription: "Implementamos sistemas de videovigilancia profesionales con cámaras IP 4K, almacenamiento en la nube, acceso remoto y análisis inteligente para máxima seguridad.",
-            image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+            image: cctvImg,
             technologies: ["Cámaras IP 4K", "NVR", "Cloud Storage", "AI Analytics", "Mobile Apps", "Access Control"],
             benefits: [
                 "Monitoreo 24/7 desde cualquier lugar",
@@ -131,188 +132,347 @@ function Servicios({ title, id, gradientClass }) {
                     </Typography>
                 </Box>
 
-                <Grid container spacing={4}>
-                    <Grid item xs={12} md={5}>
-                        <motion.div
-                            ref={ref}
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate={isInView ? "visible" : "hidden"}
-                        >
-                            {services.map((service, index) => (
-                                <motion.div
-                                    key={index}
-                                    variants={itemVariants}
-                                    whileHover={{ scale: 1.02, x: 4 }}
-                                >
-                                    <Card
-                                        sx={{
-                                            mb: 2,
-                                            cursor: "pointer",
-                                            transition: "all 0.3s ease",
-                                            backgroundColor: activeService === index ? "rgba(230, 131, 105, 0.15)" : "rgba(255,255,255,0.05)",
-                                            borderLeft: activeService === index ? "4px solid #E68369" : "4px solid transparent",
-                                            "&:hover": {
-                                                backgroundColor: "rgba(230, 131, 105, 0.15)",
-                                                borderLeft: "4px solid #E68369",
-                                                transform: "translateX(4px)",
-                                            },
-                                        }}
-                                        onMouseEnter={() => setActiveService(index)}
-                                        onMouseLeave={() => setActiveService(null)}
+                {/* Layout Desktop */}
+                <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                    <Grid container spacing={4}>
+                        <Grid item xs={12} md={5}>
+                            <motion.div
+                                ref={ref}
+                                variants={containerVariants}
+                                initial="hidden"
+                                animate={isInView ? "visible" : "hidden"}
+                            >
+                                {services.map((service, index) => (
+                                    <motion.div
+                                        key={index}
+                                        variants={itemVariants}
+                                        whileHover={{ scale: 1.02, x: 4 }}
                                     >
-                                        <CardContent sx={{ display: "flex", alignItems: "center", py: 2 }}>
-                                            <Box sx={{ marginRight: 3, color: "#E68369", minWidth: "60px" }}>
-                                                {service.icon}
-                                            </Box>
-                                            <Box sx={{ flex: 1 }}>
-                                                <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 0.5 }}>
-                                                    {service.title}
-                                                </Typography>
-                                                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)", fontSize: "0.9rem" }}>
-                                                    {service.shortDescription}
-                                                </Typography>
-                                            </Box>
-                                            <ArrowForwardIcon sx={{ color: "#E68369", opacity: activeService === index ? 1 : 0.5 }} />
-                                        </CardContent>
-                                    </Card>
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    </Grid>
+                                        <Card
+                                            sx={{
+                                                mb: 2,
+                                                cursor: "pointer",
+                                                transition: "all 0.3s ease",
+                                                backgroundColor: activeService === index ? "rgba(230, 131, 105, 0.15)" : "rgba(255,255,255,0.05)",
+                                                borderLeft: activeService === index ? "4px solid #E68369" : "4px solid transparent",
+                                                "&:hover": {
+                                                    backgroundColor: "rgba(230, 131, 105, 0.15)",
+                                                    borderLeft: "4px solid #E68369",
+                                                    transform: "translateX(4px)",
+                                                },
+                                            }}
+                                            onMouseEnter={() => setActiveService(index)}
+                                            onMouseLeave={() => setActiveService(null)}
+                                        >
+                                            <CardContent sx={{ display: "flex", alignItems: "center", py: 2 }}>
+                                                <Box sx={{ marginRight: 3, color: "#E68369", minWidth: "60px" }}>
+                                                    {service.icon}
+                                                </Box>
+                                                <Box sx={{ flex: 1 }}>
+                                                    <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 0.5 }}>
+                                                        {service.title}
+                                                    </Typography>
+                                                    <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)", fontSize: "0.9rem" }}>
+                                                        {service.shortDescription}
+                                                    </Typography>
+                                                </Box>
+                                                <ArrowForwardIcon sx={{ color: "#E68369", opacity: activeService === index ? 1 : 0.5 }} />
+                                            </CardContent>
+                                        </Card>
+                                    </motion.div>
+                                ))}
+                            </motion.div>
+                        </Grid>
 
-                    <Grid item xs={12} md={7}>
-                        <Box sx={{ height: "100%", pl: { md: 4 } }}>
-                            {activeService !== null ? (
-                                <motion.div
-                                    key={activeService}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.3 }}
-                                >
+                        <Grid item xs={12} md={7}>
+                            <Box sx={{ height: "100%", pl: { md: 4 } }}>
+                                {activeService !== null ? (
+                                    <motion.div
+                                        key={activeService}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <Card sx={{
+                                            backgroundColor: "rgba(255,255,255,0.08)",
+                                            height: "100%",
+                                            minHeight: "500px",
+                                            display: "flex",
+                                            flexDirection: "column"
+                                        }}>
+                                            <CardContent sx={{ flex: 1, p: 4 }}>
+                                                <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+                                                    <Box sx={{ color: "#E68369", mr: 2 }}>
+                                                        {services[activeService].icon}
+                                                    </Box>
+                                                    <Typography variant="h4" sx={{ color: "white", fontWeight: "bold" }}>
+                                                        {services[activeService].title}
+                                                    </Typography>
+                                                </Box>
+
+                                                <Box sx={{ mb: 3, borderRadius: 2, overflow: "hidden", position: "relative" }}>
+                                                    <img
+                                                        src={services[activeService].image}
+                                                        alt={services[activeService].title}
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "200px",
+                                                            objectFit: "cover",
+                                                            borderRadius: "8px"
+                                                        }}
+                                                    />
+                                                    <Box sx={{
+                                                        position: "absolute",
+                                                        top: 0,
+                                                        left: 0,
+                                                        right: 0,
+                                                        bottom: 0,
+                                                        background: "linear-gradient(135deg, rgba(230, 131, 105, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
+                                                        borderRadius: "8px"
+                                                    }} />
+                                                </Box>
+
+                                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.9)", mb: 3, lineHeight: 1.7 }}>
+                                                    {services[activeService].fullDescription}
+                                                </Typography>
+
+                                                <Box sx={{ mb: 3 }}>
+                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 2 }}>
+                                                        Tecnologías utilizadas:
+                                                    </Typography>
+                                                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                                                        {services[activeService].technologies.map((tech, techIndex) => (
+                                                            <Chip
+                                                                key={techIndex}
+                                                                label={tech}
+                                                                sx={{
+                                                                    backgroundColor: "rgba(230, 131, 105, 0.2)",
+                                                                    color: "white",
+                                                                    border: "1px solid rgba(230, 131, 105, 0.5)"
+                                                                }}
+                                                            />
+                                                        ))}
+                                                    </Box>
+                                                </Box>
+
+                                                <Box sx={{ mb: 3 }}>
+                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 2 }}>
+                                                        Beneficios clave:
+                                                    </Typography>
+                                                    {services[activeService].benefits.map((benefit, benefitIndex) => (
+                                                        <Box key={benefitIndex} sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                                                            <CheckCircleIcon sx={{ color: "#E68369", mr: 1, fontSize: "1.2rem" }} />
+                                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.9)" }}>
+                                                                {benefit}
+                                                            </Typography>
+                                                        </Box>
+                                                    ))}
+                                                </Box>
+
+                                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "auto", pt: 3 }}>
+                                                    <Box>
+                                                        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
+                                                            Tiempo de entrega: <strong>{services[activeService].deliveryTime}</strong>
+                                                        </Typography>
+                                                    </Box>
+                                                    <Button
+                                                        variant="outlined"
+                                                        endIcon={<ArrowForwardIcon />}
+                                                        sx={{
+                                                            borderColor: "#E68369",
+                                                            color: "#E68369",
+                                                            "&:hover": {
+                                                                borderColor: "#E68369",
+                                                                backgroundColor: "rgba(230, 131, 105, 0.1)"
+                                                            }
+                                                        }}
+                                                    >
+                                                        Solicitar Cotización
+                                                    </Button>
+                                                </Box>
+                                            </CardContent>
+                                        </Card>
+                                    </motion.div>
+                                ) : (
                                     <Card sx={{
-                                        backgroundColor: "rgba(255,255,255,0.08)",
+                                        backgroundColor: "rgba(255,255,255,0.05)",
                                         height: "100%",
                                         minHeight: "500px",
                                         display: "flex",
-                                        flexDirection: "column"
+                                        alignItems: "center",
+                                        justifyContent: "center"
                                     }}>
-                                        <CardContent sx={{ flex: 1, p: 4 }}>
-                                            <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                                                <Box sx={{ color: "#E68369", mr: 2 }}>
-                                                    {services[activeService].icon}
-                                                </Box>
-                                                <Typography variant="h4" sx={{ color: "white", fontWeight: "bold" }}>
-                                                    {services[activeService].title}
-                                                </Typography>
-                                            </Box>
-
-                                            <Box sx={{ mb: 3, borderRadius: 2, overflow: "hidden", position: "relative" }}>
-                                                <img
-                                                    src={services[activeService].image}
-                                                    alt={services[activeService].title}
-                                                    style={{
-                                                        width: "100%",
-                                                        height: "200px",
-                                                        objectFit: "cover",
-                                                        borderRadius: "8px"
-                                                    }}
-                                                />
-                                                <Box sx={{
-                                                    position: "absolute",
-                                                    top: 0,
-                                                    left: 0,
-                                                    right: 0,
-                                                    bottom: 0,
-                                                    background: "linear-gradient(135deg, rgba(230, 131, 105, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-                                                    borderRadius: "8px"
-                                                }} />
-                                            </Box>
-
-                                            <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.9)", mb: 3, lineHeight: 1.7 }}>
-                                                {services[activeService].fullDescription}
+                                        <CardContent sx={{ textAlign: "center" }}>
+                                            <Typography variant="h5" sx={{ color: "rgba(255,255,255,0.7)", mb: 2 }}>
+                                                Selecciona un servicio
                                             </Typography>
-
-                                            <Box sx={{ mb: 3 }}>
-                                                <Typography variant="h6" sx={{ color: "#E68369", mb: 2 }}>
-                                                    Tecnologías utilizadas:
-                                                </Typography>
-                                                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                                                    {services[activeService].technologies.map((tech, techIndex) => (
-                                                        <Chip
-                                                            key={techIndex}
-                                                            label={tech}
-                                                            sx={{
-                                                                backgroundColor: "rgba(230, 131, 105, 0.2)",
-                                                                color: "white",
-                                                                border: "1px solid rgba(230, 131, 105, 0.5)"
-                                                            }}
-                                                        />
-                                                    ))}
-                                                </Box>
-                                            </Box>
-
-                                            <Box sx={{ mb: 3 }}>
-                                                <Typography variant="h6" sx={{ color: "#E68369", mb: 2 }}>
-                                                    Beneficios clave:
-                                                </Typography>
-                                                {services[activeService].benefits.map((benefit, benefitIndex) => (
-                                                    <Box key={benefitIndex} sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                                                        <CheckCircleIcon sx={{ color: "#E68369", mr: 1, fontSize: "1.2rem" }} />
-                                                        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.9)" }}>
-                                                            {benefit}
-                                                        </Typography>
-                                                    </Box>
-                                                ))}
-                                            </Box>
-
-                                            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "auto", pt: 3 }}>
-                                                <Box>
-                                                    <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
-                                                        Tiempo de entrega: <strong>{services[activeService].deliveryTime}</strong>
-                                                    </Typography>
-                                                </Box>
-                                                <Button
-                                                    variant="outlined"
-                                                    endIcon={<ArrowForwardIcon />}
-                                                    sx={{
-                                                        borderColor: "#E68369",
-                                                        color: "#E68369",
-                                                        "&:hover": {
-                                                            borderColor: "#E68369",
-                                                            backgroundColor: "rgba(230, 131, 105, 0.1)"
-                                                        }
-                                                    }}
-                                                >
-                                                    Solicitar Cotización
-                                                </Button>
-                                            </Box>
+                                            <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.5)" }}>
+                                                Pasa el cursor sobre cualquier servicio de la izquierda para ver información detallada,
+                                                tecnologías utilizadas, beneficios y tiempo de entrega.
+                                            </Typography>
                                         </CardContent>
                                     </Card>
-                                </motion.div>
-                            ) : (
-                                <Card sx={{
-                                    backgroundColor: "rgba(255,255,255,0.05)",
-                                    height: "100%",
-                                    minHeight: "500px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center"
-                                }}>
-                                    <CardContent sx={{ textAlign: "center" }}>
-                                        <Typography variant="h5" sx={{ color: "rgba(255,255,255,0.7)", mb: 2 }}>
-                                            Selecciona un servicio
-                                        </Typography>
-                                        <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.5)" }}>
-                                            Pasa el cursor sobre cualquier servicio de la izquierda para ver información detallada,
-                                            tecnologías utilizadas, beneficios y tiempo de entrega.
-                                        </Typography>
+                                )}
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </Box>
+
+                {/* Layout Mobile */}
+                <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                    <motion.div
+                        ref={ref}
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate={isInView ? "visible" : "hidden"}
+                    >
+                        {services.map((service, index) => (
+                            <motion.div
+                                key={index}
+                                variants={itemVariants}
+                            >
+                                <Card
+                                    sx={{
+                                        mb: 2,
+                                        cursor: "pointer",
+                                        transition: "all 0.3s ease",
+                                        backgroundColor: activeService === index ? "rgba(230, 131, 105, 0.15)" : "rgba(255,255,255,0.05)",
+                                        borderLeft: activeService === index ? "4px solid #E68369" : "4px solid transparent",
+                                        "&:hover": {
+                                            backgroundColor: "rgba(230, 131, 105, 0.15)",
+                                            borderLeft: "4px solid #E68369",
+                                        },
+                                    }}
+                                    onClick={() => setActiveService(activeService === index ? null : index)}
+                                >
+                                    <CardContent sx={{ display: "flex", alignItems: "center", py: 2 }}>
+                                        <Box sx={{ marginRight: 3, color: "#E68369", minWidth: "60px" }}>
+                                            {service.icon}
+                                        </Box>
+                                        <Box sx={{ flex: 1 }}>
+                                            <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 0.5 }}>
+                                                {service.title}
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)", fontSize: "0.9rem" }}>
+                                                {service.shortDescription}
+                                            </Typography>
+                                        </Box>
+                                        <ArrowForwardIcon
+                                            sx={{
+                                                color: "#E68369",
+                                                opacity: activeService === index ? 1 : 0.5,
+                                                transform: activeService === index ? "rotate(90deg)" : "rotate(0deg)",
+                                                transition: "transform 0.3s ease"
+                                            }}
+                                        />
                                     </CardContent>
                                 </Card>
-                            )}
-                        </Box>
-                    </Grid>
-                </Grid>
+
+                                {/* Detalles del servicio en mobile */}
+                                {activeService === index && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <Card sx={{
+                                            backgroundColor: "rgba(255,255,255,0.08)",
+                                            mb: 3,
+                                            ml: 2,
+                                            mr: 2,
+                                        }}>
+                                            <CardContent sx={{ p: 3 }}>
+                                                <Box sx={{ mb: 3, borderRadius: 2, overflow: "hidden", position: "relative" }}>
+                                                    <img
+                                                        src={service.image}
+                                                        alt={service.title}
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "200px",
+                                                            objectFit: "cover",
+                                                            borderRadius: "8px"
+                                                        }}
+                                                    />
+                                                    <Box sx={{
+                                                        position: "absolute",
+                                                        top: 0,
+                                                        left: 0,
+                                                        right: 0,
+                                                        bottom: 0,
+                                                        background: "linear-gradient(135deg, rgba(230, 131, 105, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
+                                                        borderRadius: "8px"
+                                                    }} />
+                                                </Box>
+
+                                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.9)", mb: 3, lineHeight: 1.7 }}>
+                                                    {service.fullDescription}
+                                                </Typography>
+
+                                                <Box sx={{ mb: 3 }}>
+                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 2 }}>
+                                                        Tecnologías utilizadas:
+                                                    </Typography>
+                                                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                                                        {service.technologies.map((tech, techIndex) => (
+                                                            <Chip
+                                                                key={techIndex}
+                                                                label={tech}
+                                                                sx={{
+                                                                    backgroundColor: "rgba(230, 131, 105, 0.2)",
+                                                                    color: "white",
+                                                                    border: "1px solid rgba(230, 131, 105, 0.5)"
+                                                                }}
+                                                            />
+                                                        ))}
+                                                    </Box>
+                                                </Box>
+
+                                                <Box sx={{ mb: 3 }}>
+                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 2 }}>
+                                                        Beneficios clave:
+                                                    </Typography>
+                                                    {service.benefits.map((benefit, benefitIndex) => (
+                                                        <Box key={benefitIndex} sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                                                            <CheckCircleIcon sx={{ color: "#E68369", mr: 1, fontSize: "1.2rem" }} />
+                                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.9)" }}>
+                                                                {benefit}
+                                                            </Typography>
+                                                        </Box>
+                                                    ))}
+                                                </Box>
+
+                                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexDirection: { xs: "column", sm: "row" }, gap: 2 }}>
+                                                    <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
+                                                        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
+                                                            Tiempo de entrega: <strong>{service.deliveryTime}</strong>
+                                                        </Typography>
+                                                    </Box>
+                                                    <Button
+                                                        variant="outlined"
+                                                        endIcon={<ArrowForwardIcon />}
+                                                        fullWidth={true}
+                                                        sx={{
+                                                            borderColor: "#E68369",
+                                                            color: "#E68369",
+                                                            maxWidth: { xs: "100%", sm: "auto" },
+                                                            "&:hover": {
+                                                                borderColor: "#E68369",
+                                                                backgroundColor: "rgba(230, 131, 105, 0.1)"
+                                                            }
+                                                        }}
+                                                    >
+                                                        Solicitar Cotización
+                                                    </Button>
+                                                </Box>
+                                            </CardContent>
+                                        </Card>
+                                    </motion.div>
+                                )}
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </Box>
             </Container>
         </section>
     );
