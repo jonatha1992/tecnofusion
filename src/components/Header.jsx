@@ -12,8 +12,8 @@ import MenuItem from "@mui/material/MenuItem";
 
 const navItems = [
     { href: "#home", label: "Inicio" },
-    { href: "#Servicios", label: "Servicios" },
     { href: "#proyectos", label: "Proyectos" },
+    { href: "#Servicios", label: "Servicios" },
     { href: "#Contacto", label: "Contacto" },
 ];
 
@@ -49,9 +49,9 @@ function Header() {
     };
 
     return (
-        <AppBar 
-            position="fixed" 
-            sx={{ 
+        <AppBar
+            position="fixed"
+            sx={{
                 zIndex: (theme) => theme.zIndex.drawer + 1,
                 backgroundColor: 'rgba(17, 24, 39, 0.95)', // Fondo oscuro con transparencia
                 backdropFilter: 'blur(10px)', // Efecto de vidrio esmerilado
@@ -59,8 +59,8 @@ function Header() {
                 borderBottom: '1px solid rgba(255, 255, 255, 0.1)' // Borde sutil
             }}
         >
-            <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3 } }}>
-                <Toolbar disableGutters sx={{ minHeight: '64px !important' }}>
+            <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
+                <Toolbar disableGutters sx={{ minHeight: '68px !important' }}>
                     <Typography
                         variant="h6"
                         noWrap
@@ -137,8 +137,8 @@ function Header() {
                                         },
                                     }}
                                 >
-                                    <Typography 
-                                        textAlign="center" 
+                                    <Typography
+                                        textAlign="center"
                                         width="100%"
                                         sx={{
                                             fontWeight: 500,

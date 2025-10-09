@@ -28,7 +28,7 @@ function Contact({ id, title, gradientClass }) {
     };
 
     return (
-        <section id={id} aria-labelledby={`${id}-title`} className={`min-h-[100vh] ${gradientClass} text-white py-20 flex items-center justify-center`}>
+        <section id={id} aria-labelledby={`${id}-title`} className={`min-h-[100vh] ${gradientClass} text-white py-6 flex items-center justify-center`}>
             <Container maxWidth="lg">
                 <motion.div
                     ref={ref}
@@ -38,23 +38,23 @@ function Contact({ id, title, gradientClass }) {
                     className="text-center"
                 >
                     <motion.div variants={itemVariants}>
-                        <Typography id={`${id}-title`} variant="h1" sx={{ fontSize: "4rem", mb: 3 }} className="text-gradient">
+                        <Typography id={`${id}-title`} variant="h1" sx={{ fontSize: "3rem", mb: 1.5 }} className="text-gradient">
                             {title}
                         </Typography>
-                        <Typography variant="h5" sx={{ opacity: 0.9, maxWidth: "800px", mx: "auto", mb: 6 }}>
+                        <Typography variant="h5" sx={{ opacity: 0.9, maxWidth: "800px", mx: "auto", mb: 3, fontSize: "1.25rem" }}>
                             ¿Listo para transformar tu idea en realidad digital?
                             Contáctanos directamente por WhatsApp y comencemos tu proyecto hoy mismo.
                         </Typography>
                     </motion.div>
 
-                    <motion.div variants={itemVariants} className="flex flex-col items-center max-w-4xl mx-auto space-y-8">
+                    <motion.div variants={itemVariants} className="flex flex-col items-center max-w-4xl mx-auto space-y-4">
                         {/* Botón principal de WhatsApp */}
                         <Card sx={{
                             backgroundColor: "rgba(37, 211, 102, 0.1)",
                             backdropFilter: "blur(10px)",
                             border: "2px solid rgba(37, 211, 102, 0.3)",
                             borderRadius: 4,
-                            p: 4,
+                            p: 2.5,
                             width: "100%",
                             maxWidth: "600px",
                             transition: "all 0.3s ease",
@@ -66,11 +66,11 @@ function Contact({ id, title, gradientClass }) {
                             }
                         }}>
                             <CardContent sx={{ textAlign: "center" }}>
-                                <WhatsAppIcon sx={{ fontSize: "4rem", color: "#25D366", mb: 2 }} />
-                                <Typography variant="h4" sx={{ color: "white", fontWeight: "bold", mb: 2 }}>
+                                <WhatsAppIcon sx={{ fontSize: "3rem", color: "#25D366", mb: 1 }} />
+                                <Typography variant="h4" sx={{ color: "white", fontWeight: "bold", mb: 1, fontSize: "1.5rem" }}>
                                     Conversemos por WhatsApp
                                 </Typography>
-                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.8)", mb: 4, lineHeight: 1.6 }}>
+                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.8)", mb: 2, lineHeight: 1.6 }}>
                                     Obtén respuesta inmediata a tus consultas. Nuestro equipo está disponible para
                                     asesorarte y crear la solución perfecta para tu negocio.
                                 </Typography>
@@ -98,13 +98,13 @@ function Contact({ id, title, gradientClass }) {
                         </Card>
 
                         {/* Información de contacto adicional */}
-                        <motion.div variants={itemVariants} className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
+                        <motion.div variants={itemVariants} className="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
                             <Card sx={{
                                 backgroundColor: "rgba(255,255,255,0.05)",
                                 backdropFilter: "blur(10px)",
                                 border: "1px solid rgba(255,255,255,0.1)",
                                 borderRadius: 3,
-                                p: 3,
+                                p: 2,
                                 textAlign: "center",
                                 transition: "all 0.3s ease",
                                 "&:hover": {
@@ -126,7 +126,7 @@ function Contact({ id, title, gradientClass }) {
                                 backdropFilter: "blur(10px)",
                                 border: "1px solid rgba(255,255,255,0.1)",
                                 borderRadius: 3,
-                                p: 3,
+                                p: 2,
                                 textAlign: "center",
                                 transition: "all 0.3s ease",
                                 "&:hover": {
@@ -148,7 +148,7 @@ function Contact({ id, title, gradientClass }) {
                                 backdropFilter: "blur(10px)",
                                 border: "1px solid rgba(255,255,255,0.1)",
                                 borderRadius: 3,
-                                p: 3,
+                                p: 2,
                                 textAlign: "center",
                                 transition: "all 0.3s ease",
                                 "&:hover": {
@@ -168,10 +168,10 @@ function Contact({ id, title, gradientClass }) {
 
                         {/* Call to action adicional */}
                         <motion.div variants={itemVariants} className="text-center">
-                            <Typography variant="h6" sx={{ color: "rgba(255,255,255,0.8)", mb: 3 }}>
+                            <Typography variant="h6" sx={{ color: "rgba(255,255,255,0.8)", mb: 1.5, fontSize: "1.1rem" }}>
                                 🚀 ¿Tienes un proyecto en mente?
                             </Typography>
-                            <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.7)", maxWidth: "600px", mx: "auto" }}>
+                            <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.7)", maxWidth: "600px", mx: "auto", fontSize: "0.95rem" }}>
                                 No esperes más. Cada día que pasa sin digitalizar tu negocio es una oportunidad perdida.
                                 Hablemos y hagamos realidad tu visión tecnológica.
                             </Typography>

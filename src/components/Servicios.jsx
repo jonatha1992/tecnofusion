@@ -22,7 +22,7 @@ const itemVariants = {
 };
 
 function Servicios({ title, id, gradientClass }) {
-    const [activeService, setActiveService] = useState(null);
+    const [activeService, setActiveService] = useState(0);
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -120,27 +120,23 @@ function Servicios({ title, id, gradientClass }) {
     ];
 
     return (
-        <section id={id} aria-labelledby={`${id}-title`} className={`min-h-[100vh] ${gradientClass} text-white py-20 animate-fade-in`}>
-            <Container maxWidth="xl">
-                <Box textAlign="center" mb={8}>
-                    <Typography id={`${id}-title`} variant="h1" sx={{ fontSize: "4rem", mb: 3 }} className="text-gradient">
+        <section id={id} aria-labelledby={`${id}-title`} className={`min-h-[100vh] ${gradientClass} text-white py-6 animate-fade-in`}>
+            <Container maxWidth="lg" sx={{ px: { xs: 2, md: 4 } }}>
+                <Box textAlign="center" mb={{ xs: 2, md: 3 }}>
+                    <Typography id={`${id}-title`} variant="h1" sx={{ fontSize: { xs: "2rem", md: "2.5rem" }, mb: 1 }} className="text-gradient">
                         {title}
-                    </Typography>
-                    <Typography variant="h5" sx={{ opacity: 0.9, maxWidth: "800px", mx: "auto", mb: 4 }}>
-                        Soluciones tecnológicas innovadoras que transforman ideas en realidad digital.
-                        Desde desarrollo web hasta sistemas de seguridad, cubrimos todas sus necesidades técnicas.
                     </Typography>
                 </Box>
 
                 {/* Layout Desktop */}
                 <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                    <Grid container spacing={4}>
+                    <Grid container spacing={3} sx={{ maxWidth: '1200px', mx: 'auto' }}>
                         <Grid item xs={12} md={5}>
                             <motion.div
                                 ref={ref}
                                 variants={containerVariants}
                                 initial="hidden"
-                                animate={isInView ? "visible" : "hidden"}
+                                animate="visible"
                             >
                                 {services.map((service, index) => (
                                     <motion.div
@@ -150,33 +146,32 @@ function Servicios({ title, id, gradientClass }) {
                                     >
                                         <Card
                                             sx={{
-                                                mb: 2,
+                                                mb: 1.5,
                                                 cursor: "pointer",
                                                 transition: "all 0.3s ease",
                                                 backgroundColor: activeService === index ? "rgba(230, 131, 105, 0.15)" : "rgba(255,255,255,0.05)",
-                                                borderLeft: activeService === index ? "4px solid #E68369" : "4px solid transparent",
+                                                borderLeft: activeService === index ? "3px solid #E68369" : "3px solid transparent",
                                                 "&:hover": {
                                                     backgroundColor: "rgba(230, 131, 105, 0.15)",
-                                                    borderLeft: "4px solid #E68369",
-                                                    transform: "translateX(4px)",
+                                                    borderLeft: "3px solid #E68369",
+                                                    transform: "translateX(3px)",
                                                 },
                                             }}
                                             onMouseEnter={() => setActiveService(index)}
-                                            onMouseLeave={() => setActiveService(null)}
                                         >
-                                            <CardContent sx={{ display: "flex", alignItems: "center", py: 2 }}>
-                                                <Box sx={{ marginRight: 3, color: "#E68369", minWidth: "60px" }}>
+                                            <CardContent sx={{ display: "flex", alignItems: "center", py: 1.5, px: 2 }}>
+                                                <Box sx={{ marginRight: 1.5, color: "#E68369", minWidth: "45px", fontSize: "1.4rem" }}>
                                                     {service.icon}
                                                 </Box>
                                                 <Box sx={{ flex: 1 }}>
-                                                    <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 0.5 }}>
+                                                    <Typography variant="h6" sx={{ color: "white", fontWeight: "600", mb: 0.5, fontSize: "0.95rem" }}>
                                                         {service.title}
                                                     </Typography>
-                                                    <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)", fontSize: "0.9rem" }}>
+                                                    <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.75)", fontSize: "0.82rem", lineHeight: 1.4 }}>
                                                         {service.shortDescription}
                                                     </Typography>
                                                 </Box>
-                                                <ArrowForwardIcon sx={{ color: "#E68369", opacity: activeService === index ? 1 : 0.5 }} />
+                                                <ArrowForwardIcon sx={{ color: "#E68369", opacity: activeService === index ? 1 : 0.5, fontSize: "1.1rem" }} />
                                             </CardContent>
                                         </Card>
                                     </motion.div>
@@ -185,7 +180,7 @@ function Servicios({ title, id, gradientClass }) {
                         </Grid>
 
                         <Grid item xs={12} md={7}>
-                            <Box sx={{ height: "100%", pl: { md: 4 } }}>
+                            <Box sx={{ height: "100%", pl: { md: 2 } }}>
                                 {activeService !== null ? (
                                     <motion.div
                                         key={activeService}
@@ -196,27 +191,27 @@ function Servicios({ title, id, gradientClass }) {
                                         <Card sx={{
                                             backgroundColor: "rgba(255,255,255,0.08)",
                                             height: "100%",
-                                            minHeight: "500px",
+                                            minHeight: "420px",
                                             display: "flex",
                                             flexDirection: "column"
                                         }}>
-                                            <CardContent sx={{ flex: 1, p: 4 }}>
-                                                <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                                                    <Box sx={{ color: "#E68369", mr: 2 }}>
+                                            <CardContent sx={{ flex: 1, p: 2.5 }}>
+                                                <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+                                                    <Box sx={{ color: "#E68369", mr: 1.5, fontSize: "1.5rem" }}>
                                                         {services[activeService].icon}
                                                     </Box>
-                                                    <Typography variant="h4" sx={{ color: "white", fontWeight: "bold" }}>
+                                                    <Typography variant="h4" sx={{ color: "white", fontWeight: "bold", fontSize: "1.35rem" }}>
                                                         {services[activeService].title}
                                                     </Typography>
                                                 </Box>
 
-                                                <Box sx={{ mb: 3, borderRadius: 2, overflow: "hidden", position: "relative" }}>
+                                                <Box sx={{ mb: 1.5, borderRadius: 1.5, overflow: "hidden", position: "relative" }}>
                                                     <img
                                                         src={services[activeService].image}
                                                         alt={services[activeService].title}
                                                         style={{
                                                             width: "100%",
-                                                            height: "200px",
+                                                            height: "130px",
                                                             objectFit: "cover",
                                                             borderRadius: "8px"
                                                         }}
@@ -232,55 +227,63 @@ function Servicios({ title, id, gradientClass }) {
                                                     }} />
                                                 </Box>
 
-                                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.9)", mb: 3, lineHeight: 1.7 }}>
+                                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.88)", mb: 1.5, lineHeight: 1.5, fontSize: "0.9rem" }}>
                                                     {services[activeService].fullDescription}
                                                 </Typography>
 
-                                                <Box sx={{ mb: 3 }}>
-                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 2 }}>
+                                                <Box sx={{ mb: 1.5 }}>
+                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 1, fontSize: "1rem", fontWeight: "600" }}>
                                                         Tecnologías utilizadas:
                                                     </Typography>
-                                                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                                                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.7 }}>
                                                         {services[activeService].technologies.map((tech, techIndex) => (
                                                             <Chip
                                                                 key={techIndex}
                                                                 label={tech}
+                                                                size="small"
                                                                 sx={{
                                                                     backgroundColor: "rgba(230, 131, 105, 0.2)",
                                                                     color: "white",
-                                                                    border: "1px solid rgba(230, 131, 105, 0.5)"
+                                                                    border: "1px solid rgba(230, 131, 105, 0.5)",
+                                                                    fontSize: "0.8rem",
+                                                                    height: "26px",
+                                                                    py: 0.5
                                                                 }}
                                                             />
                                                         ))}
                                                     </Box>
                                                 </Box>
 
-                                                <Box sx={{ mb: 3 }}>
-                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 2 }}>
+                                                <Box sx={{ mb: 1.5 }}>
+                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 1, fontSize: "1rem", fontWeight: "600" }}>
                                                         Beneficios clave:
                                                     </Typography>
                                                     {services[activeService].benefits.map((benefit, benefitIndex) => (
-                                                        <Box key={benefitIndex} sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                                                            <CheckCircleIcon sx={{ color: "#E68369", mr: 1, fontSize: "1.2rem" }} />
-                                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.9)" }}>
+                                                        <Box key={benefitIndex} sx={{ display: "flex", alignItems: "center", mb: 0.7 }}>
+                                                            <CheckCircleIcon sx={{ color: "#E68369", mr: 1, fontSize: "1rem" }} />
+                                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.88)", fontSize: "0.85rem" }}>
                                                                 {benefit}
                                                             </Typography>
                                                         </Box>
                                                     ))}
                                                 </Box>
 
-                                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "auto", pt: 3 }}>
+                                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "auto", pt: 1.5 }}>
                                                     <Box>
-                                                        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
-                                                            Tiempo de entrega: <strong>{services[activeService].deliveryTime}</strong>
+                                                        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", fontSize: "0.85rem" }}>
+                                                            Tiempo: <strong>{services[activeService].deliveryTime}</strong>
                                                         </Typography>
                                                     </Box>
                                                     <Button
                                                         variant="outlined"
-                                                        endIcon={<ArrowForwardIcon />}
+                                                        size="medium"
+                                                        endIcon={<ArrowForwardIcon sx={{ fontSize: "1rem" }} />}
                                                         sx={{
                                                             borderColor: "#E68369",
                                                             color: "#E68369",
+                                                            fontSize: "0.85rem",
+                                                            py: 0.6,
+                                                            px: 1.5,
                                                             "&:hover": {
                                                                 borderColor: "#E68369",
                                                                 backgroundColor: "rgba(230, 131, 105, 0.1)"
@@ -297,16 +300,16 @@ function Servicios({ title, id, gradientClass }) {
                                     <Card sx={{
                                         backgroundColor: "rgba(255,255,255,0.05)",
                                         height: "100%",
-                                        minHeight: "500px",
+                                        minHeight: "420px",
                                         display: "flex",
                                         alignItems: "center",
                                         justifyContent: "center"
                                     }}>
-                                        <CardContent sx={{ textAlign: "center" }}>
-                                            <Typography variant="h5" sx={{ color: "rgba(255,255,255,0.7)", mb: 2 }}>
+                                        <CardContent sx={{ textAlign: "center", px: 3 }}>
+                                            <Typography variant="h5" sx={{ color: "rgba(255,255,255,0.7)", mb: 2, fontSize: "1.3rem" }}>
                                                 Selecciona un servicio
                                             </Typography>
-                                            <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.5)" }}>
+                                            <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.5)", fontSize: "0.9rem", lineHeight: 1.6 }}>
                                                 Pasa el cursor sobre cualquier servicio de la izquierda para ver información detallada,
                                                 tecnologías utilizadas, beneficios y tiempo de entrega.
                                             </Typography>
@@ -405,12 +408,12 @@ function Servicios({ title, id, gradientClass }) {
                                                     }} />
                                                 </Box>
 
-                                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.9)", mb: 3, lineHeight: 1.7 }}>
-                                                    {service.fullDescription}
+                                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.9)", mb: 2, lineHeight: 1.6, fontSize: "0.95rem" }}>
+                                                    {services[activeService].fullDescription}
                                                 </Typography>
 
-                                                <Box sx={{ mb: 3 }}>
-                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 2 }}>
+                                                <Box sx={{ mb: 2 }}>
+                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 1.5, fontSize: "1.05rem" }}>
                                                         Tecnologías utilizadas:
                                                     </Typography>
                                                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
@@ -428,14 +431,14 @@ function Servicios({ title, id, gradientClass }) {
                                                     </Box>
                                                 </Box>
 
-                                                <Box sx={{ mb: 3 }}>
-                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 2 }}>
+                                                <Box sx={{ mb: 2 }}>
+                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 1.5, fontSize: "1.05rem" }}>
                                                         Beneficios clave:
                                                     </Typography>
-                                                    {service.benefits.map((benefit, benefitIndex) => (
-                                                        <Box key={benefitIndex} sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                                                            <CheckCircleIcon sx={{ color: "#E68369", mr: 1, fontSize: "1.2rem" }} />
-                                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.9)" }}>
+                                                    {services[activeService].benefits.map((benefit, benefitIndex) => (
+                                                        <Box key={benefitIndex} sx={{ display: "flex", alignItems: "center", mb: 0.7 }}>
+                                                            <CheckCircleIcon sx={{ color: "#E68369", mr: 1, fontSize: "1.05rem" }} />
+                                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.9)", fontSize: "0.9rem" }}>
                                                                 {benefit}
                                                             </Typography>
                                                         </Box>

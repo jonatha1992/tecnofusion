@@ -80,13 +80,13 @@ function Projects({ title, id, children, gradientClass }) {
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className={`md:min-h-screen min-h-screen py-20 ${gradientClass} text-white flex items-center justify-center`}
+      className={`md:min-h-screen min-h-screen py-8 ${gradientClass} text-white flex items-center justify-center`}
     >
       <Container>
         <Typography
           id={`${id}-title`}
           variant="h1"
-          sx={{ fontSize: "4rem", mb: 8 }}
+          sx={{ fontSize: "3rem", mb: 3 }}
           className="text-gradient"
         >
           {title}
@@ -97,7 +97,7 @@ function Projects({ title, id, children, gradientClass }) {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3"
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3"
         >
           {children ||
             projects.map((p, i) => (
@@ -132,7 +132,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink }) {
     >
       <CardMedia
         component="img"
-        height="200"
+        height="180"
         image={image}
         alt={title}
         loading="lazy"
@@ -141,7 +141,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink }) {
           objectFit: "cover"
         }}
       />
-      <CardContent sx={{ flex: 1, p: 3 }}>
+      <CardContent sx={{ flex: 1, p: 2 }}>
         <Typography
           gutterBottom
           variant="h5"
@@ -149,8 +149,9 @@ function ProjectCard({ title, description, image, githubLink, previewLink }) {
           sx={{
             color: "white",
             fontWeight: "bold",
-            mb: 2,
-            lineHeight: 1.2
+            mb: 1.5,
+            lineHeight: 1.2,
+            fontSize: "1.25rem"
           }}
         >
           {title}
@@ -165,7 +166,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink }) {
           {description}
         </Typography>
       </CardContent>
-      <CardActions sx={{ p: 3, pt: 0 }}>
+      <CardActions sx={{ p: 2, pt: 0 }}>
         <Button
           size="small"
           href={githubLink}
