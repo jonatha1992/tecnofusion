@@ -1,38 +1,19 @@
 import { useState, useRef } from "react";
-import { Typography, Container, Grid, Box, Card, CardContent, Chip, Button } from "@mui/material";
-import CodeIcon from "@mui/icons-material/Code";
-import BrushIcon from "@mui/icons-material/Brush";
-import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
-import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
-import CameraOutdoorIcon from "@mui/icons-material/CameraOutdoor";
-import BuildIcon from "@mui/icons-material/Build";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { motion, useInView } from "framer-motion";
-import cctvImg from "../assets/cctv.webp";
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.12 } },
-};
-
-const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
-};
-
-function Servicios({ title, id, gradientClass }) {
-    const [activeService, setActiveService] = useState(0);
+function Servicios({ id, title, gradientClass, services, containerVariants, itemVariants }) {
+    const [activeService, setActiveService] = useState(null);
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const isInView = useInView(ref);
 
-    const services = [
+    // Default services array if not provided
+    const defaultServices = [
         {
-            icon: <CodeIcon fontSize="large" />,
+            icon: <span>💻</span>,
             title: "Desarrollo Web Profesional",
             shortDescription: "Sitios web modernos, rápidos y escalables que impulsan tu negocio.",
             fullDescription: "Desarrollamos sitios web y aplicaciones web de alto rendimiento utilizando tecnologías de vanguardia. Nuestro enfoque se centra en la velocidad, SEO, y experiencia de usuario excepcional.",
-            image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80",
             technologies: ["React", "Vue.js", "Node.js", "MongoDB", "PostgreSQL", "AWS"],
             benefits: [
                 "100% Responsivo y Mobile-First",
@@ -43,11 +24,11 @@ function Servicios({ title, id, gradientClass }) {
             deliveryTime: "2-6 semanas"
         },
         {
-            icon: <BrushIcon fontSize="large" />,
+            icon: <span>🎨</span>,
             title: "Diseño UI/UX Premium",
             shortDescription: "Diseños que convierten visitantes en clientes y mejoran la experiencia.",
             fullDescription: "Creamos experiencias digitales memorables a través de investigación de usuarios, arquitectura de información y diseño visual impactante que se alinea con los objetivos de tu negocio.",
-            image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80",
             technologies: ["Figma", "Adobe XD", "Sketch", "InVision", "Principle", "Framer"],
             benefits: [
                 "Investigación y análisis de usuarios",
@@ -56,427 +37,129 @@ function Servicios({ title, id, gradientClass }) {
                 "Testing de usabilidad"
             ],
             deliveryTime: "1-4 semanas"
-        },
-        {
-            icon: <PhoneAndroidIcon fontSize="large" />,
-            title: "Apps Móviles Nativas",
-            shortDescription: "Aplicaciones móviles potentes para iOS y Android con rendimiento nativo.",
-            fullDescription: "Desarrollamos apps móviles que destacan en las tiendas de aplicaciones. Desde MVP hasta aplicaciones empresariales complejas, garantizamos calidad, rendimiento y experiencia de usuario superior.",
-            image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-            technologies: ["React Native", "Flutter", "Swift", "Kotlin", "Firebase", "AWS Amplify"],
-            benefits: [
-                "Desarrollo multiplataforma eficiente",
-                "Integración con servicios nativos",
-                "Push notifications y analytics",
-                "Publicación en App Store y Google Play"
-            ],
-            deliveryTime: "6-12 semanas"
-        },
-        {
-            icon: <BusinessCenterIcon fontSize="large" />,
-            title: "Consultoría Tecnológica",
-            shortDescription: "Estrategia digital y arquitectura tecnológica para escalar tu negocio.",
-            fullDescription: "Analizamos tus procesos actuales y diseñamos soluciones tecnológicas personalizadas que mejoran la eficiencia, reducen costos y aceleran el crecimiento de tu empresa.",
-            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-            technologies: ["Cloud Architecture", "DevOps", "Microservicios", "APIs", "Database Design", "Security"],
-            benefits: [
-                "Auditoría tecnológica completa",
-                "Roadmap de transformación digital",
-                "Optimización de procesos",
-                "Reducción de costos operativos"
-            ],
-            deliveryTime: "2-4 semanas"
-        },
-        {
-            icon: <CameraOutdoorIcon fontSize="large" />,
-            title: "Sistemas de Videovigilancia",
-            shortDescription: "Soluciones completas de seguridad con tecnología IP de última generación.",
-            fullDescription: "Implementamos sistemas de videovigilancia profesionales con cámaras IP 4K, almacenamiento en la nube, acceso remoto y análisis inteligente para máxima seguridad.",
-            image: cctvImg,
-            technologies: ["Cámaras IP 4K", "NVR", "Cloud Storage", "AI Analytics", "Mobile Apps", "Access Control"],
-            benefits: [
-                "Monitoreo 24/7 desde cualquier lugar",
-                "Grabación en alta definición",
-                "Detección inteligente de movimiento",
-                "Integración con sistemas de alarma"
-            ],
-            deliveryTime: "1-2 semanas"
-        },
-        {
-            icon: <BuildIcon fontSize="large" />,
-            title: "Soporte Técnico Premium",
-            shortDescription: "Mantenimiento proactivo y soporte 24/7 para tus sistemas críticos.",
-            fullDescription: "Garantizamos el funcionamiento óptimo de tus sistemas con monitoreo continuo, actualizaciones de seguridad, backups automáticos y soporte técnico especializado.",
-            image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-            technologies: ["Monitoring Tools", "Backup Systems", "Security Updates", "Performance Optimization", "Help Desk", "Remote Support"],
-            benefits: [
-                "Monitoreo proactivo 24/7",
-                "Respuesta rápida ante incidencias",
-                "Backups automáticos diarios",
-                "Actualizaciones de seguridad"
-            ],
-            deliveryTime: "Inmediato"
-        },
+        }
     ];
-
+    const serviceList = services && Array.isArray(services) ? services : defaultServices;
     return (
         <section id={id} aria-labelledby={`${id}-title`} className={`min-h-[100vh] ${gradientClass} text-white py-6 animate-fade-in`}>
-            <Container maxWidth="lg" sx={{ px: { xs: 2, md: 4 } }}>
-                <Box textAlign="center" mb={{ xs: 2, md: 3 }}>
-                    <Typography id={`${id}-title`} variant="h1" sx={{ fontSize: { xs: "2rem", md: "2.5rem" }, mb: 1 }} className="text-gradient">
-                        {title}
-                    </Typography>
-                </Box>
-
-                {/* Layout Desktop */}
-                <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                    <Grid container spacing={3} sx={{ maxWidth: '1200px', mx: 'auto' }}>
-                        <Grid item xs={12} md={5}>
-                            <motion.div
-                                ref={ref}
-                                variants={containerVariants}
-                                initial="hidden"
-                                animate="visible"
-                            >
-                                {services.map((service, index) => (
-                                    <motion.div
-                                        key={index}
-                                        variants={itemVariants}
-                                        whileHover={{ scale: 1.02, x: 4 }}
-                                    >
-                                        <Card
-                                            sx={{
-                                                mb: 1.5,
-                                                cursor: "pointer",
-                                                transition: "all 0.3s ease",
-                                                backgroundColor: activeService === index ? "rgba(230, 131, 105, 0.15)" : "rgba(255,255,255,0.05)",
-                                                borderLeft: activeService === index ? "3px solid #E68369" : "3px solid transparent",
-                                                "&:hover": {
-                                                    backgroundColor: "rgba(230, 131, 105, 0.15)",
-                                                    borderLeft: "3px solid #E68369",
-                                                    transform: "translateX(3px)",
-                                                },
-                                            }}
-                                            onMouseEnter={() => setActiveService(index)}
-                                        >
-                                            <CardContent sx={{ display: "flex", alignItems: "center", py: 1.5, px: 2 }}>
-                                                <Box sx={{ marginRight: 1.5, color: "#E68369", minWidth: "45px", fontSize: "1.4rem" }}>
-                                                    {service.icon}
-                                                </Box>
-                                                <Box sx={{ flex: 1 }}>
-                                                    <Typography variant="h6" sx={{ color: "white", fontWeight: "600", mb: 0.5, fontSize: "0.95rem" }}>
-                                                        {service.title}
-                                                    </Typography>
-                                                    <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.75)", fontSize: "0.82rem", lineHeight: 1.4 }}>
-                                                        {service.shortDescription}
-                                                    </Typography>
-                                                </Box>
-                                                <ArrowForwardIcon sx={{ color: "#E68369", opacity: activeService === index ? 1 : 0.5, fontSize: "1.1rem" }} />
-                                            </CardContent>
-                                        </Card>
-                                    </motion.div>
+            <div className="max-w-7xl mx-auto px-4">
+                <div className="text-center mb-6">
+                    <h1 id={`${id}-title`} className="text-gradient text-4xl md:text-5xl mb-1 font-bold">{title}</h1>
+                </div>
+                {/* Desktop Layout */}
+                <div className="hidden md:block">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 max-w-6xl mx-auto">
+                        <div className="md:col-span-5">
+                            <motion.div ref={ref} variants={containerVariants} initial="hidden" animate="visible">
+                                {serviceList.map((service, index) => (
+                                    <div key={index} className={`mb-4 cursor-pointer transition-all ${activeService === index ? 'bg-orange-100 border-l-4 border-orange-400' : 'bg-white/5'}`} onMouseEnter={() => setActiveService(index)}>
+                                        <div className="flex items-center p-4">
+                                            <span className="text-orange-500 text-2xl mr-3">{service.icon}</span>
+                                            <div className="flex-1">
+                                                <h2 className="font-bold text-lg text-white mb-1">{service.title}</h2>
+                                                <p className="text-gray-300 text-sm">{service.shortDescription}</p>
+                                            </div>
+                                            <span className={`text-orange-500 ml-2 transition-transform ${activeService === index ? 'rotate-90' : ''}`}>→</span>
+                                        </div>
+                                    </div>
                                 ))}
                             </motion.div>
-                        </Grid>
-
-                        <Grid item xs={12} md={7}>
-                            <Box sx={{ height: "100%", pl: { md: 2 } }}>
+                        </div>
+                        <div className="md:col-span-7">
+                            <div className="h-full pl-4">
                                 {activeService !== null ? (
-                                    <motion.div
-                                        key={activeService}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <Card sx={{
-                                            backgroundColor: "rgba(255,255,255,0.08)",
-                                            height: "100%",
-                                            minHeight: "420px",
-                                            display: "flex",
-                                            flexDirection: "column"
-                                        }}>
-                                            <CardContent sx={{ flex: 1, p: 2.5 }}>
-                                                <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
-                                                    <Box sx={{ color: "#E68369", mr: 1.5, fontSize: "1.5rem" }}>
-                                                        {services[activeService].icon}
-                                                    </Box>
-                                                    <Typography variant="h4" sx={{ color: "white", fontWeight: "bold", fontSize: "1.35rem" }}>
-                                                        {services[activeService].title}
-                                                    </Typography>
-                                                </Box>
-
-                                                <Box sx={{ mb: 1.5, borderRadius: 1.5, overflow: "hidden", position: "relative" }}>
-                                                    <img
-                                                        src={services[activeService].image}
-                                                        alt={services[activeService].title}
-                                                        style={{
-                                                            width: "100%",
-                                                            height: "130px",
-                                                            objectFit: "cover",
-                                                            borderRadius: "8px"
-                                                        }}
-                                                    />
-                                                    <Box sx={{
-                                                        position: "absolute",
-                                                        top: 0,
-                                                        left: 0,
-                                                        right: 0,
-                                                        bottom: 0,
-                                                        background: "linear-gradient(135deg, rgba(230, 131, 105, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-                                                        borderRadius: "8px"
-                                                    }} />
-                                                </Box>
-
-                                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.88)", mb: 1.5, lineHeight: 1.5, fontSize: "0.9rem" }}>
-                                                    {services[activeService].fullDescription}
-                                                </Typography>
-
-                                                <Box sx={{ mb: 1.5 }}>
-                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 1, fontSize: "1rem", fontWeight: "600" }}>
-                                                        Tecnologías utilizadas:
-                                                    </Typography>
-                                                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.7 }}>
-                                                        {services[activeService].technologies.map((tech, techIndex) => (
-                                                            <Chip
-                                                                key={techIndex}
-                                                                label={tech}
-                                                                size="small"
-                                                                sx={{
-                                                                    backgroundColor: "rgba(230, 131, 105, 0.2)",
-                                                                    color: "white",
-                                                                    border: "1px solid rgba(230, 131, 105, 0.5)",
-                                                                    fontSize: "0.8rem",
-                                                                    height: "26px",
-                                                                    py: 0.5
-                                                                }}
-                                                            />
-                                                        ))}
-                                                    </Box>
-                                                </Box>
-
-                                                <Box sx={{ mb: 1.5 }}>
-                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 1, fontSize: "1rem", fontWeight: "600" }}>
-                                                        Beneficios clave:
-                                                    </Typography>
-                                                    {services[activeService].benefits.map((benefit, benefitIndex) => (
-                                                        <Box key={benefitIndex} sx={{ display: "flex", alignItems: "center", mb: 0.7 }}>
-                                                            <CheckCircleIcon sx={{ color: "#E68369", mr: 1, fontSize: "1rem" }} />
-                                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.88)", fontSize: "0.85rem" }}>
-                                                                {benefit}
-                                                            </Typography>
-                                                        </Box>
+                                    <motion.div key={activeService} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                                        <div className="bg-white/10 rounded-lg p-6 shadow-lg flex flex-col min-h-[420px]">
+                                            <div className="flex items-center mb-4">
+                                                <span className="text-orange-500 text-2xl mr-3">{serviceList[activeService].icon}</span>
+                                                <h3 className="font-bold text-xl text-white">{serviceList[activeService].title}</h3>
+                                            </div>
+                                            <img src={serviceList[activeService].image} alt={serviceList[activeService].title} className="w-full h-[130px] object-cover rounded-lg mb-4" />
+                                            <p className="text-gray-200 mb-4">{serviceList[activeService].fullDescription}</p>
+                                            <div className="mb-4">
+                                                <h4 className="text-orange-400 font-semibold mb-2">Tecnologías utilizadas:</h4>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {serviceList[activeService].technologies.map((tech, techIndex) => (
+                                                        <span key={techIndex} className="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs border border-orange-300">{tech}</span>
                                                     ))}
-                                                </Box>
-
-                                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "auto", pt: 1.5 }}>
-                                                    <Box>
-                                                        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", fontSize: "0.85rem" }}>
-                                                            Tiempo: <strong>{services[activeService].deliveryTime}</strong>
-                                                        </Typography>
-                                                    </Box>
-                                                    <Button
-                                                        variant="outlined"
-                                                        size="medium"
-                                                        endIcon={<ArrowForwardIcon sx={{ fontSize: "1rem" }} />}
-                                                        sx={{
-                                                            borderColor: "#E68369",
-                                                            color: "#E68369",
-                                                            fontSize: "0.85rem",
-                                                            py: 0.6,
-                                                            px: 1.5,
-                                                            "&:hover": {
-                                                                borderColor: "#E68369",
-                                                                backgroundColor: "rgba(230, 131, 105, 0.1)"
-                                                            }
-                                                        }}
-                                                    >
-                                                        Solicitar Cotización
-                                                    </Button>
-                                                </Box>
-                                            </CardContent>
-                                        </Card>
+                                                </div>
+                                            </div>
+                                            <div className="mb-4">
+                                                <h4 className="text-orange-400 font-semibold mb-2">Beneficios clave:</h4>
+                                                <ul className="space-y-1">
+                                                    {serviceList[activeService].benefits.map((benefit, benefitIndex) => (
+                                                        <li key={benefitIndex} className="flex items-center text-gray-100 text-sm">
+                                                            <span className="text-orange-400 mr-2">✔</span>{benefit}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                            <div className="flex justify-between items-center mt-4">
+                                                <span className="text-gray-300 text-xs">Tiempo: <strong>{serviceList[activeService].deliveryTime}</strong></span>
+                                                <button className="border border-orange-400 text-orange-400 px-4 py-2 rounded hover:bg-orange-100 hover:text-orange-700 transition-all text-xs font-semibold">Solicitar Cotización <span className="ml-1">→</span></button>
+                                            </div>
+                                        </div>
                                     </motion.div>
                                 ) : (
-                                    <Card sx={{
-                                        backgroundColor: "rgba(255,255,255,0.05)",
-                                        height: "100%",
-                                        minHeight: "420px",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center"
-                                    }}>
-                                        <CardContent sx={{ textAlign: "center", px: 3 }}>
-                                            <Typography variant="h5" sx={{ color: "rgba(255,255,255,0.7)", mb: 2, fontSize: "1.3rem" }}>
-                                                Selecciona un servicio
-                                            </Typography>
-                                            <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.5)", fontSize: "0.9rem", lineHeight: 1.6 }}>
-                                                Pasa el cursor sobre cualquier servicio de la izquierda para ver información detallada,
-                                                tecnologías utilizadas, beneficios y tiempo de entrega.
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
+                                    <div className="bg-white/5 rounded-lg flex items-center justify-center min-h-[420px] shadow-lg">
+                                        <div className="text-center px-3">
+                                            <h4 className="text-gray-300 mb-2 text-xl font-semibold">Selecciona un servicio</h4>
+                                            <p className="text-gray-400 text-base">Pasa el cursor sobre cualquier servicio de la izquierda para ver información detallada, tecnologías utilizadas, beneficios y tiempo de entrega.</p>
+                                        </div>
+                                    </div>
                                 )}
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </Box>
-
-                {/* Layout Mobile */}
-                <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-                    <motion.div
-                        ref={ref}
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate={isInView ? "visible" : "hidden"}
-                    >
-                        {services.map((service, index) => (
-                            <motion.div
-                                key={index}
-                                variants={itemVariants}
-                            >
-                                <Card
-                                    sx={{
-                                        mb: 2,
-                                        cursor: "pointer",
-                                        transition: "all 0.3s ease",
-                                        backgroundColor: activeService === index ? "rgba(230, 131, 105, 0.15)" : "rgba(255,255,255,0.05)",
-                                        borderLeft: activeService === index ? "4px solid #E68369" : "4px solid transparent",
-                                        "&:hover": {
-                                            backgroundColor: "rgba(230, 131, 105, 0.15)",
-                                            borderLeft: "4px solid #E68369",
-                                        },
-                                    }}
-                                    onClick={() => setActiveService(activeService === index ? null : index)}
-                                >
-                                    <CardContent sx={{ display: "flex", alignItems: "center", py: 2 }}>
-                                        <Box sx={{ marginRight: 3, color: "#E68369", minWidth: "60px" }}>
-                                            {service.icon}
-                                        </Box>
-                                        <Box sx={{ flex: 1 }}>
-                                            <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 0.5 }}>
-                                                {service.title}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)", fontSize: "0.9rem" }}>
-                                                {service.shortDescription}
-                                            </Typography>
-                                        </Box>
-                                        <ArrowForwardIcon
-                                            sx={{
-                                                color: "#E68369",
-                                                opacity: activeService === index ? 1 : 0.5,
-                                                transform: activeService === index ? "rotate(90deg)" : "rotate(0deg)",
-                                                transition: "transform 0.3s ease"
-                                            }}
-                                        />
-                                    </CardContent>
-                                </Card>
-
-                                {/* Detalles del servicio en mobile */}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* Mobile Layout */}
+                <div className="block md:hidden">
+                    <motion.div ref={ref} variants={containerVariants} initial="hidden" animate={isInView ? "visible" : "hidden"}>
+                        {serviceList.map((service, index) => (
+                            <motion.div key={index} variants={itemVariants}>
+                                <div className={`mb-2 cursor-pointer transition-all ${activeService === index ? 'bg-orange-100 border-l-4 border-orange-400' : 'bg-white/5'}`} onClick={() => setActiveService(activeService === index ? null : index)}>
+                                    <div className="flex items-center p-3">
+                                        <span className="text-orange-500 text-2xl mr-3">{service.icon}</span>
+                                        <div className="flex-1">
+                                            <h2 className="font-bold text-lg text-white mb-1">{service.title}</h2>
+                                            <p className="text-gray-300 text-sm">{service.shortDescription}</p>
+                                        </div>
+                                        <span className={`text-orange-500 ml-2 transition-transform ${activeService === index ? 'rotate-90' : ''}`}>→</span>
+                                    </div>
+                                </div>
                                 {activeService === index && (
-                                    <motion.div
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: "auto" }}
-                                        exit={{ opacity: 0, height: 0 }}
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <Card sx={{
-                                            backgroundColor: "rgba(255,255,255,0.08)",
-                                            mb: 3,
-                                            ml: 2,
-                                            mr: 2,
-                                        }}>
-                                            <CardContent sx={{ p: 3 }}>
-                                                <Box sx={{ mb: 3, borderRadius: 2, overflow: "hidden", position: "relative" }}>
-                                                    <img
-                                                        src={service.image}
-                                                        alt={service.title}
-                                                        style={{
-                                                            width: "100%",
-                                                            height: "200px",
-                                                            objectFit: "cover",
-                                                            borderRadius: "8px"
-                                                        }}
-                                                    />
-                                                    <Box sx={{
-                                                        position: "absolute",
-                                                        top: 0,
-                                                        left: 0,
-                                                        right: 0,
-                                                        bottom: 0,
-                                                        background: "linear-gradient(135deg, rgba(230, 131, 105, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-                                                        borderRadius: "8px"
-                                                    }} />
-                                                </Box>
-
-                                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.9)", mb: 2, lineHeight: 1.6, fontSize: "0.95rem" }}>
-                                                    {services[activeService].fullDescription}
-                                                </Typography>
-
-                                                <Box sx={{ mb: 2 }}>
-                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 1.5, fontSize: "1.05rem" }}>
-                                                        Tecnologías utilizadas:
-                                                    </Typography>
-                                                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                                                        {service.technologies.map((tech, techIndex) => (
-                                                            <Chip
-                                                                key={techIndex}
-                                                                label={tech}
-                                                                sx={{
-                                                                    backgroundColor: "rgba(230, 131, 105, 0.2)",
-                                                                    color: "white",
-                                                                    border: "1px solid rgba(230, 131, 105, 0.5)"
-                                                                }}
-                                                            />
-                                                        ))}
-                                                    </Box>
-                                                </Box>
-
-                                                <Box sx={{ mb: 2 }}>
-                                                    <Typography variant="h6" sx={{ color: "#E68369", mb: 1.5, fontSize: "1.05rem" }}>
-                                                        Beneficios clave:
-                                                    </Typography>
-                                                    {services[activeService].benefits.map((benefit, benefitIndex) => (
-                                                        <Box key={benefitIndex} sx={{ display: "flex", alignItems: "center", mb: 0.7 }}>
-                                                            <CheckCircleIcon sx={{ color: "#E68369", mr: 1, fontSize: "1.05rem" }} />
-                                                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.9)", fontSize: "0.9rem" }}>
-                                                                {benefit}
-                                                            </Typography>
-                                                        </Box>
-                                                    ))}
-                                                </Box>
-
-                                                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexDirection: { xs: "column", sm: "row" }, gap: 2 }}>
-                                                    <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
-                                                        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
-                                                            Tiempo de entrega: <strong>{service.deliveryTime}</strong>
-                                                        </Typography>
-                                                    </Box>
-                                                    <Button
-                                                        variant="outlined"
-                                                        endIcon={<ArrowForwardIcon />}
-                                                        fullWidth={true}
-                                                        sx={{
-                                                            borderColor: "#E68369",
-                                                            color: "#E68369",
-                                                            maxWidth: { xs: "100%", sm: "auto" },
-                                                            "&:hover": {
-                                                                borderColor: "#E68369",
-                                                                backgroundColor: "rgba(230, 131, 105, 0.1)"
-                                                            }
-                                                        }}
-                                                    >
-                                                        Solicitar Cotización
-                                                    </Button>
-                                                </Box>
-                                            </CardContent>
-                                        </Card>
-                                    </motion.div>
+                                    <div className="bg-white/10 rounded-lg p-4 shadow-lg ml-2 mr-2 mb-3">
+                                        <img src={service.image} alt={service.title} className="w-full h-[200px] object-cover rounded-lg mb-4" />
+                                        <p className="text-gray-200 mb-4">{service.fullDescription}</p>
+                                        <div className="mb-4">
+                                            <h4 className="text-orange-400 font-semibold mb-2">Tecnologías utilizadas:</h4>
+                                            <div className="flex flex-wrap gap-2">
+                                                {service.technologies.map((tech, techIndex) => (
+                                                    <span key={techIndex} className="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs border border-orange-300">{tech}</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="mb-4">
+                                            <h4 className="text-orange-400 font-semibold mb-2">Beneficios clave:</h4>
+                                            <ul className="space-y-1">
+                                                {service.benefits.map((benefit, benefitIndex) => (
+                                                    <li key={benefitIndex} className="flex items-center text-gray-100 text-sm">
+                                                        <span className="text-orange-400 mr-2">✔</span>{benefit}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div className="flex justify-between items-center mt-4">
+                                            <span className="text-gray-300 text-xs">Tiempo: <strong>{service.deliveryTime}</strong></span>
+                                            <button className="border border-orange-400 text-orange-400 px-4 py-2 rounded hover:bg-orange-100 hover:text-orange-700 transition-all text-xs font-semibold">Solicitar Cotización <span className="ml-1">→</span></button>
+                                        </div>
+                                    </div>
                                 )}
                             </motion.div>
                         ))}
                     </motion.div>
-                </Box>
-            </Container>
+                </div>
+            </div>
         </section>
     );
 }

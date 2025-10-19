@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+input::placeholder,
+textarea::placeholder {
+    color: #b0b0b0;
+    opacity: 1;
+}
+
 .bg-radial-gradient-right {
     background: radial-gradient(circle at bottom right, #131842 10%, #111827 100%);
 }

@@ -9,7 +9,11 @@
       "Bash(git add:*)",
       "Bash(npm run dev:*)",
       "Bash(npm run lint)",
-      "Bash(timeout:*)"
+      "Bash(timeout:*)",
+      "Bash(firebase projects:list)",
+      "Bash(firebase use tecnofuision-it)",
+      "Bash(firebase deploy --only firestore:rules,storage:rules)",
+      "Bash(firebase deploy --only firestore:rules,storage)"
     ],
     "deny": [],
     "ask": []

@@ -1,4 +1,4 @@
-import { Typography, Container } from "@mui/material";
+// ...existing code...
 import { CheckIcon } from "@heroicons/react/outline";
 import { FaGithub, FaEye } from "react-icons/fa";
 import { motion, useInView } from "framer-motion";
@@ -70,114 +70,115 @@ function Section({ title, id, gradientClass }) {
               >
                 {title}
               </Typography>
-              <Typography variant="h4" className="mb-6 text-white">
-                Este es nuestro equipo de trabajo!
-              </Typography>
-              <Typography variant="body1" className="max-w-4xl mx-auto mb-8 text-xl leading-relaxed text-gray-300">
-                Somos un equipo profesional especializado en soluciones tecnológicas integrales
-                para impulsar el crecimiento de tu negocio.
-              </Typography>
+              <h4 className="mb-6 text-white text-2xl md:text-3xl font-bold">{subtitle}</h4>
+              Este es nuestro equipo de trabajo!
+            </Typography>
+            <p className="max-w-4xl mx-auto mb-8 text-xl leading-relaxed text-gray-300">{description}</p>
+            Somos un equipo profesional especializado en soluciones tecnológicas integrales
+            para impulsar el crecimiento de tu negocio.
+          </Typography>
 
               {/* Services Overview */}
-              <div className="grid max-w-4xl gap-6 mx-auto mb-12 md:grid-cols-3">
-                <div className="p-6 text-center glass-card rounded-xl">
-                  <div className="mb-4 text-4xl">🚀</div>
-                  <Typography variant="h6" className="mb-2 font-bold text-white">
-                    Desarrollo Web
-                  </Typography>
-                  <Typography variant="body2" className="text-gray-300">
-                    Apps web modernas con React, Node.js y bases de datos escalables
-                  </Typography>
-                </div>
+        <div className="grid max-w-4xl gap-6 mx-auto mb-12 md:grid-cols-3">
+          <div className="p-6 text-center glass-card rounded-xl">
+            <div className="mb-4 text-4xl">🚀</div>
+            <h6 className="mb-2 font-bold text-white text-lg">{cardTitle}</h6>
+            Desarrollo Web
+          </Typography>
+          <p className="text-gray-300 text-sm">{cardText}</p>
+          Apps web modernas con React, Node.js y bases de datos escalables
+        </Typography>
+      </div>
 
-                <div className="p-6 text-center glass-card rounded-xl">
-                  <div className="mb-4 text-4xl">💼</div>
-                  <Typography variant="h6" className="mb-2 font-bold text-white">
-                    Consultoría IT
-                  </Typography>
-                  <Typography variant="body2" className="text-gray-300">
-                    Asesoramiento experto en tecnología y optimización de procesos
-                  </Typography>
-                </div>
+      <div className="p-6 text-center glass-card rounded-xl">
+        <div className="mb-4 text-4xl">💼</div>
+        <h6 className="mb-2 font-bold text-white text-lg">{cardTitle}</h6>
+        Consultoría IT
+      </Typography>
+      <p className="text-gray-300 text-sm">{cardText}</p>
+      Asesoramiento experto en tecnología y optimización de procesos
+    </Typography>
+                </div >
 
                 <div className="p-6 text-center glass-card rounded-xl">
                   <div className="mb-4 text-4xl">🔒</div>
-                  <Typography variant="h6" className="mb-2 font-bold text-white">
+                  <h6 className="mb-2 font-bold text-white text-lg">{cardTitle}</h6>
                     Seguridad CCTV
                   </Typography>
-                  <Typography variant="body2" className="text-gray-300">
+                  <p className="text-gray-300 text-sm">{cardText}</p>
                     Sistemas de videovigilancia y control de acceso profesional
-                  </Typography>
-                </div>
-              </div>
-            </motion.div>
+                  </Typography >
+                </div >
+              </div >
+            </motion.div >
 
-            {/* What We Do Section */}
-            <motion.div
-              className="mt-16 text-center"
-              initial={{ y: 50, opacity: 0 }}
-              animate={isInView ? { y: 0, opacity: 1 } : { y: 50, opacity: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
+    {/* What We Do Section */ }
+    < motion.div
+  className = "mt-16 text-center"
+  initial = {{ y: 50, opacity: 0 }
+}
+animate = { isInView? { y: 0, opacity: 1 } : { y: 50, opacity: 0 }}
+transition = {{ delay: 0.8, duration: 0.8 }}
             >
-              <Typography variant="h4" className="mb-8 font-bold text-white">
-                ¿Qué hacemos?
-              </Typography>
+  <h4 className="mb-8 font-bold text-white text-2xl md:text-3xl">{subtitle}</h4>
+                ¿Qué hacemos ?
+              </Typography >
 
-              <div className="grid max-w-5xl gap-6 mx-auto md:grid-cols-2 lg:grid-cols-4">
-                <div className="p-6 text-center transition-transform duration-300 glass-card rounded-xl hover:scale-105">
-                  <div className="mb-3 text-3xl">💻</div>
-                  <Typography variant="h6" className="mb-2 font-semibold text-white">
-                    Desarrollo Web
-                  </Typography>
-                  <Typography variant="body2" className="text-gray-400">
-                    Sitios web modernos y aplicaciones escalables
-                  </Typography>
-                </div>
+  <div className="grid max-w-5xl gap-6 mx-auto md:grid-cols-2 lg:grid-cols-4">
+    <div className="p-6 text-center transition-transform duration-300 glass-card rounded-xl hover:scale-105">
+      <div className="mb-3 text-3xl">💻</div>
+      <Typography variant="h6" className="mb-2 font-semibold text-white">
+        Desarrollo Web
+      </Typography>
+      <Typography variant="body2" className="text-gray-400">
+        Sitios web modernos y aplicaciones escalables
+      </Typography>
+    </div>
 
-                <div className="p-6 text-center transition-transform duration-300 glass-card rounded-xl hover:scale-105">
-                  <div className="mb-3 text-3xl">🤖</div>
-                  <Typography variant="h6" className="mb-2 font-semibold text-white">
-                    Automatización
-                  </Typography>
-                  <Typography variant="body2" className="text-gray-400">
-                    ChatBots y sistemas automáticos para empresas
-                  </Typography>
-                </div>
+    <div className="p-6 text-center transition-transform duration-300 glass-card rounded-xl hover:scale-105">
+      <div className="mb-3 text-3xl">🤖</div>
+      <Typography variant="h6" className="mb-2 font-semibold text-white">
+        Automatización
+      </Typography>
+      <Typography variant="body2" className="text-gray-400">
+        ChatBots y sistemas automáticos para empresas
+      </Typography>
+    </div>
 
-                <div className="p-6 text-center transition-transform duration-300 glass-card rounded-xl hover:scale-105">
-                  <div className="mb-3 text-3xl">📊</div>
-                  <Typography variant="h6" className="mb-2 font-semibold text-white">
-                    Consultoría IT
-                  </Typography>
-                  <Typography variant="body2" className="text-gray-400">
-                    Análisis y optimización de procesos tecnológicos
-                  </Typography>
-                </div>
+    <div className="p-6 text-center transition-transform duration-300 glass-card rounded-xl hover:scale-105">
+      <div className="mb-3 text-3xl">📊</div>
+      <Typography variant="h6" className="mb-2 font-semibold text-white">
+        Consultoría IT
+      </Typography>
+      <Typography variant="body2" className="text-gray-400">
+        Análisis y optimización de procesos tecnológicos
+      </Typography>
+    </div>
 
-                <div className="p-6 text-center transition-transform duration-300 glass-card rounded-xl hover:scale-105">
-                  <div className="mb-3 text-3xl">🛡️</div>
-                  <Typography variant="h6" className="mb-2 font-semibold text-white">
-                    Seguridad
-                  </Typography>
-                  <Typography variant="body2" className="text-gray-400">
-                    CCTV y sistemas de control de acceso
-                  </Typography>
-                </div>
-              </div>
+    <div className="p-6 text-center transition-transform duration-300 glass-card rounded-xl hover:scale-105">
+      <div className="mb-3 text-3xl">🛡️</div>
+      <Typography variant="h6" className="mb-2 font-semibold text-white">
+        Seguridad
+      </Typography>
+      <Typography variant="body2" className="text-gray-400">
+        CCTV y sistemas de control de acceso
+      </Typography>
+    </div>
+  </div>
 
-              {/* Team Illustration - Smaller and subtle */}
-              <div className="max-w-md mx-auto mt-12">
-                <img
-                  src={svg1}
-                  alt="Ilustración del equipo trabajando"
-                  className="w-full h-auto transition-opacity duration-300 opacity-20 hover:opacity-30"
-                />
-              </div>
-            </motion.div>
-          </div>
+{/* Team Illustration - Smaller and subtle */ }
+<div className="max-w-md mx-auto mt-12">
+  <img
+    src={svg1}
+    alt="Ilustración del equipo trabajando"
+    className="w-full h-auto transition-opacity duration-300 opacity-20 hover:opacity-30"
+  />
+</div>
+            </motion.div >
+          </div >
         ) : null}
-      </Container>
-    </motion.section>
+      </Container >
+    </motion.section >
   );
 }
 
