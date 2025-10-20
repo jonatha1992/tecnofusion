@@ -13,7 +13,6 @@ const Servicios = lazy(() => import("./components/Servicios"));
 const WhatsAppChat = lazy(() => import("./components/WhatsAppChat"));
 
 // Lazy load componentes de administración
-const Login = lazy(() => import("./components/admin/Login"));
 const Dashboard = lazy(() => import("./components/admin/Dashboard"));
 const ProjectForm = lazy(() => import("./components/admin/ProjectForm"));
 const PrivateRoute = lazy(() => import("./components/admin/PrivateRoute"));
@@ -46,7 +45,6 @@ function App() {
             <Route path="/" element={<HomePage />} />
 
             {/* Rutas de administración */}
-            <Route path="/admin/login" element={<Login />} />
             <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
             <Route
               path="/admin/dashboard"

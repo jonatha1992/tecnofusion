@@ -72,11 +72,12 @@ function LoginModal({ open, onClose }) {
           <div className="relative bg-gradient-to-br from-[#131842] via-[#1a2557] to-[#131842] px-6 py-10">
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 text-white/80 hover:text-white hover:bg-white/10 rounded-full p-1.5 transition-all duration-200"
+              className="absolute top-3 right-3 text-white bg-white/20 hover:bg-white/30 hover:text-white rounded-full p-2 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110 z-10"
               aria-label="Cerrar"
+              title="Cerrar"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
 
@@ -92,7 +93,19 @@ function LoginModal({ open, onClose }) {
           </div>
 
           {/* Body */}
-          <div className="px-8 py-8 bg-gradient-to-b from-white to-gray-50">
+          <div className="relative px-8 py-8 bg-gradient-to-b from-white to-gray-50">
+            {/* Close button visible on white background */}
+            <button
+              onClick={handleClose}
+              className="absolute top-3 right-3 text-gray-400 hover:text-[#E68369] hover:bg-[#E68369]/10 rounded-full p-2 transition-all duration-200 z-10"
+              aria-label="Cerrar"
+              title="Cerrar"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
             <form onSubmit={handleSubmit}>
               {/* Error Alert */}
               {error && (
