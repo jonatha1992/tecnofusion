@@ -1,10 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Typography, Container, Box, Button, Card, CardContent } from "@mui/material";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import PhoneIcon from "@mui/icons-material/Phone";
-import EmailIcon from "@mui/icons-material/Email";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { FaWhatsapp } from "react-icons/fa";
+import { HiPhone, HiMail, HiLocationMarker } from "react-icons/hi";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -21,15 +18,19 @@ function Contact({ id, title, gradientClass }) {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     const handleWhatsAppClick = () => {
-        const phoneNumber = "5491159910666"; // Tu número de WhatsApp
+        const phoneNumber = "5491159910666";
         const message = "¡Hola! Me interesa conocer más sobre los servicios de Tecnofusión.IT";
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     };
 
     return (
-        <section id={id} aria-labelledby={`${id}-title`} className={`min-h-[100vh] ${gradientClass} text-white py-6 flex items-center justify-center`}>
-            <Container maxWidth="lg">
+        <section
+            id={id}
+            aria-labelledby={`${id}-title`}
+            className={`min-h-screen ${gradientClass} text-white py-12 flex items-center justify-center`}
+        >
+            <div className="container mx-auto px-4 lg:px-8 max-w-screen-lg">
                 <motion.div
                     ref={ref}
                     variants={containerVariants}
@@ -38,147 +39,86 @@ function Contact({ id, title, gradientClass }) {
                     className="text-center"
                 >
                     <motion.div variants={itemVariants}>
-                        <Typography id={`${id}-title`} variant="h1" sx={{ fontSize: "3rem", mb: 1.5 }} className="text-gradient">
+                        <h1
+                            id={`${id}-title`}
+                            className="text-5xl font-bold mb-4 text-gradient"
+                        >
                             {title}
-                        </Typography>
-                        <Typography variant="h5" sx={{ opacity: 0.9, maxWidth: "800px", mx: "auto", mb: 3, fontSize: "1.25rem" }}>
+                        </h1>
+                        <p className="text-xl opacity-90 max-w-3xl mx-auto mb-8 leading-relaxed">
                             ¿Listo para transformar tu idea en realidad digital?
                             Contáctanos directamente por WhatsApp y comencemos tu proyecto hoy mismo.
-                        </Typography>
+                        </p>
                     </motion.div>
 
-                    <motion.div variants={itemVariants} className="flex flex-col items-center max-w-4xl mx-auto space-y-4">
+                    <motion.div variants={itemVariants} className="flex flex-col items-center max-w-4xl mx-auto space-y-6">
                         {/* Botón principal de WhatsApp */}
-                        <Card sx={{
-                            backgroundColor: "rgba(37, 211, 102, 0.1)",
-                            backdropFilter: "blur(10px)",
-                            border: "2px solid rgba(37, 211, 102, 0.3)",
-                            borderRadius: 4,
-                            p: 2.5,
-                            width: "100%",
-                            maxWidth: "600px",
-                            transition: "all 0.3s ease",
-                            "&:hover": {
-                                backgroundColor: "rgba(37, 211, 102, 0.2)",
-                                borderColor: "rgba(37, 211, 102, 0.6)",
-                                transform: "translateY(-8px)",
-                                boxShadow: "0 20px 40px rgba(37, 211, 102, 0.3)"
-                            }
-                        }}>
-                            <CardContent sx={{ textAlign: "center" }}>
-                                <WhatsAppIcon sx={{ fontSize: "3rem", color: "#25D366", mb: 1 }} />
-                                <Typography variant="h4" sx={{ color: "white", fontWeight: "bold", mb: 1, fontSize: "1.5rem" }}>
+                        <div className="bg-green-600/10 backdrop-blur-md border-2 border-green-600/30 rounded-2xl p-8 w-full max-w-2xl transition-all duration-300 hover:bg-green-600/20 hover:border-green-600/60 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)]">
+                            <div className="text-center">
+                                <FaWhatsapp className="text-5xl text-green-500 mx-auto mb-4" />
+                                <h2 className="text-2xl font-bold text-white mb-3">
                                     Conversemos por WhatsApp
-                                </Typography>
-                                <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.8)", mb: 2, lineHeight: 1.6 }}>
+                                </h2>
+                                <p className="text-white/80 mb-6 leading-relaxed">
                                     Obtén respuesta inmediata a tus consultas. Nuestro equipo está disponible para
                                     asesorarte y crear la solución perfecta para tu negocio.
-                                </Typography>
-                                <Button
+                                </p>
+                                <button
                                     onClick={handleWhatsAppClick}
-                                    size="large"
-                                    startIcon={<WhatsAppIcon />}
-                                    sx={{
-                                        backgroundColor: "#25D366",
-                                        color: "white",
-                                        px: 4,
-                                        py: 2,
-                                        fontSize: "1.2rem",
-                                        fontWeight: "bold",
-                                        borderRadius: 3,
-                                        "&:hover": {
-                                            backgroundColor: "#22c55e",
-                                            transform: "scale(1.05)"
-                                        }
-                                    }}
+                                    className="inline-flex items-center gap-3 bg-green-500 text-white px-8 py-4 text-xl font-bold rounded-xl hover:bg-green-600 hover:scale-105 transition-all duration-300 shadow-lg"
                                 >
+                                    <FaWhatsapp className="text-2xl" />
                                     Iniciar Conversación
-                                </Button>
-                            </CardContent>
-                        </Card>
+                                </button>
+                            </div>
+                        </div>
 
                         {/* Información de contacto adicional */}
-                        <motion.div variants={itemVariants} className="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-                            <Card sx={{
-                                backgroundColor: "rgba(255,255,255,0.05)",
-                                backdropFilter: "blur(10px)",
-                                border: "1px solid rgba(255,255,255,0.1)",
-                                borderRadius: 3,
-                                p: 2,
-                                textAlign: "center",
-                                transition: "all 0.3s ease",
-                                "&:hover": {
-                                    backgroundColor: "rgba(230, 131, 105, 0.1)",
-                                    borderColor: "rgba(230, 131, 105, 0.3)"
-                                }
-                            }}>
-                                <PhoneIcon sx={{ fontSize: "2.5rem", color: "#E68369", mb: 2 }} />
-                                <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 1 }}>
+                        <motion.div variants={itemVariants} className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
+                            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:bg-[#E68369]/10 hover:border-[#E68369]/30">
+                                <HiPhone className="text-5xl text-[#E68369] mx-auto mb-4" />
+                                <h3 className="text-lg font-bold text-white mb-2">
                                     Teléfono
-                                </Typography>
-                                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
+                                </h3>
+                                <p className="text-sm text-white/80">
                                     +54 9 11-5991-0666
-                                </Typography>
-                            </Card>
+                                </p>
+                            </div>
 
-                            <Card sx={{
-                                backgroundColor: "rgba(255,255,255,0.05)",
-                                backdropFilter: "blur(10px)",
-                                border: "1px solid rgba(255,255,255,0.1)",
-                                borderRadius: 3,
-                                p: 2,
-                                textAlign: "center",
-                                transition: "all 0.3s ease",
-                                "&:hover": {
-                                    backgroundColor: "rgba(230, 131, 105, 0.1)",
-                                    borderColor: "rgba(230, 131, 105, 0.3)"
-                                }
-                            }}>
-                                <EmailIcon sx={{ fontSize: "2.5rem", color: "#E68369", mb: 2 }} />
-                                <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 1 }}>
+                            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:bg-[#E68369]/10 hover:border-[#E68369]/30">
+                                <HiMail className="text-5xl text-[#E68369] mx-auto mb-4" />
+                                <h3 className="text-lg font-bold text-white mb-2">
                                     Email
-                                </Typography>
-                                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
+                                </h3>
+                                <p className="text-sm text-white/80">
                                     Tecnofusion.it@gmail.com
-                                </Typography>
-                            </Card>
+                                </p>
+                            </div>
 
-                            <Card sx={{
-                                backgroundColor: "rgba(255,255,255,0.05)",
-                                backdropFilter: "blur(10px)",
-                                border: "1px solid rgba(255,255,255,0.1)",
-                                borderRadius: 3,
-                                p: 2,
-                                textAlign: "center",
-                                transition: "all 0.3s ease",
-                                "&:hover": {
-                                    backgroundColor: "rgba(230, 131, 105, 0.1)",
-                                    borderColor: "rgba(230, 131, 105, 0.3)"
-                                }
-                            }}>
-                                <LocationOnIcon sx={{ fontSize: "2.5rem", color: "#E68369", mb: 2 }} />
-                                <Typography variant="h6" sx={{ color: "white", fontWeight: "bold", mb: 1 }}>
+                            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:bg-[#E68369]/10 hover:border-[#E68369]/30">
+                                <HiLocationMarker className="text-5xl text-[#E68369] mx-auto mb-4" />
+                                <h3 className="text-lg font-bold text-white mb-2">
                                     Ubicación
-                                </Typography>
-                                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
+                                </h3>
+                                <p className="text-sm text-white/80">
                                     Buenos Aires, Argentina
-                                </Typography>
-                            </Card>
+                                </p>
+                            </div>
                         </motion.div>
 
                         {/* Call to action adicional */}
-                        <motion.div variants={itemVariants} className="text-center">
-                            <Typography variant="h6" sx={{ color: "rgba(255,255,255,0.8)", mb: 1.5, fontSize: "1.1rem" }}>
+                        <motion.div variants={itemVariants} className="text-center pt-6">
+                            <h3 className="text-xl text-white/80 mb-3">
                                 🚀 ¿Tienes un proyecto en mente?
-                            </Typography>
-                            <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.7)", maxWidth: "600px", mx: "auto", fontSize: "0.95rem" }}>
+                            </h3>
+                            <p className="text-white/70 max-w-2xl mx-auto">
                                 No esperes más. Cada día que pasa sin digitalizar tu negocio es una oportunidad perdida.
                                 Hablemos y hagamos realidad tu visión tecnológica.
-                            </Typography>
+                            </p>
                         </motion.div>
                     </motion.div>
                 </motion.div>
-            </Container>
+            </div>
         </section>
     );
 }

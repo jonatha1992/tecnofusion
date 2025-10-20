@@ -7,7 +7,6 @@ import {
   getDocs,
   getDoc,
   query,
-  orderBy,
   serverTimestamp,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
@@ -49,13 +48,12 @@ export const deleteProjectImage = async (imageUrl) => {
 
 /**
  * Obtiene todos los proyectos de Firestore
- * @returns {Promise<Array>} Lista de proyectos
+ * @returns {Promise<Array>} Lista de proyectos ordenados por fecha (más recientes primero)
  */
 export const getAllProjects = async () => {
-  const projectsQuery = query(
-    collection(db, PROJECTS_COLLECTION),
-    orderBy("createdAt", "desc")
-  );
+  // Obtenemos sin orderBy para evitar requerir índices en Firestore
+  // El ordenamiento se hace en el cliente
+  const projectsQuery = query(collection(db, PROJECTS_COLLECTION));
 
   const querySnapshot = await getDocs(projectsQuery);
   const projects = [];
@@ -65,6 +63,14 @@ export const getAllProjects = async () => {
       id: doc.id,
       ...doc.data(),
     });
+  });
+
+  // Ordenar en el cliente por createdAt (más recientes primero)
+  projects.sort((a, b) => {
+    // Manejar timestamps de Firestore (objeto con método toDate) y fechas regulares
+    const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+    const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+    return dateB - dateA; // Descendente (más recientes primero)
   });
 
   return projects;

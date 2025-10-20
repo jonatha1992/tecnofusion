@@ -8,7 +8,6 @@ import heroVideo from "../assets/video-hero.mp4";
 function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [videoLoaded, setVideoLoaded] = useState(true);  // Asumimos que el video está disponible inicialmente
-  const videoRef = useState(null);
 
   // Precargar el video para evitar parpadeo
   useEffect(() => {
@@ -104,7 +103,7 @@ function Hero() {
           loop
           playsInline
           preload="auto"
-          onError={(e) => {
+          onError={() => {
             console.log('Error cargando video, mostrando fondo CSS');
             setVideoLoaded(false);
           }}

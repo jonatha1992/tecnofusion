@@ -17,10 +17,8 @@ const validationSchema = Yup.object({
     .required("La descripción es obligatoria")
     .min(10, "La descripción debe tener al menos 10 caracteres"),
   githubLink: Yup.string()
-    .url("Debe ser una URL válida")
     .required("El enlace de GitHub es obligatorio"),
   previewLink: Yup.string()
-    .url("Debe ser una URL válida")
     .required("El enlace de vista previa es obligatorio"),
 });
 
@@ -183,9 +181,9 @@ function ProjectForm() {
         </button>
 
         {/* Main Form Card */}
-        <div className="bg-white/98 backdrop-blur-md rounded-lg shadow-2xl overflow-hidden">
+        <div className="bg-gradient-to-br from-[#1a2557] to-[#131842] backdrop-blur-md rounded-lg shadow-2xl overflow-hidden border border-white/10">
           {/* Header */}
-          <div className="px-4 py-3 bg-gradient-to-r from-[#131842] to-[#1a2557]">
+          <div className="px-4 py-3 bg-gradient-to-r from-[#131842] to-[#1a2557] border-b border-white/10">
             <h1 className="text-lg font-bold text-white">
               {isEditMode ? "Editar Proyecto" : "Nuevo Proyecto"}
             </h1>
@@ -224,7 +222,7 @@ function ProjectForm() {
             <form onSubmit={formik.handleSubmit}>
               {/* Title Field */}
               <div className="mb-3">
-                <label htmlFor="title" className="block text-xs font-semibold text-gray-700 mb-1">
+                <label htmlFor="title" className="block text-sm font-semibold text-white mb-2">
                   Título del Proyecto
                 </label>
                 <input
@@ -235,20 +233,20 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 transition-colors ${
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${
                     formik.touched.title && formik.errors.title
                       ? 'border-red-500 focus:ring-red-500'
                       : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
                   } disabled:bg-gray-100 disabled:cursor-not-allowed`}
                 />
                 {formik.touched.title && formik.errors.title && (
-                  <p className="mt-1 text-xs text-red-600">{formik.errors.title}</p>
+                  <p className="mt-1 text-xs text-red-400">{formik.errors.title}</p>
                 )}
               </div>
 
               {/* Description Field */}
               <div className="mb-3">
-                <label htmlFor="description" className="block text-xs font-semibold text-gray-700 mb-1">
+                <label htmlFor="description" className="block text-sm font-semibold text-white mb-2">
                   Descripción
                 </label>
                 <textarea
@@ -259,24 +257,24 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 transition-colors resize-none ${
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors resize-none ${
                     formik.touched.description && formik.errors.description
                       ? 'border-red-500 focus:ring-red-500'
                       : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
                   } disabled:bg-gray-100 disabled:cursor-not-allowed`}
                 />
                 {formik.touched.description && formik.errors.description && (
-                  <p className="mt-1 text-xs text-red-600">{formik.errors.description}</p>
+                  <p className="mt-1 text-xs text-red-400">{formik.errors.description}</p>
                 )}
               </div>
 
               {/* GitHub Link Field */}
               <div className="mb-3">
-                <label htmlFor="githubLink" className="block text-xs font-semibold text-gray-700 mb-1">
+                <label htmlFor="githubLink" className="block text-sm font-semibold text-white mb-2">
                   Enlace de GitHub
                 </label>
                 <input
-                  type="url"
+                  type="text"
                   id="githubLink"
                   name="githubLink"
                   placeholder="https://github.com/usuario/proyecto"
@@ -284,24 +282,24 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 transition-colors ${
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${
                     formik.touched.githubLink && formik.errors.githubLink
                       ? 'border-red-500 focus:ring-red-500'
                       : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
                   } disabled:bg-gray-100 disabled:cursor-not-allowed`}
                 />
                 {formik.touched.githubLink && formik.errors.githubLink && (
-                  <p className="mt-1 text-xs text-red-600">{formik.errors.githubLink}</p>
+                  <p className="mt-1 text-xs text-red-400">{formik.errors.githubLink}</p>
                 )}
               </div>
 
               {/* Preview Link Field */}
               <div className="mb-4">
-                <label htmlFor="previewLink" className="block text-xs font-semibold text-gray-700 mb-1">
+                <label htmlFor="previewLink" className="block text-sm font-semibold text-white mb-2">
                   Enlace de Vista Previa
                 </label>
                 <input
-                  type="url"
+                  type="text"
                   id="previewLink"
                   name="previewLink"
                   placeholder="https://mi-proyecto.com"
@@ -309,20 +307,20 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 transition-colors ${
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${
                     formik.touched.previewLink && formik.errors.previewLink
                       ? 'border-red-500 focus:ring-red-500'
                       : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
                   } disabled:bg-gray-100 disabled:cursor-not-allowed`}
                 />
                 {formik.touched.previewLink && formik.errors.previewLink && (
-                  <p className="mt-1 text-xs text-red-600">{formik.errors.previewLink}</p>
+                  <p className="mt-1 text-xs text-red-400">{formik.errors.previewLink}</p>
                 )}
               </div>
 
               {/* Image Upload Section */}
               <div className="mb-4">
-                <p className="block text-xs font-semibold text-gray-700 mb-2">
+                <p className="block text-sm font-semibold text-white mb-2">
                   Imagen del Proyecto
                 </p>
 
@@ -345,7 +343,7 @@ function ProjectForm() {
                     </button>
                   </div>
                 ) : (
-                  <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#E68369] rounded-lg cursor-pointer bg-[#E68369]/5 hover:bg-[#E68369]/10 transition-colors">
+                  <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#E68369] rounded-lg cursor-pointer bg-white/5 hover:bg-white/10 transition-colors">
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <svg className="w-10 h-10 mb-2 text-[#E68369]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -353,7 +351,7 @@ function ProjectForm() {
                       <p className="mb-1 text-sm font-semibold text-[#E68369]">
                         Clic para seleccionar imagen
                       </p>
-                      <p className="text-xs text-gray-500">PNG, JPG, GIF (MAX. 5MB)</p>
+                      <p className="text-xs text-gray-300">PNG, JPG, GIF (MAX. 5MB)</p>
                     </div>
                     <input
                       type="file"
@@ -366,7 +364,7 @@ function ProjectForm() {
                 )}
 
                 {!isEditMode && !imagePreview && (
-                  <p className="mt-1 text-xs text-red-600">
+                  <p className="mt-1 text-xs text-red-400">
                     * La imagen es obligatoria para proyectos nuevos
                   </p>
                 )}

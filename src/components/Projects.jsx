@@ -2,8 +2,6 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { getAllProjects } from "../services/projectService";
 
-import backSmart from "../assets/back-smart.jpg";
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -25,52 +23,6 @@ function Projects({ title, id, children, gradientClass }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Proyectos de respaldo (fallback) si no hay conexión a Firestore o no hay proyectos
-  const fallbackProjects = [
-    {
-      title: "Plataforma E-Learning AESFRON",
-      description: "Sistema completo de gestión de cursos online con pagos integrados, panel administrativo y certificaciones digitales.",
-      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-      githubLink: "https://github.com/tecnofusion/aesfron-elearning",
-      previewLink: "https://aesfron.tecnofusion.dev",
-    },
-    {
-      title: "Sistema de Reservas WhatsApp Bot",
-      description: "Bot inteligente con IA para automatización de turnos médicos, integrado con API oficial de META y sistema de gestión empresarial.",
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-      githubLink: "https://github.com/tecnofusion/whatsapp-booking-bot",
-      previewLink: "https://wa.me/5491155443322?text=Hola%2C%20quiero%20reservar%20un%20turno",
-    },
-    {
-      title: "App de Delivery SmartMenu",
-      description: "Aplicación web progresiva (PWA) para pedidos de comida con geolocalización, pagos online y tracking en tiempo real.",
-      image: backSmart,
-      githubLink: "https://github.com/tecnofusion/smartmenu-delivery",
-      previewLink: "https://smartmenu.tecnofusion.dev",
-    },
-    {
-      title: "Dashboard Empresarial BI",
-      description: "Panel de control ejecutivo con métricas KPI en tiempo real, análisis predictivo y reportes automatizados para toma de decisiones.",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-      githubLink: "https://github.com/tecnofusion/executive-dashboard",
-      previewLink: "https://dashboard.tecnofusion.dev",
-    },
-    {
-      title: "Tienda Online Omnicanal",
-      description: "E-commerce completo con inventario sincronizado, múltiples métodos de pago, CRM integrado y analytics avanzados.",
-      image: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-      githubLink: "https://github.com/tecnofusion/omnichannel-store",
-      previewLink: "https://store.tecnofusion.dev",
-    },
-    {
-      title: "Predictor de Ruleta AI",
-      description: "Sistema avanzado de predicción usando Deep Learning y Machine Learning para análisis de patrones en ruleta con redes neuronales y algoritmos de IA.",
-      image: "https://images.unsplash.com/photo-1518186233392-c232efbf2373?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-      githubLink: "https://github.com/tecnofusion/roulette-ai-predictor",
-      previewLink: "https://roulette-ai.tecnofusion.dev",
-    },
-  ];
-
   useEffect(() => {
     loadProjects();
   }, []);
@@ -79,13 +31,17 @@ function Projects({ title, id, children, gradientClass }) {
     try {
       setLoading(true);
       const data = await getAllProjects();
-      // Si hay proyectos en Firestore, usarlos; si no, usar fallback
-      setProjects(data.length > 0 ? data : fallbackProjects);
+      console.log("📊 Proyectos cargados desde Firebase:", data);
+      console.log("📊 Cantidad de proyectos:", data.length);
+
+      // Mostrar SOLO proyectos de Firebase
+      console.log("✅ Mostrando solo proyectos de Firebase");
+      setProjects(data);
     } catch (error) {
-      console.error("Error al cargar proyectos:", error);
+      console.error("❌ Error al cargar proyectos:", error);
       setError(error);
-      // En caso de error, usar proyectos de respaldo
-      setProjects(fallbackProjects);
+      // En caso de error, mostrar array vacío
+      setProjects([]);
     } finally {
       setLoading(false);
     }
@@ -113,19 +69,26 @@ function Projects({ title, id, children, gradientClass }) {
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
             </svg>
           </div>
+        ) : projects.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-gray-400 text-xl">No hay proyectos disponibles</p>
+            <p className="text-gray-500 mt-2">Los proyectos aparecerán aquí cuando los agregues desde el panel de administración</p>
+          </div>
         ) : (
           <motion.div
             ref={ref}
             variants={containerVariants}
             initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
+            animate="visible"
             className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3"
           >
             {children ||
-              projects.map((p) => (
+              projects.map((p, index) => (
                 <motion.div
-                  key={p.id || p.title}
+                  key={p.id || p.title || index}
                   variants={itemVariants}
+                  initial="hidden"
+                  animate="visible"
                   whileHover={{ y: -8, scale: 1.02 }}
                 >
                   <ProjectCard {...p} />

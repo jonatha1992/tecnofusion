@@ -1,23 +1,17 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { Box, CircularProgress } from "@mui/material";
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
 
   if (loading) {
     return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-          background: "linear-gradient(135deg, #131842 0%, #1a2557 100%)",
-        }}
-      >
-        <CircularProgress sx={{ color: "#E68369" }} size={60} />
-      </Box>
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-[#131842] to-[#1a2557]">
+        <svg className="animate-spin h-16 w-16 text-[#E68369]" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </div>
     );
   }
 

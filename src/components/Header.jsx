@@ -1,17 +1,5 @@
 import { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import LoginIcon from "@mui/icons-material/Login";
-import LogoutIcon from "@mui/icons-material/Logout";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { HiMenu, HiLogin, HiLogout, HiUserCircle } from "react-icons/hi";
 import { useAuth } from "../context/AuthContext";
 import LoginModal from "./LoginModal";
 import { useNavigate } from "react-router-dom";
@@ -26,17 +14,13 @@ const navItems = [
 const adminNavItem = { href: "/admin/dashboard", label: "Gestión", isRoute: true };
 
 function Header() {
-    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [openLoginModal, setOpenLoginModal] = useState(false);
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-
     const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+        setMobileMenuOpen(false);
     };
 
     const handleOpenLogin = () => {
@@ -67,7 +51,7 @@ function Header() {
             setTimeout(() => {
                 const targetElement = document.querySelector(href);
                 if (targetElement) {
-                    const headerOffset = 80; // Aumentado para mejor posicionamiento
+                    const headerOffset = 80;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -81,236 +65,115 @@ function Header() {
     };
 
     return (
-        <AppBar
-            position="fixed"
-            sx={{
-                zIndex: (theme) => theme.zIndex.drawer + 1,
-                backgroundColor: 'rgba(17, 24, 39, 0.95)', // Fondo oscuro con transparencia
-                backdropFilter: 'blur(10px)', // Efecto de vidrio esmerilado
-                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)', // Sombra sutil
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)' // Borde sutil
-            }}
-        >
-            <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
-                <Toolbar disableGutters sx={{ minHeight: '68px !important' }}>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
+        <header className="fixed top-0 left-0 right-0 z-[1201] bg-gray-900/95 backdrop-blur-[10px] shadow-lg border-b border-white/10">
+            <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-screen-lg">
+                <nav className="flex items-center justify-between min-h-[68px]">
+                    {/* Logo - Desktop */}
+                    <a
                         href="#"
-                        sx={{
-                            mr: 2,
-                            display: { xs: "none", md: "flex" },
-                            fontFamily: "monospace",
-                            fontWeight: 700,
-                            letterSpacing: ".3rem",
-                            color: "inherit",
-                            textDecoration: "none",
-                        }}
+                        className="hidden md:flex font-mono font-bold tracking-[0.3rem] text-white no-underline mr-4"
                     >
                         TECNOFUSIÓN.IT
-                    </Typography>
+                    </a>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, alignItems: 'center' }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                            tabIndex={0}
+                    {/* Mobile Menu Button & Logo */}
+                    <div className="flex items-center flex-1 md:hidden">
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="text-white p-2 hover:bg-white/10 rounded-md transition-colors"
+                            aria-label="Toggle navigation menu"
+                            aria-expanded={mobileMenuOpen}
                         >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "left",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "left",
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: "block", md: "none" },
-                                '& .MuiPaper-root': {
-                                    width: '100%',
-                                    maxWidth: '100%',
-                                    left: '0 !important',
-                                    right: '0',
-                                    mx: 'auto',
-                                    backgroundColor: 'rgb(17, 24, 39)', // Mismo color que el header
-                                    backgroundImage: 'none',
-                                    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-                                    '& .MuiMenuItem-root': {
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                        },
-                                    },
-                                },
-                            }}
+                            <HiMenu className="w-6 h-6" />
+                        </button>
+                        <a
+                            href="#"
+                            className="flex-1 font-mono font-bold tracking-[0.3rem] text-white no-underline ml-4"
                         >
-                            {navItems.map((item) => (
-                                <MenuItem
-                                    key={item.href}
-                                    onClick={(event) => handleNavClick(event, item.href, item.isRoute)}
-                                    tabIndex={0}
-                                    sx={{
-                                        py: 1.5,
-                                        '&:hover': {
-                                            backgroundColor: 'action.hover',
-                                        },
-                                    }}
-                                >
-                                    <Typography
-                                        textAlign="center"
-                                        width="100%"
-                                        sx={{
-                                            fontWeight: 500,
-                                            fontSize: '1.1rem',
-                                        }}
-                                    >
-                                        {item.label}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
-                            {user && (
-                                <MenuItem
-                                    key={adminNavItem.href}
-                                    onClick={(event) => handleNavClick(event, adminNavItem.href, adminNavItem.isRoute)}
-                                    tabIndex={0}
-                                    sx={{
-                                        py: 1.5,
-                                        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                                        '&:hover': {
-                                            backgroundColor: 'action.hover',
-                                        },
-                                    }}
-                                >
-                                    <Typography
-                                        textAlign="center"
-                                        width="100%"
-                                        sx={{
-                                            fontWeight: 600,
-                                            fontSize: '1.1rem',
-                                            color: '#E68369',
-                                        }}
-                                    >
-                                        {adminNavItem.label}
-                                    </Typography>
-                                </MenuItem>
-                            )}
-                        </Menu>
-                    </Box>
+                            TECNOFUSIÓN.IT
+                        </a>
+                    </div>
 
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#"
-                        sx={{
-                            mr: 2,
-                            display: { xs: "flex", md: "none" },
-                            flexGrow: 1,
-                            fontFamily: "monospace",
-                            fontWeight: 700,
-                            letterSpacing: ".3rem",
-                            color: "inherit",
-                            textDecoration: "none",
-                        }}
-                    >
-                        TECNOFUSIÓN.IT
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex flex-1 items-center gap-0">
                         {navItems.map((item) => (
-                            <Button
+                            <button
                                 key={item.href}
                                 onClick={(event) => handleNavClick(event, item.href, item.isRoute)}
-                                sx={{ my: 2, color: "white", display: "block" }}
-                                tabIndex={0}
+                                className="my-2 text-white px-4 py-2 hover:bg-white/10 rounded-md transition-colors"
                             >
                                 {item.label}
-                            </Button>
+                            </button>
                         ))}
                         {user && (
-                            <Button
-                                key={adminNavItem.href}
+                            <button
                                 onClick={(event) => handleNavClick(event, adminNavItem.href, adminNavItem.isRoute)}
-                                sx={{
-                                    my: 2,
-                                    color: "#E68369",
-                                    display: "block",
-                                    fontWeight: 600,
-                                    borderLeft: '1px solid rgba(255, 255, 255, 0.1)',
-                                    ml: 1,
-                                    pl: 2,
-                                }}
-                                tabIndex={0}
+                                className="my-2 text-[#E68369] px-4 py-2 hover:bg-white/10 rounded-md transition-colors font-semibold border-l border-white/10 ml-2 pl-4"
                             >
                                 {adminNavItem.label}
-                            </Button>
+                            </button>
                         )}
-                    </Box>
+                    </div>
 
-                    {/* Login/Logout Button */}
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    {/* Login/Logout Section */}
+                    <div className="flex items-center gap-2">
                         {user ? (
                             <>
-                                <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center", gap: 1 }}>
-                                    <AccountCircleIcon />
-                                    <Typography variant="body2" sx={{ display: { xs: "none", md: "block" } }}>
+                                <div className="hidden sm:flex items-center gap-2">
+                                    <HiUserCircle className="w-5 h-5 text-white" />
+                                    <span className="hidden md:block text-sm text-white">
                                         {user.email}
-                                    </Typography>
-                                </Box>
-                                <Button
-                                    color="inherit"
+                                    </span>
+                                </div>
+                                <button
                                     onClick={handleLogout}
-                                    startIcon={<LogoutIcon />}
-                                    sx={{
-                                        ml: 1,
-                                        borderColor: "rgba(255, 255, 255, 0.3)",
-                                        "&:hover": {
-                                            borderColor: "rgba(255, 255, 255, 0.5)",
-                                            backgroundColor: "rgba(255, 255, 255, 0.1)",
-                                        },
-                                    }}
-                                    variant="outlined"
+                                    className="flex items-center gap-2 ml-2 px-3 py-1.5 text-white border border-white/30 rounded-md hover:border-white/50 hover:bg-white/10 transition-colors"
                                 >
+                                    <HiLogout className="w-4 h-4" />
                                     Salir
-                                </Button>
+                                </button>
                             </>
                         ) : (
-                            <Button
-                                color="inherit"
+                            <button
                                 onClick={handleOpenLogin}
-                                startIcon={<LoginIcon />}
-                                sx={{
-                                    ml: 1,
-                                    borderColor: "rgba(255, 255, 255, 0.3)",
-                                    "&:hover": {
-                                        borderColor: "rgba(255, 255, 255, 0.5)",
-                                        backgroundColor: "rgba(255, 255, 255, 0.1)",
-                                    },
-                                }}
-                                variant="outlined"
+                                className="flex items-center gap-2 ml-2 px-3 py-1.5 text-white border border-white/30 rounded-md hover:border-white/50 hover:bg-white/10 transition-colors"
                             >
+                                <HiLogin className="w-4 h-4" />
                                 Entrar
-                            </Button>
+                            </button>
                         )}
-                    </Box>
-                </Toolbar>
-            </Container>
+                    </div>
+                </nav>
+
+                {/* Mobile Menu Dropdown */}
+                {mobileMenuOpen && (
+                    <div className="md:hidden absolute left-0 right-0 top-full bg-gray-900 shadow-lg">
+                        <div className="flex flex-col">
+                            {navItems.map((item) => (
+                                <button
+                                    key={item.href}
+                                    onClick={(event) => handleNavClick(event, item.href, item.isRoute)}
+                                    className="w-full text-center py-3 text-white hover:bg-white/10 transition-colors font-medium text-lg"
+                                >
+                                    {item.label}
+                                </button>
+                            ))}
+                            {user && (
+                                <button
+                                    onClick={(event) => handleNavClick(event, adminNavItem.href, adminNavItem.isRoute)}
+                                    className="w-full text-center py-3 text-[#E68369] hover:bg-white/10 transition-colors font-semibold text-lg border-t border-white/10"
+                                >
+                                    {adminNavItem.label}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
 
             {/* Login Modal */}
             <LoginModal open={openLoginModal} onClose={handleCloseLogin} />
-        </AppBar>
+        </header>
     );
 }
 

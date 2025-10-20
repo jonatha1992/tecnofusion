@@ -37,6 +37,66 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                 "Testing de usabilidad"
             ],
             deliveryTime: "1-4 semanas"
+        },
+        {
+            icon: <span>🤖</span>,
+            title: "ChatBots y Automatización",
+            shortDescription: "Automatiza procesos y mejora la atención al cliente 24/7.",
+            fullDescription: "Implementamos soluciones de inteligencia artificial conversacional para automatizar la atención al cliente, calificación de leads y procesos internos de tu empresa, disponibles las 24 horas del día.",
+            image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=800&q=80",
+            technologies: ["Dialogflow", "WhatsApp API", "Telegram Bot", "OpenAI GPT", "Python", "FastAPI"],
+            benefits: [
+                "Atención al cliente automatizada 24/7",
+                "Reducción de costos operativos",
+                "Calificación automática de leads",
+                "Integración con CRM y sistemas existentes"
+            ],
+            deliveryTime: "3-8 semanas"
+        },
+        {
+            icon: <span>💼</span>,
+            title: "Consultoría IT",
+            shortDescription: "Asesoramiento experto en tecnología y transformación digital.",
+            fullDescription: "Brindamos consultoría estratégica en tecnología para optimizar procesos, reducir costos y acelerar la transformación digital de tu empresa con soluciones a medida.",
+            image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+            technologies: ["Análisis de Procesos", "Cloud Computing", "DevOps", "Arquitectura de Software", "Seguridad IT"],
+            benefits: [
+                "Auditoría tecnológica completa",
+                "Plan de transformación digital",
+                "Optimización de infraestructura",
+                "Reducción de costos IT hasta 40%"
+            ],
+            deliveryTime: "2-4 semanas"
+        },
+        {
+            icon: <span>🔒</span>,
+            title: "Seguridad CCTV",
+            shortDescription: "Sistemas de videovigilancia profesional para tu negocio.",
+            fullDescription: "Instalamos y configuramos sistemas de videovigilancia CCTV de última generación con acceso remoto, grabación en la nube y detección inteligente de movimiento para proteger tu negocio.",
+            image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80",
+            technologies: ["Cámaras IP", "DVR/NVR", "Hikvision", "Dahua", "Almacenamiento Cloud", "Acceso Remoto"],
+            benefits: [
+                "Monitoreo remoto desde cualquier dispositivo",
+                "Grabación en alta definición",
+                "Detección inteligente de movimiento",
+                "Alertas en tiempo real"
+            ],
+            deliveryTime: "1-3 semanas"
+        },
+        {
+            icon: <span>📱</span>,
+            title: "Aplicaciones Móviles",
+            shortDescription: "Apps nativas y multiplataforma para iOS y Android.",
+            fullDescription: "Desarrollamos aplicaciones móviles nativas y multiplataforma con diseño intuitivo, alto rendimiento y experiencia de usuario excepcional para iOS y Android.",
+            image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80",
+            technologies: ["React Native", "Flutter", "Swift", "Kotlin", "Firebase", "API REST"],
+            benefits: [
+                "Desarrollo multiplataforma",
+                "Menor tiempo de desarrollo",
+                "Actualizaciones OTA",
+                "Integración con servicios nativos"
+            ],
+            deliveryTime: "6-12 semanas"
         }
     ];
     const serviceList = services && Array.isArray(services) ? services : defaultServices;
