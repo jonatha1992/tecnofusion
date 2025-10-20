@@ -66,13 +66,14 @@ function Header() {
 
     return (
         <header className="fixed top-0 left-0 right-0 z-[1201] bg-gray-900/95 backdrop-blur-[10px] shadow-lg border-b border-white/10">
-            <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-screen-lg">
+            <div className="container max-w-screen-lg px-4 mx-auto sm:px-6 md:px-8">
                 <nav className="flex items-center justify-between min-h-[68px]">
                     {/* Logo - Desktop */}
                     <a
                         href="#"
-                        className="hidden md:flex font-mono font-bold tracking-[0.3rem] text-white no-underline mr-4"
+                        className="hidden md:flex items-center gap-3 font-mono font-bold tracking-[0.3rem] text-white no-underline mr-6 shrink-0"
                     >
+                        <img src="/logo_sin_fondo.png" alt="Tecnofusión.IT Logo" className="w-auto h-14" />
                         TECNOFUSIÓN.IT
                     </a>
 
@@ -80,7 +81,7 @@ function Header() {
                     <div className="flex items-center flex-1 md:hidden">
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="text-white p-2 hover:bg-white/10 rounded-md transition-colors"
+                            className="p-2 text-white transition-colors rounded-md hover:bg-white/10"
                             aria-label="Toggle navigation menu"
                             aria-expanded={mobileMenuOpen}
                         >
@@ -88,19 +89,20 @@ function Header() {
                         </button>
                         <a
                             href="#"
-                            className="flex-1 font-mono font-bold tracking-[0.3rem] text-white no-underline ml-4"
+                            className="flex-1 flex items-center gap-2 font-mono font-bold tracking-[0.2rem] text-white no-underline ml-3 text-sm"
                         >
+                            <img src="/logo_sin_fondo.png" alt="Tecnofusión.IT Logo" className="w-auto h-8" />
                             TECNOFUSIÓN.IT
                         </a>
                     </div>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex flex-1 items-center gap-0">
+                    <div className="items-center flex-1 hidden gap-0 md:flex">
                         {navItems.map((item) => (
                             <button
                                 key={item.href}
                                 onClick={(event) => handleNavClick(event, item.href, item.isRoute)}
-                                className="my-2 text-white px-4 py-2 hover:bg-white/10 rounded-md transition-colors"
+                                className="px-4 py-2 my-2 text-white transition-colors rounded-md hover:bg-white/10"
                             >
                                 {item.label}
                             </button>
@@ -119,9 +121,9 @@ function Header() {
                     <div className="flex items-center gap-2">
                         {user ? (
                             <>
-                                <div className="hidden sm:flex items-center gap-2">
+                                <div className="items-center hidden gap-2 sm:flex">
                                     <HiUserCircle className="w-5 h-5 text-white" />
-                                    <span className="hidden md:block text-sm text-white">
+                                    <span className="hidden text-sm text-white md:block">
                                         {user.email}
                                     </span>
                                 </div>
@@ -147,13 +149,13 @@ function Header() {
 
                 {/* Mobile Menu Dropdown */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden absolute left-0 right-0 top-full bg-gray-900 shadow-lg">
+                    <div className="absolute left-0 right-0 bg-gray-900 shadow-lg md:hidden top-full">
                         <div className="flex flex-col">
                             {navItems.map((item) => (
                                 <button
                                     key={item.href}
                                     onClick={(event) => handleNavClick(event, item.href, item.isRoute)}
-                                    className="w-full text-center py-3 text-white hover:bg-white/10 transition-colors font-medium text-lg"
+                                    className="w-full py-3 text-lg font-medium text-center text-white transition-colors hover:bg-white/10"
                                 >
                                     {item.label}
                                 </button>

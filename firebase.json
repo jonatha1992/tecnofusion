@@ -12,10 +12,15 @@
         "destination": "/index.html"
       }
     ],
+    "cleanUrls": true,
     "headers": [
       {
-        "source": "**/*.@(jpg|jpeg|gif|png|svg|webp)",
+        "source": "**/*.@(js|mjs)",
         "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/javascript"
+          },
           {
             "key": "Cache-Control",
             "value": "max-age=31536000"
@@ -23,7 +28,20 @@
         ]
       },
       {
-        "source": "**/*.@(js|css)",
+        "source": "**/*.css",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "text/css"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png|svg|webp)",
         "headers": [
           {
             "key": "Cache-Control",
