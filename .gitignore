@@ -46,3 +46,4 @@ dist-ssr
 .claude/agents/test-engineer.md
 .claude/agents/typescript-pro.md
 .claude/agents/ui-ux-designer.md
+.firebase/*.*.cache
