@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "🚀 Dev Server (npm run dev)",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "🌐 Chrome Debug",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}/src",
+            "sourceMaps": true,
+            "preLaunchTask": "npm: dev"
+        },
+        {
+            "name": "🔧 Build Production",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run build",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "👀 Preview Build",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run preview",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
