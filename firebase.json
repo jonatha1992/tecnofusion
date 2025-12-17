@@ -1,6 +1,6 @@
 {
     "hosting": {
-        "public": "portofolio/dist",
+        "public": "dist",
         "ignore": [
             "firebase.json",
             "**/.*",
@@ -11,6 +11,53 @@
                 "source": "**",
                 "destination": "/index.html"
             }
+        ],
+        "cleanUrls": true,
+        "headers": [
+            {
+                "source": "**/*.@(js|mjs)",
+                "headers": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/javascript"
+                    },
+                    {
+                        "key": "Cache-Control",
+                        "value": "max-age=31536000"
+                    }
+                ]
+            },
+            {
+                "source": "**/*.css",
+                "headers": [
+                    {
+                        "key": "Content-Type",
+                        "value": "text/css"
+                    },
+                    {
+                        "key": "Cache-Control",
+                        "value": "max-age=31536000"
+                    }
+                ]
+            },
+            {
+                "source": "**/*.@(jpg|jpeg|gif|png|svg|webp)",
+                "headers": [
+                    {
+                        "key": "Cache-Control",
+                        "value": "max-age=31536000"
+                    }
+                ]
+            }
         ]
-    }
+    },
+    "firestore": {
+        "rules": "firestore.rules"
+    },
+    "storage": [
+        {
+            "bucket": "tecnofuision-it.firebasestorage.app",
+            "rules": "storage.rules"
+        }
+    ]
 }
