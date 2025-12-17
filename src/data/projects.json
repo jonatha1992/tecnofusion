@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "title": "Plataforma E-Learning AESFRON",
+    "description": "Sistema completo de gestión de cursos online con pagos integrados, panel administrativo y certificaciones digitales.",
+    "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "githubLink": "https://github.com/tecnofusion/aesfron-elearning",
+    "previewLink": "https://aesfron.tecnofusion.dev"
+  },
+  {
+    "id": "2",
+    "title": "Sistema de Reservas WhatsApp Bot",
+    "description": "Bot inteligente con IA para automatización de turnos médicos, integrado con API oficial de META y sistema de gestión empresarial.",
+    "image": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "githubLink": "https://github.com/tecnofusion/whatsapp-booking-bot",
+    "previewLink": "https://wa.me/5491155443322?text=Hola%2C%20quiero%20reservar%20un%20turno"
+  }
+]

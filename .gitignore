@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+.env*
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +23,26 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.claude/settings.local.json
+.claude/agents/backend-architect.md
+.claude/agents/code-reviewer.md
+.claude/agents/database-architect.md
+.claude/agents/devops-engineer.md
+.claude/agents/frontend-developer.md
+.claude/agents/javascript-pro.md
+.claude/agents/react-performance-optimizer.md
+.claude/agents/seo-analyzer.md
+.claude/agents/test-engineer.md
+.claude/agents/typescript-pro.md
+.claude/agents/ui-ux-designer.md
+.claude/agents/backend-architect.md
+.claude/agents/code-reviewer.md
+.claude/agents/database-architect.md
+.claude/agents/devops-engineer.md
+.claude/agents/frontend-developer.md
+.claude/agents/javascript-pro.md
+.claude/agents/react-performance-optimizer.md
+.claude/agents/seo-analyzer.md
+.claude/agents/test-engineer.md
+.claude/agents/typescript-pro.md
+.claude/agents/ui-ux-designer.md
