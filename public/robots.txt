@@ -1,0 +1,8 @@
+# robots.txt for TecnoFusion Portfolio
+# Allow all search engines to crawl all content
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://tecnofuision-it.web.app/sitemap.xml
