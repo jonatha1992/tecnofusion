@@ -34,6 +34,25 @@ export const uploadProjectImage = async (file, projectId) => {
 };
 
 /**
+ * Sube un archivo README a Firebase Storage
+ * @param {File} file - Archivo README (.md o .txt)
+ * @param {string} projectId - ID del proyecto
+ * @returns {Promise<string>} URL de descarga del README
+ */
+export const uploadProjectReadme = async (file, projectId) => {
+  if (!file) throw new Error("No se proporcionó ningún archivo README");
+
+  // Usar nombre fijo o timestamp, un nombre fijo 'README.md' es más limpio si solo habrá uno
+  // Pero para evitar problemas de caché, usaremos timestamp
+  const timestamp = Date.now();
+  const fileName = `${timestamp}_README.md`;
+  const storageRef = ref(storage, `projects/${projectId}/${fileName}`);
+
+  await uploadBytes(storageRef, file);
+  return await getDownloadURL(storageRef);
+};
+
+/**
  * Elimina una imagen de Firebase Storage
  * @param {string} imageUrl - URL de la imagen a eliminar
  */
@@ -101,7 +120,14 @@ export const getProjectById = async (projectId) => {
  * @param {File} imageFile - Archivo de imagen (opcional)
  * @returns {Promise<string>} ID del proyecto creado
  */
-export const createProject = async (projectData, imageFile) => {
+/**
+ * Crea un nuevo proyecto
+ * @param {Object} projectData - Datos del proyecto
+ * @param {File} imageFile - Archivo de imagen (opcional)
+ * @param {File} readmeFile - Archivo README (opcional)
+ * @returns {Promise<string>} ID del proyecto creado
+ */
+export const createProject = async (projectData, imageFile, readmeFile) => {
   // Crear documento primero para obtener ID
   const docRef = await addDoc(collection(db, PROJECTS_COLLECTION), {
     ...projectData,
@@ -118,6 +144,14 @@ export const createProject = async (projectData, imageFile) => {
     });
   }
 
+  // Si hay README, subirlo y actualizar documento
+  if (readmeFile) {
+    const readmeUrl = await uploadProjectReadme(readmeFile, docRef.id);
+    await updateDoc(doc(db, PROJECTS_COLLECTION, docRef.id), {
+      readmeUrl: readmeUrl,
+    });
+  }
+
   return docRef.id;
 };
 
@@ -128,7 +162,15 @@ export const createProject = async (projectData, imageFile) => {
  * @param {File} imageFile - Nuevo archivo de imagen (opcional)
  * @returns {Promise<void>}
  */
-export const updateProject = async (projectId, projectData, imageFile) => {
+/**
+ * Actualiza un proyecto existente
+ * @param {string} projectId - ID del proyecto
+ * @param {Object} projectData - Datos actualizados del proyecto
+ * @param {File} imageFile - Nuevo archivo de imagen (opcional)
+ * @param {File} readmeFile - Nuevo archivo README (opcional)
+ * @returns {Promise<void>}
+ */
+export const updateProject = async (projectId, projectData, imageFile, readmeFile) => {
   const projectRef = doc(db, PROJECTS_COLLECTION, projectId);
   const updateData = {
     ...projectData,
@@ -147,6 +189,16 @@ export const updateProject = async (projectId, projectData, imageFile) => {
     // Subir nueva imagen
     const imageUrl = await uploadProjectImage(imageFile, projectId);
     updateData.image = imageUrl;
+  }
+
+  // Si hay nuevo README, subirlo y actualizar URL
+  if (readmeFile) {
+    try {
+      const readmeUrl = await uploadProjectReadme(readmeFile, projectId);
+      updateData.readmeUrl = readmeUrl;
+    } catch (e) {
+      console.error("Error al subir README:", e);
+    }
   }
 
   await updateDoc(projectRef, updateData);
