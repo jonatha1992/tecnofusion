@@ -187,7 +187,6 @@ export const updateProject = async (projectId, projectData, imageFile, readmeFil
     }
 
     // Subir nueva imagen
-    // Subir nueva imagen
     const imageUrl = await uploadProjectImage(imageFile, projectId);
     updateData.image = imageUrl;
   }

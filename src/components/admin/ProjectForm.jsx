@@ -46,6 +46,111 @@ function ProjectForm() {
   const [readmeFile, setReadmeFile] = useState(null);
   const [readmeText, setReadmeText] = useState("");
   const [isReadmeOpen, setIsReadmeOpen] = useState(false);
+  const [importMethod, setImportMethod] = useState('file'); // 'file' or 'github'
+  const [githubReadmeInfo, setGithubReadmeInfo] = useState(null); // { download_url, content_encoded }
+
+  const handleAnalyze = async () => {
+    let currentReadmeText = "";
+
+    setLoading(true);
+    try {
+      if (importMethod === 'file') {
+        // ... Logica existente para archivo/texto
+        if (readmeFile) {
+          try {
+            currentReadmeText = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = reject;
+              reader.readAsText(readmeFile);
+            });
+          } catch (err) {
+            toast.error("Error al leer el archivo");
+            return;
+          }
+        } else {
+          currentReadmeText = readmeText;
+        }
+
+        if (!currentReadmeText) {
+          toast.warning("Por favor, sube un archivo o pega el contenido del README");
+          setLoading(false);
+          return;
+        }
+      } else {
+        // ... Logica para GitHub
+        const repoUrl = formik.values.githubLink;
+        if (!repoUrl) {
+          toast.warning("Por favor ingresa el enlace de GitHub abajo");
+          setLoading(false);
+          return;
+        }
+
+        // 1. Extraer owner/repo
+        // Soporta: https://github.com/user/repo, user/repo
+        let user, repo;
+        try {
+          if (repoUrl.includes("github.com")) {
+            const parts = repoUrl.split("github.com/")[1].split("/");
+            user = parts[0];
+            repo = parts[1]?.replace(".git", ""); // Limpiar .git si existe
+          } else {
+            const parts = repoUrl.split("/");
+            user = parts[0];
+            repo = parts[1];
+          }
+        } catch (e) {
+          toast.error("Formato de enlace de GitHub inválido");
+          setLoading(false);
+          return;
+        }
+
+        if (!user || !repo) {
+          toast.error("No se pudo detectar el usuario/repo de GitHub");
+          setLoading(false);
+          return;
+        }
+
+        // 2. Fetch README directo de GitHub api
+        toast.info(`Buscando README en ${user}/${repo}...`);
+        const res = await fetch(`https://api.github.com/repos/${user}/${repo}/readme`);
+        if (!res.ok) {
+          throw new Error("No se encontró README en el repositorio (o límite de API excedido)");
+        }
+        const data = await res.json();
+
+        // 3. Decodificar contenido (viene en base64) y preparar para guardar
+        currentReadmeText = atob(data.content);
+
+        // Guardar la info para usarla en el submit final (para no subir archivo)
+        setGithubReadmeInfo({
+          download_url: data.download_url,
+          // Guardamos la url raw directa de github
+        });
+      }
+
+      // ... Gemeni Analysis 
+      const data = await analyzeReadme(currentReadmeText);
+      console.log("Datos recibidos de Gemini:", data);
+
+      formik.setFieldValue("title", data.title || "");
+      formik.setFieldValue("description", data.description || "");
+
+      const techs = Array.isArray(data.technologies)
+        ? data.technologies.join(", ")
+        : (data.technologies || "");
+      formik.setFieldValue("technologies", techs);
+
+      toast.success("Información extraída correctamente");
+
+    } catch (err) {
+      console.error("Error al analizar:", err);
+      toast.error(err.message || "Error al procesar");
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   // Clave de localStorage para el formulario
   const FORM_STORAGE_KEY = `project-form-${isEditMode ? id : 'new'}`;
@@ -76,23 +181,35 @@ function ProjectForm() {
 
         // Preparar el archivo README si existe o si hay texto pegado
         let fileToUpload = readmeFile;
-
         // Si no hay archivo pero hay texto en el área de texto, crear un archivo
-        if (!fileToUpload && readmeText.trim()) {
+        if (importMethod === 'file' && !fileToUpload && readmeText.trim()) {
           const blob = new Blob([readmeText], { type: 'text/markdown' });
           fileToUpload = new File([blob], "README.md", { type: "text/markdown" });
         }
 
+        // Valores finales, incluyendo posible URL directa de GitHub
+        const finalValues = { ...valuesToSave };
+
+        // Si venimos de la opción GitHub, usamos esa URL directamente
+        if (importMethod === 'github' && githubReadmeInfo?.download_url) {
+          finalValues.readmeUrl = githubReadmeInfo.download_url;
+          // fileToUpload se debe ignorar o setear null para que no intente subir a firebase
+          fileToUpload = null;
+        }
+
         if (isEditMode) {
-          await updateProject(id, valuesToSave, imageFile, fileToUpload);
+          // Nota: updateProject necesita modificarse ligeramente para aceptar readmeUrl directo en 'values'
+          // O pasamos null en fileToUpload y manejamos readmeUrl dentro de valuesToSave
+          await updateProject(id, finalValues, imageFile, fileToUpload);
           toast.success("Proyecto actualizado exitosamente");
         } else {
+          // ... creacion ...
           if (!imageFile && !imagePreview) {
             setError("Debes seleccionar una imagen para el proyecto");
             setLoading(false);
             return;
           }
-          await createProject(valuesToSave, imageFile, fileToUpload);
+          await createProject(finalValues, imageFile, fileToUpload);
           toast.success("Proyecto creado exitosamente");
         }
         // Limpiar localStorage al guardar exitosamente
@@ -280,100 +397,97 @@ function ProjectForm() {
                 </svg>
               </button>
 
-              <div className={`transition-[max-height,opacity] duration-300 ease-in-out ${isReadmeOpen ? 'max-h-[500px] opacity-100 p-4 pt-0' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+              <div className={`transition-[max-height,opacity] duration-300 ease-in-out ${isReadmeOpen ? 'max-h-[600px] opacity-100 p-4 pt-0' : 'max-h-0 opacity-0 overflow-hidden'}`}>
 
-                <div className="mb-4">
-                  <label className="block text-xs font-semibold text-gray-300 mb-2">
-                    Opción 1: Subir archivo (README.md)
-                  </label>
-                  <input
-                    type="file"
-                    accept=".md,.txt"
-                    onChange={(e) => setReadmeFile(e.target.files[0])}
-                    className="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#E68369]/10 file:text-[#E68369] hover:file:bg-[#E68369]/20"
-                  />
-                  {readmeFile && (
-                    <div className="mt-2 flex items-center justify-between bg-white/5 px-2 py-1 rounded">
-                      <span className="text-xs text-[#E68369]">{readmeFile.name}</span>
-                      <button
-                        type="button"
-                        onClick={() => setReadmeFile(null)}
-                        className="text-red-400 hover:text-red-300 text-xs"
-                      >
-                        Eliminar
-                      </button>
+                {/* Tabs */}
+                <div className="flex border-b border-white/10 mb-4">
+                  <button
+                    type="button"
+                    onClick={() => setImportMethod('file')}
+                    className={`px-4 py-2 text-xs font-semibold focus:outline-none transition-colors ${importMethod === 'file'
+                      ? 'text-[#E68369] border-b-2 border-[#E68369]'
+                      : 'text-gray-400 hover:text-white'
+                      }`}
+                  >
+                    Subir Archivo / Pegar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setImportMethod('github')}
+                    className={`px-4 py-2 text-xs font-semibold focus:outline-none transition-colors ${importMethod === 'github'
+                      ? 'text-[#E68369] border-b-2 border-[#E68369]'
+                      : 'text-gray-400 hover:text-white'
+                      }`}
+                  >
+                    Desde GitHub (Automático)
+                  </button>
+                </div>
+
+                {importMethod === 'file' ? (
+                  <>
+                    <div className="mb-4">
+                      <label className="block text-xs font-semibold text-gray-300 mb-2">
+                        Opción 1: Subir archivo (README.md)
+                      </label>
+                      <input
+                        type="file"
+                        accept=".md,.txt"
+                        onChange={(e) => setReadmeFile(e.target.files[0])}
+                        className="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#E68369]/10 file:text-[#E68369] hover:file:bg-[#E68369]/20"
+                      />
+                      {readmeFile && (
+                        <div className="mt-2 flex items-center justify-between bg-white/5 px-2 py-1 rounded">
+                          <span className="text-xs text-[#E68369]">{readmeFile.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => setReadmeFile(null)}
+                            className="text-red-400 hover:text-red-300 text-xs"
+                          >
+                            Eliminar
+                          </button>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
 
-                <div className="mb-4">
-                  <label className="block text-xs font-semibold text-gray-300 mb-2">
-                    Opción 2: Pegar texto
-                  </label>
-                  <textarea
-                    placeholder="Pega aquí el contenido del README..."
-                    value={readmeText}
-                    onChange={(e) => setReadmeText(e.target.value)}
-                    className="w-full px-3 py-2 text-sm text-gray-200 bg-[#131842]/50 border border-white/10 rounded-md focus:outline-none focus:ring-1 focus:ring-[#E68369] resize-none"
-                  />
-                </div>
+                    <div className="mb-4">
+                      <label className="block text-xs font-semibold text-gray-300 mb-2">
+                        Opción 2: Pegar texto
+                      </label>
+                      <textarea
+                        placeholder="Pega aquí el contenido del README..."
+                        value={readmeText}
+                        onChange={(e) => setReadmeText(e.target.value)}
+                        className="w-full px-3 py-2 text-sm text-gray-200 bg-[#131842]/50 border border-white/10 rounded-md focus:outline-none focus:ring-1 focus:ring-[#E68369] resize-none"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className="mb-4">
+                    <p className="text-xs text-gray-300 mb-2">
+                      Usaremos el enlace de GitHub del formulario para buscar el README automáticamente.
+                    </p>
+                    <div className="bg-[#131842]/50 p-3 rounded border border-white/10 text-xs text-gray-400 italic">
+                      {formik.values.githubLink
+                        ? `Repo detectado: ${formik.values.githubLink}`
+                        : "Primero ingresa el enlace de GitHub abajo 👇"}
+                    </div>
+                  </div>
+                )}
 
                 <button
                   type="button"
-                  onClick={async () => {
-                    let currentReadmeText = "";
-
-                    if (readmeFile) {
-                      setLoading(true);
-                      try {
-                        currentReadmeText = await new Promise((resolve, reject) => {
-                          const reader = new FileReader();
-                          reader.onload = () => resolve(reader.result);
-                          reader.onerror = reject;
-                          reader.readAsText(readmeFile);
-                        });
-                      } catch (err) {
-                        toast.error("Error al leer el archivo");
-                        setLoading(false);
-                        return;
-                      }
-                    } else {
-                      currentReadmeText = readmeText;
-                    }
-
-                    if (!currentReadmeText) {
-                      toast.warning("Por favor, sube un archivo o pega el contenido del README");
-                      return;
-                    }
-
-                    setLoading(true);
-                    try {
-                      const data = await analyzeReadme(currentReadmeText);
-                      console.log("Datos recibidos de Gemini:", data);
-
-                      formik.setFieldValue("title", data.title || "");
-                      formik.setFieldValue("description", data.description || "");
-
-                      // Asegurar que tecnologías sea un string, incluso si Gemini devuelve un array
-                      const techs = Array.isArray(data.technologies)
-                        ? data.technologies.join(", ")
-                        : (data.technologies || "");
-                      formik.setFieldValue("technologies", techs);
-
-                      toast.success("Información extraída correctamente");
-                      // No limpiamos el archivo ni el texto para permitir que se guarde al enviar el formulario
-                      // Solo limpiamos si el usuario explícitamente quiere limpiar
-                    } catch (err) {
-                      console.error("Error en el componente al analizar con Gemini:", err);
-                      toast.error(err.message || "Error al analizar el README");
-                    } finally {
-                      setLoading(false);
-                    }
-                  }}
-                  disabled={loading}
-                  className="w-full py-2 text-xs font-bold text-white bg-[#E68369] hover:bg-[#d67359] rounded-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  onClick={handleAnalyze}
+                  disabled={loading || (importMethod === 'github' && !formik.values.githubLink)}
+                  className="w-full py-2 text-xs font-bold text-white bg-[#E68369] hover:bg-[#d67359] rounded-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? "Analizando..." : "Analizar con Gemini"}
+                  {loading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Analizando...
+                    </>
+                  ) : (
+                    "Analizar con Gemini"
+                  )}
                 </button>
               </div>
             </div>
