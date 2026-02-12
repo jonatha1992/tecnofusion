@@ -7,6 +7,7 @@ import {
   updateProject,
   getProjectById,
 } from "../../services/projectService";
+import { analyzeReadme } from "../../services/geminiService";
 import { toast } from "react-toastify";
 
 const validationSchema = Yup.object({
@@ -18,8 +19,18 @@ const validationSchema = Yup.object({
     .min(10, "La descripción debe tener al menos 10 caracteres"),
   githubLink: Yup.string()
     .required("El enlace de GitHub es obligatorio"),
+  isDeployed: Yup.boolean(),
   previewLink: Yup.string()
-    .required("El enlace de vista previa es obligatorio"),
+    .when('isDeployed', {
+      is: true,
+      then: (schema) => schema.required("El enlace de vista previa es obligatorio"),
+      otherwise: (schema) => schema.optional(),
+    }),
+  technologies: Yup.string()
+    .required("Las tecnologías son obligatorias"),
+  status: Yup.string()
+    .oneOf(["Desarrollo", "Producción"], "Estado inválido")
+    .required("El estado es obligatorio"),
 });
 
 function ProjectForm() {
@@ -32,6 +43,9 @@ function ProjectForm() {
   const [imagePreview, setImagePreview] = useState("");
   const [error, setError] = useState("");
   const [hasSavedData, setHasSavedData] = useState(false);
+  const [readmeFile, setReadmeFile] = useState(null);
+  const [readmeText, setReadmeText] = useState("");
+  const [isReadmeOpen, setIsReadmeOpen] = useState(false);
 
   // Clave de localStorage para el formulario
   const FORM_STORAGE_KEY = `project-form-${isEditMode ? id : 'new'}`;
@@ -41,7 +55,11 @@ function ProjectForm() {
       title: "",
       description: "",
       githubLink: "",
+      githubLink: "",
       previewLink: "",
+      isDeployed: true,
+      technologies: "",
+      status: "Desarrollo",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -49,8 +67,24 @@ function ProjectForm() {
       setError("");
 
       try {
+        const valuesToSave = {
+          ...values,
+          technologies: typeof values.technologies === 'string'
+            ? values.technologies.split(',').map(t => t.trim()).filter(t => t !== "")
+            : values.technologies
+        };
+
+        // Preparar el archivo README si existe o si hay texto pegado
+        let fileToUpload = readmeFile;
+
+        // Si no hay archivo pero hay texto en el área de texto, crear un archivo
+        if (!fileToUpload && readmeText.trim()) {
+          const blob = new Blob([readmeText], { type: 'text/markdown' });
+          fileToUpload = new File([blob], "README.md", { type: "text/markdown" });
+        }
+
         if (isEditMode) {
-          await updateProject(id, values, imageFile);
+          await updateProject(id, valuesToSave, imageFile, fileToUpload);
           toast.success("Proyecto actualizado exitosamente");
         } else {
           if (!imageFile && !imagePreview) {
@@ -58,7 +92,7 @@ function ProjectForm() {
             setLoading(false);
             return;
           }
-          await createProject(values, imageFile);
+          await createProject(valuesToSave, imageFile, fileToUpload);
           toast.success("Proyecto creado exitosamente");
         }
         // Limpiar localStorage al guardar exitosamente
@@ -115,7 +149,10 @@ function ProjectForm() {
         title: project.title,
         description: project.description,
         githubLink: project.githubLink,
-        previewLink: project.previewLink,
+        previewLink: project.previewLink || "",
+        isDeployed: project.isDeployed !== undefined ? project.isDeployed : true,
+        technologies: Array.isArray(project.technologies) ? project.technologies.join(", ") : (project.technologies || ""),
+        status: project.status || "Desarrollo",
       });
       setImagePreview(project.image);
     } catch (error) {
@@ -218,6 +255,129 @@ function ProjectForm() {
               </div>
             )}
 
+            {/* Import from README Section */}
+            <div className="mb-6 bg-white/5 border border-[#E68369]/30 rounded-lg overflow-hidden transition-all duration-300">
+              <button
+                type="button"
+                onClick={() => setIsReadmeOpen(!isReadmeOpen)}
+                className="w-full flex items-center justify-between p-4 text-left hover:bg-white/5 transition-colors"
+                aria-expanded={isReadmeOpen}
+              >
+                <h3 className="text-sm font-bold text-[#E68369] flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Importar desde README / Analizar con IA
+                </h3>
+                <svg
+                  className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${isReadmeOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <div className={`transition-[max-height,opacity] duration-300 ease-in-out ${isReadmeOpen ? 'max-h-[500px] opacity-100 p-4 pt-0' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+
+                <div className="mb-4">
+                  <label className="block text-xs font-semibold text-gray-300 mb-2">
+                    Opción 1: Subir archivo (README.md)
+                  </label>
+                  <input
+                    type="file"
+                    accept=".md,.txt"
+                    onChange={(e) => setReadmeFile(e.target.files[0])}
+                    className="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#E68369]/10 file:text-[#E68369] hover:file:bg-[#E68369]/20"
+                  />
+                  {readmeFile && (
+                    <div className="mt-2 flex items-center justify-between bg-white/5 px-2 py-1 rounded">
+                      <span className="text-xs text-[#E68369]">{readmeFile.name}</span>
+                      <button
+                        type="button"
+                        onClick={() => setReadmeFile(null)}
+                        className="text-red-400 hover:text-red-300 text-xs"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-4">
+                  <label className="block text-xs font-semibold text-gray-300 mb-2">
+                    Opción 2: Pegar texto
+                  </label>
+                  <textarea
+                    placeholder="Pega aquí el contenido del README..."
+                    value={readmeText}
+                    onChange={(e) => setReadmeText(e.target.value)}
+                    className="w-full px-3 py-2 text-sm text-gray-200 bg-[#131842]/50 border border-white/10 rounded-md focus:outline-none focus:ring-1 focus:ring-[#E68369] resize-none"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={async () => {
+                    let currentReadmeText = "";
+
+                    if (readmeFile) {
+                      setLoading(true);
+                      try {
+                        currentReadmeText = await new Promise((resolve, reject) => {
+                          const reader = new FileReader();
+                          reader.onload = () => resolve(reader.result);
+                          reader.onerror = reject;
+                          reader.readAsText(readmeFile);
+                        });
+                      } catch (err) {
+                        toast.error("Error al leer el archivo");
+                        setLoading(false);
+                        return;
+                      }
+                    } else {
+                      currentReadmeText = readmeText;
+                    }
+
+                    if (!currentReadmeText) {
+                      toast.warning("Por favor, sube un archivo o pega el contenido del README");
+                      return;
+                    }
+
+                    setLoading(true);
+                    try {
+                      const data = await analyzeReadme(currentReadmeText);
+                      console.log("Datos recibidos de Gemini:", data);
+
+                      formik.setFieldValue("title", data.title || "");
+                      formik.setFieldValue("description", data.description || "");
+
+                      // Asegurar que tecnologías sea un string, incluso si Gemini devuelve un array
+                      const techs = Array.isArray(data.technologies)
+                        ? data.technologies.join(", ")
+                        : (data.technologies || "");
+                      formik.setFieldValue("technologies", techs);
+
+                      toast.success("Información extraída correctamente");
+                      // No limpiamos el archivo ni el texto para permitir que se guarde al enviar el formulario
+                      // Solo limpiamos si el usuario explícitamente quiere limpiar
+                    } catch (err) {
+                      console.error("Error en el componente al analizar con Gemini:", err);
+                      toast.error(err.message || "Error al analizar el README");
+                    } finally {
+                      setLoading(false);
+                    }
+                  }}
+                  disabled={loading}
+                  className="w-full py-2 text-xs font-bold text-white bg-[#E68369] hover:bg-[#d67359] rounded-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {loading ? "Analizando..." : "Analizar con Gemini"}
+                </button>
+              </div>
+            </div>
+
             {/* Form */}
             <form onSubmit={formik.handleSubmit}>
               {/* Title Field */}
@@ -233,11 +393,10 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${
-                    formik.touched.title && formik.errors.title
-                      ? 'border-red-500 focus:ring-red-500'
-                      : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
-                  } disabled:bg-gray-100 disabled:cursor-not-allowed`}
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.title && formik.errors.title
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
+                    } disabled:bg-gray-100 disabled:cursor-not-allowed`}
                 />
                 {formik.touched.title && formik.errors.title && (
                   <p className="mt-1 text-xs text-red-400">{formik.errors.title}</p>
@@ -257,11 +416,10 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors resize-none ${
-                    formik.touched.description && formik.errors.description
-                      ? 'border-red-500 focus:ring-red-500'
-                      : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
-                  } disabled:bg-gray-100 disabled:cursor-not-allowed`}
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors resize-none ${formik.touched.description && formik.errors.description
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
+                    } disabled:bg-gray-100 disabled:cursor-not-allowed`}
                 />
                 {formik.touched.description && formik.errors.description && (
                   <p className="mt-1 text-xs text-red-400">{formik.errors.description}</p>
@@ -282,39 +440,109 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${
-                    formik.touched.githubLink && formik.errors.githubLink
-                      ? 'border-red-500 focus:ring-red-500'
-                      : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
-                  } disabled:bg-gray-100 disabled:cursor-not-allowed`}
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.githubLink && formik.errors.githubLink
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
+                    } disabled:bg-gray-100 disabled:cursor-not-allowed`}
                 />
                 {formik.touched.githubLink && formik.errors.githubLink && (
                   <p className="mt-1 text-xs text-red-400">{formik.errors.githubLink}</p>
                 )}
               </div>
 
-              {/* Preview Link Field */}
               <div className="mb-4">
-                <label htmlFor="previewLink" className="block text-sm font-semibold text-white mb-2">
-                  Enlace de Vista Previa
+                <div className="flex items-center justify-between mb-2">
+                  <label htmlFor="previewLink" className="block text-sm font-semibold text-white">
+                    Enlace de Vista Previa
+                  </label>
+
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="isDeployed"
+                      checked={formik.values.isDeployed}
+                      onChange={formik.handleChange}
+                      disabled={loading}
+                      className="w-4 h-4 text-[#E68369] bg-white/10 border-white/20 rounded focus:ring-[#E68369] focus:ring-offset-0 focus:ring-offset-[#131842]"
+                    />
+                    <span className="text-xs text-gray-300 select-none">Proyecto Desplegado</span>
+                  </label>
+                </div>
+
+                {formik.values.isDeployed && (
+                  <>
+                    <input
+                      type="text"
+                      id="previewLink"
+                      name="previewLink"
+                      placeholder="https://mi-proyecto.com"
+                      value={formik.values.previewLink}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      disabled={loading || !formik.values.isDeployed}
+                      className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.previewLink && formik.errors.previewLink
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
+                        } disabled:bg-gray-100 disabled:cursor-not-allowed`}
+                    />
+                    {formik.touched.previewLink && formik.errors.previewLink && (
+                      <p className="mt-1 text-xs text-red-400">{formik.errors.previewLink}</p>
+                    )}
+                  </>
+                )}
+                {!formik.values.isDeployed && (
+                  <div className="w-full px-3 py-2 text-sm text-gray-400 bg-white/5 border border-white/10 rounded-md italic">
+                    Sin enlace de demostración (No desplegado)
+                  </div>
+                )}
+              </div>
+
+              {/* Technologies Field */}
+              <div className="mb-3">
+                <label htmlFor="technologies" className="block text-sm font-semibold text-white mb-2">
+                  Tecnologías (Separadas por coma)
                 </label>
                 <input
                   type="text"
-                  id="previewLink"
-                  name="previewLink"
-                  placeholder="https://mi-proyecto.com"
-                  value={formik.values.previewLink}
+                  id="technologies"
+                  name="technologies"
+                  placeholder="React, Tailwind, Firebase"
+                  value={formik.values.technologies}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${
-                    formik.touched.previewLink && formik.errors.previewLink
-                      ? 'border-red-500 focus:ring-red-500'
-                      : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
-                  } disabled:bg-gray-100 disabled:cursor-not-allowed`}
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.technologies && formik.errors.technologies
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
+                    } disabled:bg-gray-100 disabled:cursor-not-allowed`}
                 />
-                {formik.touched.previewLink && formik.errors.previewLink && (
-                  <p className="mt-1 text-xs text-red-400">{formik.errors.previewLink}</p>
+                {formik.touched.technologies && formik.errors.technologies && (
+                  <p className="mt-1 text-xs text-red-400">{formik.errors.technologies}</p>
+                )}
+              </div>
+
+              {/* Status Field */}
+              <div className="mb-4">
+                <label htmlFor="status" className="block text-sm font-semibold text-white mb-2">
+                  Estado del Proyecto
+                </label>
+                <select
+                  id="status"
+                  name="status"
+                  value={formik.values.status}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  disabled={loading}
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.status && formik.errors.status
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
+                    } disabled:bg-gray-100 disabled:cursor-not-allowed`}
+                >
+                  <option value="Desarrollo">En Desarrollo</option>
+                  <option value="Producción">En Producción</option>
+                </select>
+                {formik.touched.status && formik.errors.status && (
+                  <p className="mt-1 text-xs text-red-400">{formik.errors.status}</p>
                 )}
               </div>
 

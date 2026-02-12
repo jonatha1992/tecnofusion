@@ -1,6 +1,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+
 import { getAllProjects } from "../services/projectService";
+import ReadmeModal from "./modals/ReadmeModal";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -45,6 +47,22 @@ function Projects({ title, id, children, gradientClass }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const [selectedReadme, setSelectedReadme] = useState(null);
+  const [selectedProjectTitle, setSelectedProjectTitle] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenReadme = (url, projectTitle) => {
+    setSelectedReadme(url);
+    setSelectedProjectTitle(projectTitle);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedReadme(null);
+    setSelectedProjectTitle("");
   };
 
   return (
@@ -99,17 +117,24 @@ function Projects({ title, id, children, gradientClass }) {
                   initial="hidden"
                   animate="visible"
                 >
-                  <ProjectCard {...p} />
+                  <ProjectCard {...p} onOpenReadme={handleOpenReadme} />
                 </motion.div>
               ))}
           </motion.div>
         )}
       </div>
+
+      <ReadmeModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        readmeUrl={selectedReadme}
+        projectTitle={selectedProjectTitle}
+      />
     </section>
   );
 }
 
-function ProjectCard({ title, description, image, githubLink, previewLink, technologies }) {
+function ProjectCard({ title, description, image, githubLink, previewLink, technologies, status, readmeUrl, onOpenReadme }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -154,7 +179,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
 
         {/* Floating badge on hover */}
         <motion.div
-          className="absolute top-3 right-3"
+          className="absolute top-3 right-3 flex flex-col gap-2 items-end"
           initial={{ opacity: 0, scale: 0.8, y: -10 }}
           animate={{
             opacity: isHovered ? 1 : 0,
@@ -163,6 +188,11 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
           }}
           transition={{ duration: 0.3 }}
         >
+          {status && (
+            <div className={`text-xs font-bold px-3 py-1.5 rounded-full shadow-lg ${status === 'Producción' ? 'bg-green-600' : 'bg-yellow-600'} text-white`}>
+              {status}
+            </div>
+          )}
           <div className="bg-[#E68369] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
             Ver más
           </div>
@@ -180,23 +210,31 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
         </p>
 
         {/* Technologies badges */}
-        {technologies && technologies.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
-            {technologies.slice(0, 3).map((tech, idx) => (
-              <span
-                key={idx}
-                className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-[#131842]/60 border border-[#E68369]/30 text-[#E68369] backdrop-blur-sm"
-              >
-                {tech}
-              </span>
-            ))}
-            {technologies.length > 3 && (
-              <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-[#131842]/40 border border-white/20 text-gray-400">
-                +{technologies.length - 3}
-              </span>
-            )}
-          </div>
-        )}
+        {(() => {
+          const techArray = Array.isArray(technologies)
+            ? technologies
+            : (typeof technologies === 'string' ? technologies.split(',').map(t => t.trim()).filter(t => t !== "") : []);
+
+          if (techArray.length === 0) return null;
+
+          return (
+            <div className="flex flex-wrap gap-2 mb-4">
+              {techArray.slice(0, 3).map((tech, idx) => (
+                <span
+                  key={idx}
+                  className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-[#131842]/60 border border-[#E68369]/30 text-[#E68369] backdrop-blur-sm"
+                >
+                  {tech}
+                </span>
+              ))}
+              {techArray.length > 3 && (
+                <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-[#131842]/40 border border-white/20 text-gray-400">
+                  +{techArray.length - 3}
+                </span>
+              )}
+            </div>
+          );
+        })()}
 
         {/* Action Buttons */}
         <div className="flex gap-3 mt-auto">
@@ -205,7 +243,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
               href={githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 text-white border-2 border-white/20 rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 hover:border-[#E68369] hover:text-[#E68369] hover:bg-[#E68369]/5 group/btn"
+              className={`${previewLink ? 'flex-1' : 'w-full'} flex items-center justify-center gap-2 text-white border-2 border-white/20 rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 hover:border-[#E68369] hover:text-[#E68369] hover:bg-[#E68369]/5 group/btn`}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -215,36 +253,59 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
                 viewBox="0 0 24 24"
                 className="w-4 h-4 transition-transform duration-300 group-hover/btn:rotate-12"
               >
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
               </svg>
               <span>Código</span>
             </motion.a>
           )}
 
-          <motion.a
-            href={previewLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${githubLink ? 'flex-1' : 'w-full'} flex items-center justify-center gap-2 text-white bg-gradient-to-r from-[#E68369] to-[#d67359] rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-[#E68369]/30 group/btn relative overflow-hidden`}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {/* Button shine effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-700" />
-
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              className="w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110"
+          {previewLink && (
+            <motion.a
+              href={previewLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${githubLink ? 'flex-1' : 'w-full'} flex items-center justify-center gap-2 text-white bg-gradient-to-r from-[#E68369] to-[#d67359] rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-[#E68369]/30 group/btn relative overflow-hidden`}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span className="relative z-10">Ver Demo</span>
-          </motion.a>
+              {/* Button shine effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-700" />
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+                className="w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span className="relative z-10">Ver Demo</span>
+            </motion.a>
+          )}
+
+          {readmeUrl && (
+            <motion.button
+              onClick={() => onOpenReadme(readmeUrl, title)}
+              className="flex-none flex items-center justify-center gap-2 text-white border-2 border-white/20 rounded-lg px-3 py-2.5 font-medium text-sm transition-all duration-300 hover:border-[#E68369] hover:text-[#E68369] hover:bg-[#E68369]/5 group/btn"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              title="Ver Documentación"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-4 h-4"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+              </svg>
+            </motion.button>
+          )}
         </div>
       </div>
     </motion.div>
