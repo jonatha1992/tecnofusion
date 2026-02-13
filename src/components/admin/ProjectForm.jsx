@@ -160,7 +160,7 @@ function ProjectForm() {
       title: "",
       description: "",
       githubLink: "",
-      githubLink: "",
+
       previewLink: "",
       isDeployed: true,
       technologies: "",
