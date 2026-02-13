@@ -159,6 +159,9 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const totalActions = [githubLink, previewLink, readmeUrl].filter(Boolean).length || 1;
+  const actionWidth = totalActions === 1 ? "w-full" : totalActions === 2 ? "w-1/2" : "flex-1 basis-0";
+
   return (
     <motion.div
       className="group relative bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-md border border-white/10 rounded-2xl h-full flex flex-col overflow-hidden shadow-lg transition-all duration-500 cursor-pointer"
@@ -272,7 +275,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
               href={githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${previewLink ? 'flex-1 basis-0 w-0' : 'w-full'} flex items-center justify-center gap-2 text-white border-2 border-white/20 rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 hover:border-[#E68369] hover:text-[#E68369] hover:bg-[#E68369]/5 group/btn whitespace-nowrap`}
+              className={`${actionWidth} flex items-center justify-center gap-2 text-white border-2 border-white/20 rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 hover:border-[#E68369] hover:text-[#E68369] hover:bg-[#E68369]/5 group/btn whitespace-nowrap`}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -293,7 +296,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
               href={previewLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${githubLink ? 'flex-1 basis-0 w-0' : 'w-full'} flex items-center justify-center gap-2 text-white bg-gradient-to-r from-[#E68369] to-[#d67359] rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-[#E68369]/30 group/btn relative overflow-hidden whitespace-nowrap`}
+              className={`${actionWidth} flex items-center justify-center gap-2 text-white bg-gradient-to-r from-[#E68369] to-[#d67359] rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-[#E68369]/30 group/btn relative overflow-hidden whitespace-nowrap`}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -309,14 +312,14 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <span className="relative z-10 truncate">Ver Demo</span>
+              <span className="relative z-10 truncate">Demo</span>
             </motion.a>
           )}
 
           {readmeUrl && (
             <motion.button
               onClick={() => onOpenReadme(readmeUrl, title)}
-              className="flex-1 basis-0 w-0 flex items-center justify-center gap-2 text-white border-2 border-white/20 rounded-lg px-3 py-2.5 font-medium text-sm transition-all duration-300 hover:border-[#E68369] hover:text-[#E68369] hover:bg-[#E68369]/5 group/btn whitespace-nowrap"
+              className={`${actionWidth} flex items-center justify-center gap-2 text-white border-2 border-white/20 rounded-lg px-3 py-2.5 font-medium text-sm transition-all duration-300 hover:border-[#E68369] hover:text-[#E68369] hover:bg-[#E68369]/5 group/btn whitespace-nowrap`}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
               title="Ver Documentación"

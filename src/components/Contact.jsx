@@ -1,7 +1,8 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { HiPhone, HiMail, HiLocationMarker } from "react-icons/hi";
+import { toast } from "react-toastify";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -16,12 +17,48 @@ const itemVariants = {
 function Contact({ id, title, gradientClass }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+    const [errors, setErrors] = useState({});
 
     const handleWhatsAppClick = () => {
         const phoneNumber = "5491159910666";
         const message = "¡Hola! Me interesa conocer más sobre los servicios de Tecnofusión.IT";
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        const phoneDigits = form.phone.replace(/\D/g, "");
+
+        if (!form.email.trim()) newErrors.email = "El email es obligatorio.";
+        else if (!emailRegex.test(form.email.trim())) newErrors.email = "Email inválido.";
+
+        if (!form.phone.trim()) newErrors.phone = "El teléfono es obligatorio.";
+        else if (phoneDigits.length < 8 || phoneDigits.length > 15) newErrors.phone = "Usa entre 8 y 15 dígitos.";
+
+        if (!form.message.trim()) newErrors.message = "Cuéntanos brevemente tu necesidad.";
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0 ? phoneDigits : null;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const phoneDigits = validateForm();
+        if (!phoneDigits) return;
+
+        const phoneNumber = "5491159910666";
+        const summary = [
+            `Soy ${form.name || "un cliente"}.`,
+            `Email: ${form.email.trim()}.`,
+            `Tel: +${phoneDigits}.`,
+            `Necesidad: ${form.message.trim()}.`,
+        ].join(" ");
+
+        window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(summary)}`, "_blank");
+        toast.success("Abrí WhatsApp con tus datos listos.");
     };
 
     return (
@@ -72,6 +109,83 @@ function Contact({ id, title, gradientClass }) {
                                 </button>
                             </div>
                         </div>
+
+                        {/* Formulario con validación inteligente */}
+                        <motion.div
+                            variants={itemVariants}
+                            className="w-full max-w-2xl bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md shadow-lg"
+                        >
+                            <h3 className="text-lg font-bold text-white mb-2">Prefieres dejarnos tus datos</h3>
+                            <p className="text-sm text-white/70 mb-4">Validamos email y teléfono para que podamos contactarte.</p>
+                            <form className="space-y-3" onSubmit={handleSubmit} noValidate>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="text-xs text-white/70 mb-1 block">Nombre (opcional)</label>
+                                        <input
+                                            type="text"
+                                            value={form.name}
+                                            onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/15 text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/70"
+                                            placeholder="Tu nombre"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-xs text-white/70 mb-1 block">Email *</label>
+                                        <input
+                                            type="email"
+                                            value={form.email}
+                                            onChange={(e) => setForm({ ...form, email: e.target.value })}
+                                            className={`w-full px-3 py-2 rounded-lg bg-white/10 border text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 ${
+                                                errors.email ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
+                                            }`}
+                                            placeholder="tu@email.com"
+                                        />
+                                        {errors.email && <p className="text-xs text-red-200 mt-1">{errors.email}</p>}
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="text-xs text-white/70 mb-1 block">Teléfono *</label>
+                                        <input
+                                            type="tel"
+                                            value={form.phone}
+                                            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                                            className={`w-full px-3 py-2 rounded-lg bg-white/10 border text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 ${
+                                                errors.phone ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
+                                            }`}
+                                            placeholder="+54 9 11 5991 0666"
+                                        />
+                                        {errors.phone && <p className="text-xs text-red-200 mt-1">{errors.phone}</p>}
+                                    </div>
+                                    <div>
+                                        <label className="text-xs text-white/70 mb-1 block">¿Qué necesitas? *</label>
+                                        <textarea
+                                            value={form.message}
+                                            onChange={(e) => setForm({ ...form, message: e.target.value })}
+                                            rows={3}
+                                            className={`w-full px-3 py-2 rounded-lg bg-white/10 border text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 ${
+                                                errors.message ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
+                                            }`}
+                                            placeholder="Ej: Web corporativa con blog y formulario"
+                                        />
+                                        {errors.message && <p className="text-xs text-red-200 mt-1">{errors.message}</p>}
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                    <p className="text-xs text-white/60">
+                                        Verificamos email y teléfono antes de enviar para evitar errores.
+                                    </p>
+                                    <button
+                                        type="submit"
+                                        className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-[#2563eb] to-[#22d3ee] hover:shadow-lg transition"
+                                    >
+                                        Validar y enviar a WhatsApp
+                                    </button>
+                                </div>
+                            </form>
+                        </motion.div>
 
                         {/* Información de contacto adicional */}
                         <motion.div variants={itemVariants} className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
