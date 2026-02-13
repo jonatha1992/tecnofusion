@@ -10,7 +10,7 @@ import Hero from "./components/Hero";
 const Projects = lazy(() => import("./components/Projects"));
 const Contact = lazy(() => import("./components/Contact"));
 const Servicios = lazy(() => import("./components/Servicios"));
-const WhatsAppChat = lazy(() => import("./components/WhatsAppChat"));
+const CustomerAssistant = lazy(() => import("./components/CustomerAssistant"));
 
 // Lazy load componentes de administración
 const Dashboard = lazy(() => import("./components/admin/Dashboard"));
@@ -29,7 +29,7 @@ function HomePage() {
         <Projects title="Proyectos" id="proyectos" gradientClass="bg-radial-gradient-right" />
         <Servicios title="Servicios" id="Servicios" gradientClass="bg-radial-gradient-left" />
         <Contact title="Contacto" id="Contacto" />
-        <WhatsAppChat />
+        <CustomerAssistant />
       </Suspense>
     </Layout>
   );

@@ -22,6 +22,12 @@ A modern, dynamic portfolio application built with React, Vite, and Firebase. Th
 - **Animations**: Smooth transitions powered by `framer-motion`.
 - **Optional Demo Links**: Support for backend-only or non-deployed projects (checkbox logic).
 
+### 4. **IA Assistant (Navi) para visitantes**
+
+- **Asesor comercial**: Widget flotante en la página pública para ayudar a prospectos.
+- **Gemini powered**: Modelo `gemini-2.5-flash` con contexto de servicios y capturas de lead (nombre, email, zona horaria).
+- **Flujo ágil**: Atajos rápidos, Enter para enviar, historial en localStorage.
+
 ## 🛠️ Tech Stack
 
 - **Frontend**: React.js, Vite

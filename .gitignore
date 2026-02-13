@@ -45,4 +45,3 @@ dist-ssr
 .claude/agents/typescript-pro.md
 .claude/agents/ui-ux-designer.md
 .firebase/*.*.cache
-.firebase/hosting.ZGlzdA.cache

@@ -160,7 +160,7 @@ function ProjectForm() {
       title: "",
       description: "",
       githubLink: "",
-
+      githubLink: "",
       previewLink: "",
       isDeployed: true,
       technologies: "",
@@ -344,6 +344,7 @@ function ProjectForm() {
           </div>
 
           <div className="p-4">
+            <form onSubmit={formik.handleSubmit}>
             {/* Info Alert - Borrador guardado */}
             {hasSavedData && !isEditMode && (
               <div className="mb-3 bg-blue-50 border-l-4 border-blue-500 text-blue-800 px-3 py-2 rounded-r flex items-start justify-between">
@@ -371,6 +372,30 @@ function ProjectForm() {
                 <span className="text-xs font-medium">{error}</span>
               </div>
             )}
+
+              {/* GitHub Link Field - Moved to Top */}
+              <div className="mb-6">
+                <label htmlFor="githubLink" className="block text-sm font-semibold text-white mb-2">
+                  Enlace de GitHub
+                </label>
+                <input
+                  type="text"
+                  id="githubLink"
+                  name="githubLink"
+                  placeholder="https://github.com/usuario/proyecto"
+                  value={formik.values.githubLink}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  disabled={loading}
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.githubLink && formik.errors.githubLink
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
+                    } disabled:bg-gray-100 disabled:cursor-not-allowed`}
+                />
+                {formik.touched.githubLink && formik.errors.githubLink && (
+                  <p className="mt-1 text-xs text-red-400">{formik.errors.githubLink}</p>
+                )}
+              </div>
 
             {/* Import from README Section */}
             <div className="mb-6 bg-white/5 border border-[#E68369]/30 rounded-lg overflow-hidden transition-all duration-300">
@@ -469,7 +494,7 @@ function ProjectForm() {
                     <div className="bg-[#131842]/50 p-3 rounded border border-white/10 text-xs text-gray-400 italic">
                       {formik.values.githubLink
                         ? `Repo detectado: ${formik.values.githubLink}`
-                        : "Primero ingresa el enlace de GitHub abajo 👇"}
+                        : "Primero ingresa el enlace de GitHub arriba 👆"}
                     </div>
                   </div>
                 )}
@@ -493,7 +518,6 @@ function ProjectForm() {
             </div>
 
             {/* Form */}
-            <form onSubmit={formik.handleSubmit}>
               {/* Title Field */}
               <div className="mb-3">
                 <label htmlFor="title" className="block text-sm font-semibold text-white mb-2">
@@ -540,29 +564,6 @@ function ProjectForm() {
                 )}
               </div>
 
-              {/* GitHub Link Field */}
-              <div className="mb-3">
-                <label htmlFor="githubLink" className="block text-sm font-semibold text-white mb-2">
-                  Enlace de GitHub
-                </label>
-                <input
-                  type="text"
-                  id="githubLink"
-                  name="githubLink"
-                  placeholder="https://github.com/usuario/proyecto"
-                  value={formik.values.githubLink}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  disabled={loading}
-                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.githubLink && formik.errors.githubLink
-                    ? 'border-red-500 focus:ring-red-500'
-                    : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
-                    } disabled:bg-gray-100 disabled:cursor-not-allowed`}
-                />
-                {formik.touched.githubLink && formik.errors.githubLink && (
-                  <p className="mt-1 text-xs text-red-400">{formik.errors.githubLink}</p>
-                )}
-              </div>
 
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-2">
