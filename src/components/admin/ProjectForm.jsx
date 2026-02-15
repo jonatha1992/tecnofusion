@@ -345,33 +345,33 @@ function ProjectForm() {
 
           <div className="p-4">
             <form onSubmit={formik.handleSubmit}>
-            {/* Info Alert - Borrador guardado */}
-            {hasSavedData && !isEditMode && (
-              <div className="mb-3 bg-blue-50 border-l-4 border-blue-500 text-blue-800 px-3 py-2 rounded-r flex items-start justify-between">
-                <div className="flex items-start">
-                  <svg className="w-4 h-4 mr-2 flex-shrink-0 text-blue-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                  </svg>
-                  <span className="text-xs font-medium">Borrador recuperado automáticamente. Los cambios se guardan mientras escribes.</span>
+              {/* Info Alert - Borrador guardado */}
+              {hasSavedData && !isEditMode && (
+                <div className="mb-3 bg-blue-50 border-l-4 border-blue-500 text-blue-800 px-3 py-2 rounded-r flex items-start justify-between">
+                  <div className="flex items-start">
+                    <svg className="w-4 h-4 mr-2 flex-shrink-0 text-blue-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-xs font-medium">Borrador recuperado automáticamente. Los cambios se guardan mientras escribes.</span>
+                  </div>
+                  <button
+                    onClick={handleClearForm}
+                    className="ml-2 text-xs font-semibold text-blue-700 hover:text-blue-900 underline"
+                  >
+                    Limpiar
+                  </button>
                 </div>
-                <button
-                  onClick={handleClearForm}
-                  className="ml-2 text-xs font-semibold text-blue-700 hover:text-blue-900 underline"
-                >
-                  Limpiar
-                </button>
-              </div>
-            )}
+              )}
 
-            {/* Error Alert */}
-            {error && (
-              <div className="mb-3 bg-red-50 border-l-4 border-red-500 text-red-800 px-3 py-2 rounded-r flex items-start">
-                <svg className="w-4 h-4 mr-2 flex-shrink-0 text-red-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-                <span className="text-xs font-medium">{error}</span>
-              </div>
-            )}
+              {/* Error Alert */}
+              {error && (
+                <div className="mb-3 bg-red-50 border-l-4 border-red-500 text-red-800 px-3 py-2 rounded-r flex items-start">
+                  <svg className="w-4 h-4 mr-2 flex-shrink-0 text-red-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-xs font-medium">{error}</span>
+                </div>
+              )}
 
               {/* GitHub Link Field - Moved to Top */}
               <div className="mb-6">
@@ -397,127 +397,127 @@ function ProjectForm() {
                 )}
               </div>
 
-            {/* Import from README Section */}
-            <div className="mb-6 bg-white/5 border border-[#E68369]/30 rounded-lg overflow-hidden transition-all duration-300">
-              <button
-                type="button"
-                onClick={() => setIsReadmeOpen(!isReadmeOpen)}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-white/5 transition-colors"
-                aria-expanded={isReadmeOpen}
-              >
-                <h3 className="text-sm font-bold text-[#E68369] flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                  Importar desde README / Analizar con IA
-                </h3>
-                <svg
-                  className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${isReadmeOpen ? 'rotate-180' : ''}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
-              <div className={`transition-[max-height,opacity] duration-300 ease-in-out ${isReadmeOpen ? 'max-h-[600px] opacity-100 p-4 pt-0' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-
-                {/* Tabs */}
-                <div className="flex border-b border-white/10 mb-4">
-                  <button
-                    type="button"
-                    onClick={() => setImportMethod('file')}
-                    className={`px-4 py-2 text-xs font-semibold focus:outline-none transition-colors ${importMethod === 'file'
-                      ? 'text-[#E68369] border-b-2 border-[#E68369]'
-                      : 'text-gray-400 hover:text-white'
-                      }`}
-                  >
-                    Subir Archivo / Pegar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setImportMethod('github')}
-                    className={`px-4 py-2 text-xs font-semibold focus:outline-none transition-colors ${importMethod === 'github'
-                      ? 'text-[#E68369] border-b-2 border-[#E68369]'
-                      : 'text-gray-400 hover:text-white'
-                      }`}
-                  >
-                    Desde GitHub (Automático)
-                  </button>
-                </div>
-
-                {importMethod === 'file' ? (
-                  <>
-                    <div className="mb-4">
-                      <label className="block text-xs font-semibold text-gray-300 mb-2">
-                        Opción 1: Subir archivo (README.md)
-                      </label>
-                      <input
-                        type="file"
-                        accept=".md,.txt"
-                        onChange={(e) => setReadmeFile(e.target.files[0])}
-                        className="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#E68369]/10 file:text-[#E68369] hover:file:bg-[#E68369]/20"
-                      />
-                      {readmeFile && (
-                        <div className="mt-2 flex items-center justify-between bg-white/5 px-2 py-1 rounded">
-                          <span className="text-xs text-[#E68369]">{readmeFile.name}</span>
-                          <button
-                            type="button"
-                            onClick={() => setReadmeFile(null)}
-                            className="text-red-400 hover:text-red-300 text-xs"
-                          >
-                            Eliminar
-                          </button>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="mb-4">
-                      <label className="block text-xs font-semibold text-gray-300 mb-2">
-                        Opción 2: Pegar texto
-                      </label>
-                      <textarea
-                        placeholder="Pega aquí el contenido del README..."
-                        value={readmeText}
-                        onChange={(e) => setReadmeText(e.target.value)}
-                        className="w-full px-3 py-2 text-sm text-gray-200 bg-[#131842]/50 border border-white/10 rounded-md focus:outline-none focus:ring-1 focus:ring-[#E68369] resize-none"
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <div className="mb-4">
-                    <p className="text-xs text-gray-300 mb-2">
-                      Usaremos el enlace de GitHub del formulario para buscar el README automáticamente.
-                    </p>
-                    <div className="bg-[#131842]/50 p-3 rounded border border-white/10 text-xs text-gray-400 italic">
-                      {formik.values.githubLink
-                        ? `Repo detectado: ${formik.values.githubLink}`
-                        : "Primero ingresa el enlace de GitHub arriba 👆"}
-                    </div>
-                  </div>
-                )}
-
+              {/* Import from README Section */}
+              <div className="mb-6 bg-white/5 border border-[#E68369]/30 rounded-lg overflow-hidden transition-all duration-300">
                 <button
                   type="button"
-                  onClick={handleAnalyze}
-                  disabled={loading || (importMethod === 'github' && !formik.values.githubLink)}
-                  className="w-full py-2 text-xs font-bold text-white bg-[#E68369] hover:bg-[#d67359] rounded-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={() => setIsReadmeOpen(!isReadmeOpen)}
+                  className="w-full flex items-center justify-between p-4 text-left hover:bg-white/5 transition-colors"
+                  aria-expanded={isReadmeOpen}
                 >
-                  {loading ? (
+                  <h3 className="text-sm font-bold text-[#E68369] flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Importar desde README / Analizar con IA
+                  </h3>
+                  <svg
+                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${isReadmeOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                <div className={`transition-[max-height,opacity] duration-300 ease-in-out ${isReadmeOpen ? 'max-h-[600px] opacity-100 p-4 pt-0' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+
+                  {/* Tabs */}
+                  <div className="flex border-b border-white/10 mb-4">
+                    <button
+                      type="button"
+                      onClick={() => setImportMethod('file')}
+                      className={`px-4 py-2 text-xs font-semibold focus:outline-none transition-colors ${importMethod === 'file'
+                        ? 'text-[#E68369] border-b-2 border-[#E68369]'
+                        : 'text-gray-400 hover:text-white'
+                        }`}
+                    >
+                      Subir Archivo / Pegar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setImportMethod('github')}
+                      className={`px-4 py-2 text-xs font-semibold focus:outline-none transition-colors ${importMethod === 'github'
+                        ? 'text-[#E68369] border-b-2 border-[#E68369]'
+                        : 'text-gray-400 hover:text-white'
+                        }`}
+                    >
+                      Desde GitHub (Automático)
+                    </button>
+                  </div>
+
+                  {importMethod === 'file' ? (
                     <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Analizando...
+                      <div className="mb-4">
+                        <label className="block text-xs font-semibold text-gray-300 mb-2">
+                          Opción 1: Subir archivo (README.md)
+                        </label>
+                        <input
+                          type="file"
+                          accept=".md,.txt"
+                          onChange={(e) => setReadmeFile(e.target.files[0])}
+                          className="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#E68369]/10 file:text-[#E68369] hover:file:bg-[#E68369]/20"
+                        />
+                        {readmeFile && (
+                          <div className="mt-2 flex items-center justify-between bg-white/5 px-2 py-1 rounded">
+                            <span className="text-xs text-[#E68369]">{readmeFile.name}</span>
+                            <button
+                              type="button"
+                              onClick={() => setReadmeFile(null)}
+                              className="text-red-400 hover:text-red-300 text-xs"
+                            >
+                              Eliminar
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="mb-4">
+                        <label className="block text-xs font-semibold text-gray-300 mb-2">
+                          Opción 2: Pegar texto
+                        </label>
+                        <textarea
+                          placeholder="Pega aquí el contenido del README..."
+                          value={readmeText}
+                          onChange={(e) => setReadmeText(e.target.value)}
+                          className="w-full px-3 py-2 text-sm text-gray-200 bg-[#131842]/50 border border-white/10 rounded-md focus:outline-none focus:ring-1 focus:ring-[#E68369] resize-none"
+                        />
+                      </div>
                     </>
                   ) : (
-                    "Analizar con Gemini"
+                    <div className="mb-4">
+                      <p className="text-xs text-gray-300 mb-2">
+                        Usaremos el enlace de GitHub del formulario para buscar el README automáticamente.
+                      </p>
+                      <div className="bg-[#131842]/50 p-3 rounded border border-white/10 text-xs text-gray-400 italic">
+                        {formik.values.githubLink
+                          ? `Repo detectado: ${formik.values.githubLink}`
+                          : "Primero ingresa el enlace de GitHub arriba 👆"}
+                      </div>
+                    </div>
                   )}
-                </button>
-              </div>
-            </div>
 
-            {/* Form */}
+                  <button
+                    type="button"
+                    onClick={handleAnalyze}
+                    disabled={loading || (importMethod === 'github' && !formik.values.githubLink)}
+                    className="w-full py-2 text-xs font-bold text-white bg-[#E68369] hover:bg-[#d67359] rounded-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Analizando...
+                      </>
+                    ) : (
+                      "Analizar con Gemini"
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Form */}
               {/* Title Field */}
               <div className="mb-3">
                 <label htmlFor="title" className="block text-sm font-semibold text-white mb-2">

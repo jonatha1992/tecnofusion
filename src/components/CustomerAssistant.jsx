@@ -4,7 +4,7 @@ import { askCustomerAssistant } from "../services/customerAssistantService";
 const STORAGE_KEY = "tecnofusion-customer-assistant-v1";
 const INITIAL_MESSAGE = {
   role: "assistant",
-  content: "Soy Navi. ¿Qué necesitas construir? Respondo corto y al punto.",
+  content: "Soy Navi. ¿Qué necesitas construir?.",
 };
 
 function CustomerAssistant() {
@@ -98,11 +98,10 @@ function CustomerAssistant() {
     return (
       <div key={`${msg.role}-${idx}`} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
         <div
-          className={`max-w-[85%] rounded-2xl px-3 py-2 text-xs leading-relaxed shadow ${
-            isUser
-              ? "bg-gradient-to-r from-[#E68369] to-[#d67359] text-white"
-              : "bg-white/10 border border-white/10 text-white"
-          }`}
+          className={`max-w-[85%] rounded-2xl px-3 py-2 text-xs leading-relaxed shadow ${isUser
+            ? "bg-gradient-to-r from-[#E68369] to-[#d67359] text-white"
+            : "bg-white/10 border border-white/10 text-white"
+            }`}
         >
           <p className="whitespace-pre-wrap">{msg.content}</p>
         </div>
@@ -167,9 +166,8 @@ function CustomerAssistant() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email (obligatorio)"
-                  className={`w-full px-3 py-2 text-xs rounded-lg bg-white/10 border text-white placeholder-white/50 focus:outline-none focus:ring-2 ${
-                    fieldErrors.email ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
-                  }`}
+                  className={`w-full px-3 py-2 text-xs rounded-lg bg-white/10 border text-white placeholder-white/50 focus:outline-none focus:ring-2 ${fieldErrors.email ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
+                    }`}
                 />
                 {fieldErrors.email && <p className="text-[10px] text-red-200 mt-1">{fieldErrors.email}</p>}
               </div>
@@ -179,9 +177,8 @@ function CustomerAssistant() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Teléfono con código"
-                  className={`w-full px-3 py-2 text-xs rounded-lg bg-white/10 border text-white placeholder-white/50 focus:outline-none focus:ring-2 ${
-                    fieldErrors.phone ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
-                  }`}
+                  className={`w-full px-3 py-2 text-xs rounded-lg bg-white/10 border text-white placeholder-white/50 focus:outline-none focus:ring-2 ${fieldErrors.phone ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
+                    }`}
                 />
                 {fieldErrors.phone && <p className="text-[10px] text-red-200 mt-1">{fieldErrors.phone}</p>}
               </div>
