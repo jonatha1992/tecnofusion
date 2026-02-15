@@ -1,7 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
+import { generateTextWithFallback } from "./aiProviderService";
 
 const CLIENT_CONTEXT = `
 Eres "Navi", asesor comercial de Tecnofusion.IT para clientes y prospectos.
@@ -22,10 +19,6 @@ Politicas de respuesta (muy breve):
 `;
 
 export const askCustomerAssistant = async (messages) => {
-  if (!API_KEY) throw new Error("Configura VITE_GEMINI_API_KEY para usar el asistente.");
-
-  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-
   const history = messages
     .map((m) => `${m.role === "user" ? "Cliente" : "Navi"}: ${m.content}`)
     .join("\n");
@@ -38,8 +31,9 @@ ${history}
 Respuesta de Navi:`;
 
   try {
-    const result = await model.generateContent(prompt);
-    return result.response.text().trim();
+    const { text, provider } = await generateTextWithFallback(prompt);
+    console.info(`[Navi cliente] respuesta desde ${provider}`);
+    return text;
   } catch (error) {
     console.error("Error asistente cliente:", error);
     throw new Error("No pude responder ahora. Intenta nuevamente.");

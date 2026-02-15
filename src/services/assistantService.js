@@ -1,7 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
+import { generateTextWithFallback } from "./aiProviderService";
 
 const STAFF_CONTEXT = `
 Eres "Navi", asistente interno de Tecnofusion. Objetivo: guiar rapido al personal sobre flujos del panel admin y atencion basica a clientes sin inventar datos.
@@ -23,12 +20,6 @@ Politicas de respuesta:
 `;
 
 export const askStaffAssistant = async (messages) => {
-  if (!API_KEY) {
-    throw new Error("Configura VITE_GEMINI_API_KEY para usar el asistente IA.");
-  }
-
-  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-
   const history = messages
     .map((m) => `${m.role === "user" ? "Usuario" : "Asistente"}: ${m.content}`)
     .join("\n");
@@ -36,9 +27,9 @@ export const askStaffAssistant = async (messages) => {
   const prompt = `${STAFF_CONTEXT}\n\nConversacion actual:\n${history}\n\nRespuesta del asistente:`;
 
   try {
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
-    return text.trim();
+    const { text, provider } = await generateTextWithFallback(prompt);
+    console.info(`[Navi staff] respuesta desde ${provider}`);
+    return text;
   } catch (error) {
     console.error("Error al consultar el asistente:", error);
     throw new Error("No se pudo obtener la respuesta de la IA. Intenta nuevamente.");
