@@ -75,6 +75,11 @@ A modern, dynamic portfolio application built with React, Vite, and Firebase. Th
     VITE_GROQ_MODEL=llama-3.3-70b-versatile
     ```
 
+    Important for Vite:
+    - Client-side variables must use the `VITE_` prefix.
+    - Access them with `import.meta.env`.
+    - Restart `npm run dev` after changing `.env`.
+
 4. **Run Locally**:
 
     ```bash
