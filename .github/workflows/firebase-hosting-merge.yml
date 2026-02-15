@@ -20,6 +20,14 @@ jobs:
           VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
+          VITE_OPEN_ROUTER_API_KEY: ${{ secrets.VITE_OPEN_ROUTER_API_KEY }}
+          VITE_GROQ_API_KEY: ${{ secrets.VITE_GROQ_API_KEY }}
+          VITE_GEMINI_MODEL: ${{ secrets.VITE_GEMINI_MODEL }}
+          VITE_OPEN_ROUTER_MODEL: ${{ secrets.VITE_OPEN_ROUTER_MODEL }}
+          VITE_GROQ_MODEL: ${{ secrets.VITE_GROQ_MODEL }}
+          VITE_OPENROUTER_SITE_URL: ${{ secrets.VITE_OPENROUTER_SITE_URL }}
+          VITE_OPENROUTER_APP_NAME: ${{ secrets.VITE_OPENROUTER_APP_NAME }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
