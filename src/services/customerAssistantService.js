@@ -23,7 +23,7 @@ export const askCustomerAssistant = async (messages, contactData = {}) => {
   ].filter(Boolean).join(", ");
 
   const history = messages
-    .slice(-6) // Solo enviamos los últimos 6 mensajes para mantenerlo ligero y enfocado
+    .slice(-10)
     .map((m) => `${m.role === "user" ? "Cliente" : "Navi"}: ${m.content}`)
     .join("\n");
 

@@ -42,23 +42,36 @@ function CustomerAssistant() {
     if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages, name, email, phone, appointmentDate]);
 
-  const extractContactInfo = (text) => {
+  const extractContactInfo = (text, lastBotMsg = "") => {
+    const updates = {};
+
     // Extraer Email
     const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
-    if (emailMatch && !email) setEmail(emailMatch[0]);
+    if (emailMatch && !email) updates.email = emailMatch[0];
 
-    // Extraer Teléfono (8+ dígitos seguidos de espacios/guiones)
+    // Extraer Teléfono (8+ dígitos)
     const phoneMatch = text.match(/(\+?\d[\d-\s]{7,}\d)/);
-    if (phoneMatch && !phone) setPhone(phoneMatch[0].replace(/\s/g, ""));
+    if (phoneMatch && !phone) updates.phone = phoneMatch[0].replace(/\s/g, "");
 
-    // Extraer Nombre (Heurística simple: "me llamo X" o "mi nombre es X")
-    const nameMatch = text.match(/(?:me llamo|soy|mi nombre es)\s+([a-zA-ZáéíóúÁÉÍÓÚñÑ]+)/i);
-    if (nameMatch && !name) setName(nameMatch[1].trim());
+    // Extraer Nombre: frase explícita O respuesta directa cuando Navi preguntó por el nombre
+    if (!name) {
+      const nameMatch = text.match(/(?:me llamo|soy|mi nombre es)\s+([a-zA-ZáéíóúÁÉÍÓÚñÑ]+)/i);
+      if (nameMatch) {
+        updates.name = nameMatch[1].trim();
+      } else if (
+        lastBotMsg.toLowerCase().includes("nombre") &&
+        /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,40}$/.test(text.trim())
+      ) {
+        updates.name = text.trim();
+      }
+    }
 
-    // Extraer Fecha (Heurística simple: "el 25 de mayo", "lunes", "mañana")
-    // Note: This is a placeholder for better extraction if needed, 
-    // but for now we rely on Navi confirming it and the user confirming.
-    // However, if Navi says "Anotado para el 25/05", we could potentially sync it back.
+    // Aplicar actualizaciones al estado
+    if (updates.name) setName(updates.name);
+    if (updates.email) setEmail(updates.email);
+    if (updates.phone) setPhone(updates.phone);
+
+    return updates;
   };
 
 
@@ -76,21 +89,24 @@ function CustomerAssistant() {
     setError("");
     setLoading(true);
 
-    // Intentar extraer info de contacto del mensaje del usuario
-    extractContactInfo(text);
+    // Extraer info de contacto y obtener valores frescos (evita stale closure)
+    const lastBotMsg = messages.filter((m) => m.role === "assistant").pop()?.content || "";
+    const extracted = extractContactInfo(text, lastBotMsg);
+    const freshName = extracted.name || name;
+    const freshEmail = extracted.email || email;
+    const freshPhone = extracted.phone || phone;
 
     try {
-      const reply = await askCustomerAssistant(nextMessages, { name, email, phone, appointmentDate: appointmentDate || "No definida" });
+      const reply = await askCustomerAssistant(nextMessages, { name: freshName, email: freshEmail, phone: freshPhone, appointmentDate: appointmentDate || "No definida" });
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
-      
+
       // Si la respuesta indica éxito final, disparamos el guardado a Google Sheets
       if (reply.toLowerCase().includes("guardados") || reply.toLowerCase().includes("registrada")) {
-        // Importar dinámicamente para no ensuciar el inicio
         const { sendToGoogleSheets } = await import("../services/googleSheetsService");
         sendToGoogleSheets({
-          name,
-          email,
-          phone,
+          name: freshName,
+          email: freshEmail,
+          phone: freshPhone,
           message: text,
           appointmentDate: appointmentDate || "Ver chat",
           source: "Navi AI"
