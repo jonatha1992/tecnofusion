@@ -1,8 +1,9 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { HiPhone, HiMail, HiLocationMarker } from "react-icons/hi";
 import { toast } from "react-toastify";
+import { sendToGoogleSheets } from "../services/googleSheetsService";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -19,6 +20,49 @@ function Contact({ id, title, gradientClass }) {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
     const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
     const [errors, setErrors] = useState({});
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    // Puente de datos con Navi
+    useEffect(() => {
+        const STORAGE_KEY = "tecnofusion-customer-assistant-v1";
+        const saved = localStorage.getItem(STORAGE_KEY);
+        let currentMessages = [];
+        if (saved) {
+            try {
+                currentMessages = JSON.parse(saved).messages || [];
+            } catch (e) {
+                console.error("Error al parsear mensajes previos", e);
+            }
+        }
+        
+        // Solo actualizamos si hay algo que actualizar para no pisar el historial
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            messages: currentMessages,
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            appointmentDate: selectedDate ? selectedDate.toISOString() : null
+        }));
+    }, [form.name, form.email, form.phone]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const STORAGE_KEY = "tecnofusion-customer-assistant-v1";
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    setForm(prev => ({
+                        ...prev,
+                        name: parsed.name || prev.name,
+                        email: parsed.email || prev.email,
+                        phone: parsed.phone || prev.phone
+                    }));
+                } catch (e) {}
+            }
+        }, 2000);
+        return () => clearInterval(interval);
+    }, []);
 
     const handleWhatsAppClick = () => {
         const phoneNumber = "5491159910666";
@@ -32,16 +76,20 @@ function Contact({ id, title, gradientClass }) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
         const phoneDigits = form.phone.replace(/\D/g, "");
 
-        if (!form.email.trim()) newErrors.email = "El email es obligatorio.";
-        else if (!emailRegex.test(form.email.trim())) newErrors.email = "Email inválido.";
+        // Email opcional, pero si se provee debe ser válido
+        if (form.email.trim() && !emailRegex.test(form.email.trim())) {
+            newErrors.email = "Email inválido.";
+        }
 
-        if (!form.phone.trim()) newErrors.phone = "El teléfono es obligatorio.";
-        else if (phoneDigits.length < 8 || phoneDigits.length > 15) newErrors.phone = "Usa entre 8 y 15 dígitos.";
+        // Teléfono opcional, pero si se provee debe tener formato básico
+        if (form.phone.trim() && (phoneDigits.length < 8 || phoneDigits.length > 15)) {
+            newErrors.phone = "Usa entre 8 y 15 dígitos.";
+        }
 
         if (!form.message.trim()) newErrors.message = "Cuéntanos brevemente tu necesidad.";
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0 ? phoneDigits : null;
+        return Object.keys(newErrors).length === 0 ? (phoneDigits || "sin_tel") : null;
     };
 
     const handleSubmit = (e) => {
@@ -51,13 +99,21 @@ function Contact({ id, title, gradientClass }) {
 
         const phoneNumber = "5491159910666";
         const summary = [
-            `Soy ${form.name || "un cliente"}.`,
-            `Email: ${form.email.trim()}.`,
-            `Tel: +${phoneDigits}.`,
+            `Soy ${form.name.trim() || "un cliente"}.`,
+            form.email.trim() ? `Email: ${form.email.trim()}.` : "",
+            phoneDigits !== "sin_tel" ? `Tel: +${phoneDigits}.` : "",
             `Necesidad: ${form.message.trim()}.`,
-        ].join(" ");
+            selectedDate ? `📆 Cita: ${selectedDate.toLocaleDateString('es-AR')}.` : "",
+        ].filter(Boolean).join(" ");
 
         window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(summary)}`, "_blank");
+        
+        // Envío en segundo plano a Google Sheets
+        sendToGoogleSheets({
+            ...form,
+            appointmentDate: selectedDate ? selectedDate.toISOString() : null
+        });
+
         toast.success("Abrí WhatsApp con tus datos listos.");
     };
 
@@ -116,7 +172,7 @@ function Contact({ id, title, gradientClass }) {
                             className="w-full max-w-2xl bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md shadow-lg"
                         >
                             <h3 className="text-lg font-bold text-white mb-2">Prefieres dejarnos tus datos</h3>
-                            <p className="text-sm text-white/70 mb-4">Validamos email y teléfono para que podamos contactarte.</p>
+                            <p className="text-sm text-white/70 mb-4">Puedes completar estos campos de forma opcional.</p>
                             <form className="space-y-3" onSubmit={handleSubmit} noValidate>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div>
@@ -130,7 +186,7 @@ function Contact({ id, title, gradientClass }) {
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-xs text-white/70 mb-1 block">Email *</label>
+                                        <label className="text-xs text-white/70 mb-1 block">Email (opcional)</label>
                                         <input
                                             type="email"
                                             value={form.email}
@@ -146,7 +202,7 @@ function Contact({ id, title, gradientClass }) {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div>
-                                        <label className="text-xs text-white/70 mb-1 block">Teléfono *</label>
+                                        <label className="text-xs text-white/70 mb-1 block">Teléfono (opcional)</label>
                                         <input
                                             type="tel"
                                             value={form.phone}
@@ -175,7 +231,7 @@ function Contact({ id, title, gradientClass }) {
 
                                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                                     <p className="text-xs text-white/60">
-                                        Verificamos email y teléfono antes de enviar para evitar errores.
+                                        Procesamos tus datos para facilitar el contacto inicial.
                                     </p>
                                     <button
                                         type="submit"

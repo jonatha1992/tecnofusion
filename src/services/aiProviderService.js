@@ -8,7 +8,7 @@ const OPEN_ROUTER_API_KEY =
   ENV.VITE_OPENROUTER_API_KEY;
 const GROQ_API_KEY = ENV.VITE_GROQ_API_KEY;
 
-const GEMINI_MODEL = ENV.VITE_GEMINI_MODEL || "gemini-2.5-flash";
+const GEMINI_MODEL = ENV.VITE_GEMINI_MODEL || "gemini-1.5-flash";
 const OPEN_ROUTER_MODEL =
   ENV.VITE_OPEN_ROUTER_MODEL || ENV.VITE_OPENROUTER_MODEL || "meta-llama/llama-3.1-8b-instruct";
 const GROQ_MODEL = ENV.VITE_GROQ_MODEL || "llama-3.3-70b-versatile";

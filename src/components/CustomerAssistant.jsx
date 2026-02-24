@@ -11,9 +11,10 @@ function CustomerAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [appointmentDate, setAppointmentDate] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const messagesEndRef = useRef(null);
@@ -24,8 +25,10 @@ function CustomerAssistant() {
       try {
         const parsed = JSON.parse(saved);
         setMessages(parsed.messages || []);
+        setName(parsed.name || "");
         setEmail(parsed.email || "");
         setPhone(parsed.phone || "");
+        setAppointmentDate(parsed.appointmentDate || null);
         return;
       } catch (e) {
         console.error("No se pudo cargar el historial del asistente cliente", e);
@@ -35,29 +38,35 @@ function CustomerAssistant() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ messages, email, phone }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ messages, name, email, phone, appointmentDate }));
     if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [messages, email, phone]);
+  }, [messages, name, email, phone, appointmentDate]);
 
-  const validateContact = () => {
-    const next = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    const digits = phone.replace(/\D/g, "");
-    if (!email.trim() || !emailRegex.test(email.trim())) {
-      next.email = "Email válido requerido";
-    }
-    if (!digits || digits.length < 8 || digits.length > 15) {
-      next.phone = "Teléfono con 8-15 dígitos";
-    }
-    setFieldErrors(next);
-    return Object.keys(next).length === 0;
+  const extractContactInfo = (text) => {
+    // Extraer Email
+    const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+    if (emailMatch && !email) setEmail(emailMatch[0]);
+
+    // Extraer Teléfono (8+ dígitos seguidos de espacios/guiones)
+    const phoneMatch = text.match(/(\+?\d[\d-\s]{7,}\d)/);
+    if (phoneMatch && !phone) setPhone(phoneMatch[0].replace(/\s/g, ""));
+
+    // Extraer Nombre (Heurística simple: "me llamo X" o "mi nombre es X")
+    const nameMatch = text.match(/(?:me llamo|soy|mi nombre es)\s+([a-zA-ZáéíóúÁÉÍÓÚñÑ]+)/i);
+    if (nameMatch && !name) setName(nameMatch[1].trim());
+
+    // Extraer Fecha (Heurística simple: "el 25 de mayo", "lunes", "mañana")
+    // Note: This is a placeholder for better extraction if needed, 
+    // but for now we rely on Navi confirming it and the user confirming.
+    // However, if Navi says "Anotado para el 25/05", we could potentially sync it back.
   };
+
+
 
   const handleSend = async (customText) => {
     if (loading) return;
     const text = (customText ?? input).trim();
     if (!text) return;
-    if (!validateContact()) return;
 
     const userMessage = { role: "user", content: text };
     const nextMessages = [...messages, userMessage];
@@ -67,9 +76,26 @@ function CustomerAssistant() {
     setError("");
     setLoading(true);
 
+    // Intentar extraer info de contacto del mensaje del usuario
+    extractContactInfo(text);
+
     try {
-      const reply = await askCustomerAssistant(nextMessages);
+      const reply = await askCustomerAssistant(nextMessages, { name, email, phone, appointmentDate: appointmentDate || "No definida" });
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      
+      // Si la respuesta indica éxito final, disparamos el guardado a Google Sheets
+      if (reply.toLowerCase().includes("guardados") || reply.toLowerCase().includes("registrada")) {
+        // Importar dinámicamente para no ensuciar el inicio
+        const { sendToGoogleSheets } = await import("../services/googleSheetsService");
+        sendToGoogleSheets({
+          name,
+          email,
+          phone,
+          message: text,
+          appointmentDate: appointmentDate || "Ver chat",
+          source: "Navi AI"
+        });
+      }
     } catch (err) {
       setError(err.message || "No pudimos responder ahora. Intenta de nuevo.");
     } finally {
@@ -87,10 +113,17 @@ function CustomerAssistant() {
   const handleReset = () => {
     setMessages([INITIAL_MESSAGE]);
     setError("");
+    setName("");
     setEmail("");
     setPhone("");
-    setFieldErrors({});
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ messages: [INITIAL_MESSAGE], email: "", phone: "" }));
+    setAppointmentDate(null);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ 
+      messages: [INITIAL_MESSAGE], 
+      name: "", 
+      email: "", 
+      phone: "",
+      appointmentDate: null 
+    }));
   };
 
   const renderMessage = (msg, idx) => {
@@ -159,30 +192,7 @@ function CustomerAssistant() {
           )}
 
           <div className="p-3 bg-[#0f1230] border-t border-white/10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
-              <div>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email (obligatorio)"
-                  className={`w-full px-3 py-2 text-xs rounded-lg bg-white/10 border text-white placeholder-white/50 focus:outline-none focus:ring-2 ${fieldErrors.email ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
-                    }`}
-                />
-                {fieldErrors.email && <p className="text-[10px] text-red-200 mt-1">{fieldErrors.email}</p>}
-              </div>
-              <div>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Teléfono con código"
-                  className={`w-full px-3 py-2 text-xs rounded-lg bg-white/10 border text-white placeholder-white/50 focus:outline-none focus:ring-2 ${fieldErrors.phone ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
-                    }`}
-                />
-                {fieldErrors.phone && <p className="text-[10px] text-red-200 mt-1">{fieldErrors.phone}</p>}
-              </div>
-            </div>
+
 
             <div className="flex items-end gap-2">
               <textarea
