@@ -5,16 +5,16 @@ Eres "Navi". Estilo: AMIGABLE PERO CONCISO, EDUCADO, SIN SALUDOS REPETITIVOS.
 
 Reglas de Oro:
 1. Sé amable y cortés al pedir información (ej: "¡Perfecto! ¿Me podrías indicar tu email?", en lugar de ser cortante). No uses más de 20 palabras por respuesta.
-2. Si el usuario da un dato (nombre, mail, tel), confírmalo amablemente (ej: "¡Anotado!") y pide el siguiente.
+2. Si el usuario da un dato (nombre, mail), confírmalo amablemente (ej: "¡Anotado!") y pide el siguiente.
 3. No saludes en cada mensaje si ya iniciaron la conversación.
-4. Tu único fin es obtener: Nombre, Email, Teléfono y Necesidad.
+4. Tu único fin es obtener: Nombre, Email y Necesidad.
 5. Si el usuario quiere una cita, pregúntale fecha y hora. Usa la "Fecha y hora actual" dada en el contexto para deducir qué día es "hoy" o "mañana".
 6. Al definir la cita, dile: "Agendaré la cita para el [FECHA/HORA] en nuestro calendario".
 7. Si ya tienes todos los datos y la cita, despídete amablemente: "¡Listo! Hemos registrado tus datos y tu cita. Nos comunicaremos pronto." y termina.
 `;
 
 export const askCustomerAssistant = async (messages, contactData = {}) => {
-  const { name, email, phone, appointmentDate } = contactData;
+  const { name, email, appointmentDate } = contactData;
   
   const currentDateStr = new Date().toLocaleString("es-AR", {
     timeZone: "America/Argentina/Buenos_Aires",
@@ -30,7 +30,6 @@ export const askCustomerAssistant = async (messages, contactData = {}) => {
     `Fecha y hora actual: ${currentDateStr}`,
     name ? `Nombre del cliente: ${name}` : null,
     email ? `Email: ${email}` : null,
-    phone ? `Tel: ${phone}` : null,
     appointmentDate ? `Cita actual: ${appointmentDate}` : "Sin cita agendada"
   ].filter(Boolean).join(", ");
 

@@ -1,7 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { FaWhatsapp } from "react-icons/fa";
-import { HiPhone, HiMail, HiLocationMarker } from "react-icons/hi";
+import { HiMail, HiLocationMarker } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { sendToGoogleSheets } from "../services/googleSheetsService";
 
@@ -18,7 +18,7 @@ const itemVariants = {
 function Contact({ id, title, gradientClass }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
-    const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+    const [form, setForm] = useState({ name: "", email: "", message: "" });
     const [errors, setErrors] = useState({});
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -40,10 +40,9 @@ function Contact({ id, title, gradientClass }) {
             messages: currentMessages,
             name: form.name,
             email: form.email,
-            phone: form.phone,
             appointmentDate: selectedDate ? selectedDate.toISOString() : null
         }));
-    }, [form.name, form.email, form.phone]);
+    }, [form.name, form.email]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -56,7 +55,6 @@ function Contact({ id, title, gradientClass }) {
                         ...prev,
                         name: parsed.name || prev.name,
                         email: parsed.email || prev.email,
-                        phone: parsed.phone || prev.phone
                     }));
                 } catch (e) {}
             }
@@ -81,27 +79,21 @@ function Contact({ id, title, gradientClass }) {
             newErrors.email = "Email inválido.";
         }
 
-        // Teléfono opcional, pero si se provee debe tener formato básico
-        if (form.phone.trim() && (phoneDigits.length < 8 || phoneDigits.length > 15)) {
-            newErrors.phone = "Usa entre 8 y 15 dígitos.";
-        }
-
         if (!form.message.trim()) newErrors.message = "Cuéntanos brevemente tu necesidad.";
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0 ? (phoneDigits || "sin_tel") : null;
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const phoneDigits = validateForm();
-        if (!phoneDigits) return;
+        const isValid = validateForm();
+        if (!isValid) return;
 
         const phoneNumber = "5491159910666";
         const summary = [
             `Soy ${form.name.trim() || "un cliente"}.`,
             form.email.trim() ? `Email: ${form.email.trim()}.` : "",
-            phoneDigits !== "sin_tel" ? `Tel: +${phoneDigits}.` : "",
             `Necesidad: ${form.message.trim()}.`,
             selectedDate ? `📆 Cita: ${selectedDate.toLocaleDateString('es-AR')}.` : "",
         ].filter(Boolean).join(" ");
@@ -200,20 +192,6 @@ function Contact({ id, title, gradientClass }) {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div>
-                                        <label className="text-xs text-white/70 mb-1 block">Teléfono (opcional)</label>
-                                        <input
-                                            type="tel"
-                                            value={form.phone}
-                                            onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                                            className={`w-full px-3 py-2 rounded-lg bg-white/10 border text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 ${
-                                                errors.phone ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
-                                            }`}
-                                            placeholder="+54 9 11 5991 0666"
-                                        />
-                                        {errors.phone && <p className="text-xs text-red-200 mt-1">{errors.phone}</p>}
-                                    </div>
                                     <div>
                                         <label className="text-xs text-white/70 mb-1 block">¿Qué necesitas? *</label>
                                         <textarea
@@ -227,7 +205,6 @@ function Contact({ id, title, gradientClass }) {
                                         />
                                         {errors.message && <p className="text-xs text-red-200 mt-1">{errors.message}</p>}
                                     </div>
-                                </div>
 
                                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                                     <p className="text-xs text-white/60">
@@ -244,16 +221,8 @@ function Contact({ id, title, gradientClass }) {
                         </motion.div>
 
                         {/* Información de contacto adicional */}
-                        <motion.div variants={itemVariants} className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
-                            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:bg-[#E68369]/10 hover:border-[#E68369]/30">
-                                <HiPhone className="text-5xl text-[#E68369] mx-auto mb-4" />
-                                <h3 className="text-lg font-bold text-white mb-2">
-                                    Teléfono
-                                </h3>
-                                <p className="text-sm text-white/80">
-                                    +54 9 11-5991-0666
-                                </p>
-                            </div>
+                        <motion.div variants={itemVariants} className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+
 
                             <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:bg-[#E68369]/10 hover:border-[#E68369]/30">
                                 <HiMail className="text-5xl text-[#E68369] mx-auto mb-4" />

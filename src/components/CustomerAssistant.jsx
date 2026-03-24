@@ -13,7 +13,6 @@ function CustomerAssistant() {
   const [input, setInput] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [appointmentDate, setAppointmentDate] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -27,7 +26,6 @@ function CustomerAssistant() {
         setMessages(parsed.messages || []);
         setName(parsed.name || "");
         setEmail(parsed.email || "");
-        setPhone(parsed.phone || "");
         setAppointmentDate(parsed.appointmentDate || null);
         return;
       } catch (e) {
@@ -38,9 +36,9 @@ function CustomerAssistant() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ messages, name, email, phone, appointmentDate }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ messages, name, email, appointmentDate }));
     if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [messages, name, email, phone, appointmentDate]);
+  }, [messages, name, email, appointmentDate]);
 
   const extractContactInfo = (text, lastBotMsg = "") => {
     const updates = {};
@@ -49,9 +47,7 @@ function CustomerAssistant() {
     const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
     if (emailMatch && !email) updates.email = emailMatch[0];
 
-    // Extraer Teléfono (8+ dígitos)
-    const phoneMatch = text.match(/(\+?\d[\d-\s]{7,}\d)/);
-    if (phoneMatch && !phone) updates.phone = phoneMatch[0].replace(/\s/g, "");
+
 
     // Extraer Nombre: frase explícita O respuesta directa cuando Navi preguntó por el nombre
     if (!name) {
@@ -69,7 +65,6 @@ function CustomerAssistant() {
     // Aplicar actualizaciones al estado
     if (updates.name) setName(updates.name);
     if (updates.email) setEmail(updates.email);
-    if (updates.phone) setPhone(updates.phone);
 
     return updates;
   };
@@ -94,10 +89,9 @@ function CustomerAssistant() {
     const extracted = extractContactInfo(text, lastBotMsg);
     const freshName = extracted.name || name;
     const freshEmail = extracted.email || email;
-    const freshPhone = extracted.phone || phone;
 
     try {
-      const reply = await askCustomerAssistant(nextMessages, { name: freshName, email: freshEmail, phone: freshPhone, appointmentDate: appointmentDate || "No definida" });
+      const reply = await askCustomerAssistant(nextMessages, { name: freshName, email: freshEmail, appointmentDate: appointmentDate || "No definida" });
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
 
       // Si la respuesta indica éxito final, disparamos el guardado a Google Sheets
@@ -106,7 +100,6 @@ function CustomerAssistant() {
         sendToGoogleSheets({
           name: freshName,
           email: freshEmail,
-          phone: freshPhone,
           message: text,
           appointmentDate: appointmentDate || "Ver chat",
           source: "Navi AI"
@@ -131,13 +124,11 @@ function CustomerAssistant() {
     setError("");
     setName("");
     setEmail("");
-    setPhone("");
     setAppointmentDate(null);
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ 
       messages: [INITIAL_MESSAGE], 
       name: "", 
       email: "", 
-      phone: "",
       appointmentDate: null 
     }));
   };
