@@ -11,10 +11,10 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          framerMotion: ['framer-motion'],
-          icons: ['react-icons'],
+        manualChunks: (id) => {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) return 'vendor';
+          if (id.includes('node_modules/framer-motion')) return 'framerMotion';
+          if (id.includes('node_modules/react-icons')) return 'icons';
         },
       },
     },

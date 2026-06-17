@@ -1,4 +1,5 @@
-import Slider from "react-slick";
+import _SliderModule from "react-slick";
+const Slider = _SliderModule?.default ?? _SliderModule;
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
@@ -149,11 +150,8 @@ function Hero() {
       {/* Contenido principal */}
       <div className="container relative z-20 w-full px-4 mx-auto">
         <Slider {...settings} className="w-full">
-          <motion.div
+          <div
             className="flex flex-col items-center justify-center min-h-[80vh] w-full py-12"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
             key={`slide-${currentSlide}`}
           >
             <motion.div variants={itemVariants}>
@@ -203,7 +201,7 @@ function Hero() {
                 Ver Proyectos
               </motion.button>
             </motion.div>
-          </motion.div>
+          </div>
 
           <motion.div
             className="flex flex-col items-center justify-center h-full py-8"
