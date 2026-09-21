@@ -204,7 +204,7 @@ function ProjectForm() {
           toast.success("Proyecto actualizado exitosamente");
         } else {
           // ... creacion ...
-          if (!imageFile && !imagePreview) {
+          if (!imageFile) {
             setError("Debes seleccionar una imagen para el proyecto");
             setLoading(false);
             return;
@@ -236,9 +236,6 @@ function ProjectForm() {
         try {
           const parsed = JSON.parse(savedData);
           formik.setValues(parsed.values);
-          if (parsed.imagePreview) {
-            setImagePreview(parsed.imagePreview);
-          }
           setHasSavedData(true);
           toast.info("Se recuperó un borrador guardado");
         } catch (e) {
@@ -253,11 +250,10 @@ function ProjectForm() {
     if (!isEditMode && (formik.values.title || formik.values.description || formik.values.githubLink || formik.values.previewLink)) {
       const dataToSave = {
         values: formik.values,
-        imagePreview: imagePreview,
       };
       localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(dataToSave));
     }
-  }, [formik.values, imagePreview, isEditMode]);
+  }, [formik.values, isEditMode]);
 
   const loadProject = async () => {
     try {

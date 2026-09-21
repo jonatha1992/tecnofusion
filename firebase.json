@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs20",
+    "ignore": ["node_modules", ".git", ".npm-cache", ".cache", "test", "*-debug.log", "*.local"]
+  },
   "hosting": {
     "public": "dist",
     "ignore": [

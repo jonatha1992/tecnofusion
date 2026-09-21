@@ -1,0 +1,11 @@
+{
+  "source_branch": "main",
+  "target_branch": "test",
+  "test_commands": [
+    "npm run build",
+    "cd functions; npm test"
+  ],
+  "require_docs_update": false,
+  "auto_commit_dev_changes": true,
+  "require_deploy_confirmation": true
+}

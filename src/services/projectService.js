@@ -1,6 +1,5 @@
 import {
   collection,
-  addDoc,
   updateDoc,
   deleteDoc,
   doc,
@@ -8,6 +7,7 @@ import {
   getDoc,
   query,
   serverTimestamp,
+  setDoc,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from "../firebase";
@@ -128,31 +128,38 @@ export const getProjectById = async (projectId) => {
  * @returns {Promise<string>} ID del proyecto creado
  */
 export const createProject = async (projectData, imageFile, readmeFile) => {
-  // Crear documento primero para obtener ID
-  const docRef = await addDoc(collection(db, PROJECTS_COLLECTION), {
-    ...projectData,
-    image: "",
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
+  // Reservamos el ID sin escribir nada todavia, para poder subir los archivos primero.
+  const docRef = doc(collection(db, PROJECTS_COLLECTION));
+  const uploadedUrls = [];
 
-  // Si hay imagen, subirla y actualizar el documento
-  if (imageFile) {
-    const imageUrl = await uploadProjectImage(imageFile, docRef.id);
-    await updateDoc(doc(db, PROJECTS_COLLECTION, docRef.id), {
+  try {
+    let imageUrl = "";
+    if (imageFile) {
+      imageUrl = await uploadProjectImage(imageFile, docRef.id);
+      uploadedUrls.push(imageUrl);
+    }
+
+    let readmeUrl = "";
+    if (readmeFile) {
+      readmeUrl = await uploadProjectReadme(readmeFile, docRef.id);
+      uploadedUrls.push(readmeUrl);
+    }
+
+    // Una sola escritura, ya con las URLs definitivas: el documento nunca existe a medio armar.
+    await setDoc(docRef, {
+      ...projectData,
       image: imageUrl,
+      ...(readmeUrl ? { readmeUrl } : {}),
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
     });
-  }
 
-  // Si hay README, subirlo y actualizar documento
-  if (readmeFile) {
-    const readmeUrl = await uploadProjectReadme(readmeFile, docRef.id);
-    await updateDoc(doc(db, PROJECTS_COLLECTION, docRef.id), {
-      readmeUrl: readmeUrl,
-    });
+    return docRef.id;
+  } catch (error) {
+    // Si algo falla no queda documento huerfano; solo limpiamos lo que ya se subio.
+    await Promise.all(uploadedUrls.map((url) => deleteProjectImage(url)));
+    throw error;
   }
-
-  return docRef.id;
 };
 
 /**
