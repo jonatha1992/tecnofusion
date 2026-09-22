@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none" role="img" aria-label="VoxNote AI">
+  <title>VoxNote AI - Aplicacion movil</title>
+  <defs>
+    <radialGradient id="voxnote-ai-movil-ambient" cx="0.5" cy="0.42" r="0.7">
+      <stop stop-color="#818CF8" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#0F172A" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="voxnote-ai-movil-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#818CF8" stroke-opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#0F172A"/>
+  <rect width="1200" height="675" fill="url(#voxnote-ai-movil-ambient)"/>
+  <rect width="1200" height="675" fill="url(#voxnote-ai-movil-grid)"/>
+  <rect x="96" y="152" width="1008" height="372" rx="28" stroke="#818CF8" stroke-opacity="0.24"/>
+  <rect x="500" y="180" width="200" height="330" rx="28" fill="#0F172A" stroke="#818CF8" stroke-width="3"/>
+  <rect x="556" y="196" width="88" height="8" rx="4" fill="#818CF8" fill-opacity="0.6"/>
+  <g fill="#818CF8" fill-opacity="0.25"><rect x="524" y="234" width="152" height="40" rx="10"/><rect x="524" y="292" width="152" height="40" rx="10"/><rect x="524" y="350" width="152" height="40" rx="10"/><rect x="524" y="408" width="152" height="40" rx="10"/></g>
+  <g stroke="#818CF8" stroke-width="3" stroke-linecap="round" stroke-opacity="0.55" fill="none">
+  <path d="M420 300c-30 25-30 65 0 90"/><path d="M780 300c30 25 30 65 0 90"/>
+  <path d="M372 270c-52 44-52 116 0 160"/><path d="M828 270c52 44 52 116 0 160"/></g>
+  <g font-family="Poppins, Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="144" y="196" fill="#818CF8" font-size="20" letter-spacing="5">MOBILE / AI</text>
+    <text x="1056" y="196" fill="#64748B" font-size="20" text-anchor="end">11</text>
+    <text x="144" y="506" fill="#94A3B8" font-size="19" letter-spacing="2">Aplicacion movil</text>
+  </g>
+</svg>

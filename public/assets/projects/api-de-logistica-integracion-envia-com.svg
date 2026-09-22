@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none" role="img" aria-label="API de Logistica">
+  <title>API de Logistica - Integracion Envia.com</title>
+  <defs>
+    <radialGradient id="api-de-logistica-integracion-envia-com-ambient" cx="0.5" cy="0.42" r="0.7">
+      <stop stop-color="#A78BFA" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#0F172A" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="api-de-logistica-integracion-envia-com-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#A78BFA" stroke-opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#0F172A"/>
+  <rect width="1200" height="675" fill="url(#api-de-logistica-integracion-envia-com-ambient)"/>
+  <rect width="1200" height="675" fill="url(#api-de-logistica-integracion-envia-com-grid)"/>
+  <rect x="96" y="152" width="1008" height="372" rx="28" stroke="#A78BFA" stroke-opacity="0.24"/>
+  <path d="M600 340L330 250" stroke="#A78BFA" stroke-opacity="0.4" stroke-width="2"/><path d="M600 340L600 200" stroke="#A78BFA" stroke-opacity="0.4" stroke-width="2"/><path d="M600 340L870 250" stroke="#A78BFA" stroke-opacity="0.4" stroke-width="2"/><path d="M600 340L330 430" stroke="#A78BFA" stroke-opacity="0.4" stroke-width="2"/><path d="M600 340L600 480" stroke="#A78BFA" stroke-opacity="0.4" stroke-width="2"/><path d="M600 340L870 430" stroke="#A78BFA" stroke-opacity="0.4" stroke-width="2"/><circle cx="600" cy="340" r="42" fill="#0F172A" stroke="#A78BFA" stroke-width="3"/><circle cx="330" cy="250" r="20" fill="#0F172A" stroke="#A78BFA" stroke-width="2.5"/><circle cx="600" cy="200" r="20" fill="#0F172A" stroke="#A78BFA" stroke-width="2.5"/><circle cx="870" cy="250" r="20" fill="#0F172A" stroke="#A78BFA" stroke-width="2.5"/><circle cx="330" cy="430" r="20" fill="#0F172A" stroke="#A78BFA" stroke-width="2.5"/><circle cx="600" cy="480" r="20" fill="#0F172A" stroke="#A78BFA" stroke-width="2.5"/><circle cx="870" cy="430" r="20" fill="#0F172A" stroke="#A78BFA" stroke-width="2.5"/>
+  <g font-family="Poppins, Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="144" y="196" fill="#A78BFA" font-size="20" letter-spacing="5">LOGISTICS / API</text>
+    <text x="1056" y="196" fill="#64748B" font-size="20" text-anchor="end">03</text>
+    <text x="144" y="506" fill="#94A3B8" font-size="19" letter-spacing="2">Integracion Envia.com</text>
+  </g>
+</svg>

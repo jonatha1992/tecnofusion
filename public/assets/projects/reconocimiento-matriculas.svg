@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <title>Visión artificial: matrícula, detección y escaneo</title>
+  <defs>
+    <radialGradient id="reconocimiento-matriculas-ambient" cx="0.5" cy="0.5" r="0.6">
+      <stop stop-color="#60A5FA" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#0F172A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="reconocimiento-matriculas-scan" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#60A5FA" stop-opacity="0"/>
+      <stop offset="1" stop-color="#60A5FA" stop-opacity="0.2"/>
+    </linearGradient>
+    <pattern id="reconocimiento-matriculas-pixels" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1.5" fill="#60A5FA" fill-opacity="0.16"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#0F172A"/>
+  <rect width="1200" height="675" fill="url(#reconocimiento-matriculas-ambient)"/>
+  <rect width="1200" height="675" fill="url(#reconocimiento-matriculas-pixels)"/>
+  <rect x="96" y="84" width="1008" height="507" rx="32" stroke="#60A5FA" stroke-opacity="0.22"/>
+  <g font-family="Poppins, Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="144" y="146" fill="#60A5FA" font-size="18" letter-spacing="5">PSA / COMPUTER VISION</text>
+    <text x="1056" y="146" fill="#64748B" font-size="18" text-anchor="end">02</text>
+    <text x="144" y="550" fill="#94A3B8" font-size="16" letter-spacing="3">DETECTION / RECOGNITION / EDGE</text>
+  </g>
+  <g stroke="#60A5FA" stroke-opacity="0.25" stroke-width="2">
+    <path d="M300 278 358 210h484l58 68m-552-50h504"/>
+    <path d="M288 278h624l32 52v117H256V330Z" fill="#1F2937"/>
+    <path d="m350 278 26-47h448l26 47Z" fill="#0F172A"/>
+    <path d="M286 409h88m452 0h88"/>
+    <path d="M286 315h74l20 30h-94Zm554 0h74v30h-94Z" fill="#60A5FA" fill-opacity="0.15"/>
+    <path d="M288 447v20h62v-20m500 0v20h62v-20"/>
+  </g>
+  <rect x="386" y="294" width="428" height="128" rx="12" fill="#60A5FA" fill-opacity="0.08" stroke="#60A5FA" stroke-opacity="0.4" stroke-dasharray="5 8"/>
+  <rect x="408" y="316" width="384" height="84" rx="12" fill="#E2E8F0"/>
+  <path d="M420 316h360a12 12 0 0 1 12 12v8H408v-8a12 12 0 0 1 12-12Z" fill="#1D4ED8"/>
+  <circle cx="427" cy="358" r="4" fill="#64748B"/>
+  <circle cx="773" cy="358" r="4" fill="#64748B"/>
+  <text x="600" y="380" text-anchor="middle" fill="#0F172A" font-family="Poppins, Inter, ui-sans-serif, system-ui, sans-serif" font-size="43" font-weight="700" letter-spacing="7">AB 123 CD</text>
+  <g stroke="#60A5FA" stroke-width="6" stroke-linecap="round">
+    <path d="M414 284h-38v38m410-38h38v38M376 394v38h38m372 0h38v-38"/>
+  </g>
+  <path d="M240 206h720v168H240Z" fill="url(#reconocimiento-matriculas-scan)"/>
+  <path d="M240 374h720" stroke="#60A5FA" stroke-width="2"/>
+  <path d="M240 368v12m720-12v12" stroke="#F8FAFC" stroke-width="3"/>
+  <g fill="#0F172A" stroke="#60A5FA" stroke-width="2">
+    <circle cx="300" cy="278" r="5"/><circle cx="900" cy="278" r="5"/>
+    <circle cx="358" cy="210" r="5"/><circle cx="842" cy="210" r="5"/>
+    <circle cx="286" cy="345" r="5"/><circle cx="914" cy="345" r="5"/>
+  </g>
+  <g stroke="#60A5FA" stroke-opacity="0.4">
+    <path d="M208 244v188m-10-188h20m-20 188h20m764-188v188m-10-188h20m-20 188h20"/>
+    <path d="M450 464h300m-300-6v12m300-12v12"/>
+  </g>
+  <rect x="842" y="212" width="88" height="36" rx="10" fill="#60A5FA"/>
+  <path d="m865 230 8 8 16-16" stroke="#0F172A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="910" cy="230" r="4" fill="#0F172A"/>
+</svg>

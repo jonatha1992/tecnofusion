@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none" role="img" aria-label="AudioText">
+  <title>AudioText - Transcriptor y traductor de audio</title>
+  <defs>
+    <radialGradient id="audiotext-transcriptor-y-traductor-de-audio-ambient" cx="0.5" cy="0.42" r="0.7">
+      <stop stop-color="#38BDF8" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#0F172A" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="audiotext-transcriptor-y-traductor-de-audio-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#38BDF8" stroke-opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#0F172A"/>
+  <rect width="1200" height="675" fill="url(#audiotext-transcriptor-y-traductor-de-audio-ambient)"/>
+  <rect width="1200" height="675" fill="url(#audiotext-transcriptor-y-traductor-de-audio-grid)"/>
+  <rect x="96" y="152" width="1008" height="372" rx="28" stroke="#38BDF8" stroke-opacity="0.24"/>
+  <g fill="#38BDF8" fill-opacity="0.85"><rect x="268" y="329.0" width="8" height="18.0" rx="4"/><rect x="288" y="290.3" width="8" height="95.3" rx="4"/><rect x="308" y="269.9" width="8" height="136.3" rx="4"/><rect x="328" y="277.2" width="8" height="121.6" rx="4"/><rect x="348" y="308.9" width="8" height="58.2" rx="4"/><rect x="368" y="308.0" width="8" height="60.1" rx="4"/><rect x="388" y="276.7" width="8" height="122.6" rx="4"/><rect x="408" y="270.1" width="8" height="135.9" rx="4"/><rect x="428" y="291.1" width="8" height="93.8" rx="4"/><rect x="448" y="328.0" width="8" height="20.0" rx="4"/><rect x="468" y="289.6" width="8" height="96.8" rx="4"/><rect x="488" y="269.7" width="8" height="136.6" rx="4"/><rect x="508" y="277.7" width="8" height="120.6" rx="4"/><rect x="528" y="309.9" width="8" height="56.3" rx="4"/><rect x="548" y="307.0" width="8" height="62.0" rx="4"/><rect x="568" y="276.2" width="8" height="123.6" rx="4"/><rect x="588" y="270.2" width="8" height="135.5" rx="4"/><rect x="608" y="291.9" width="8" height="92.2" rx="4"/><rect x="628" y="327.0" width="8" height="22.0" rx="4"/><rect x="648" y="288.8" width="8" height="98.3" rx="4"/><rect x="668" y="269.6" width="8" height="136.9" rx="4"/><rect x="688" y="278.3" width="8" height="119.5" rx="4"/><rect x="708" y="310.8" width="8" height="54.4" rx="4"/><rect x="728" y="306.1" width="8" height="63.8" rx="4"/><rect x="748" y="275.7" width="8" height="124.5" rx="4"/><rect x="768" y="270.5" width="8" height="135.1" rx="4"/><rect x="788" y="292.7" width="8" height="90.6" rx="4"/><rect x="808" y="326.0" width="8" height="24.1" rx="4"/><rect x="828" y="288.1" width="8" height="99.8" rx="4"/><rect x="848" y="269.4" width="8" height="137.1" rx="4"/><rect x="868" y="278.8" width="8" height="118.4" rx="4"/><rect x="888" y="311.8" width="8" height="52.4" rx="4"/><rect x="908" y="305.1" width="8" height="65.7" rx="4"/><rect x="928" y="275.3" width="8" height="125.4" rx="4"/></g><path d="M256 338H952" stroke="#38BDF8" stroke-opacity="0.35" stroke-width="2"/>
+  <g font-family="Poppins, Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="144" y="196" fill="#38BDF8" font-size="20" letter-spacing="5">SPEECH / NLP</text>
+    <text x="1056" y="196" fill="#64748B" font-size="20" text-anchor="end">01</text>
+    <text x="144" y="506" fill="#94A3B8" font-size="19" letter-spacing="2">Transcriptor y traductor de audio</text>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none" role="img" aria-label="Forgotten Objects System">
+  <title>Forgotten Objects System - Registro de objetos</title>
+  <defs>
+    <radialGradient id="forgotten-objects-system-ambient" cx="0.5" cy="0.42" r="0.7">
+      <stop stop-color="#94A3B8" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#0F172A" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="forgotten-objects-system-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#94A3B8" stroke-opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#0F172A"/>
+  <rect width="1200" height="675" fill="url(#forgotten-objects-system-ambient)"/>
+  <rect width="1200" height="675" fill="url(#forgotten-objects-system-grid)"/>
+  <rect x="96" y="152" width="1008" height="372" rx="28" stroke="#94A3B8" stroke-opacity="0.24"/>
+  <g transform="translate(0,-40)"><g fill="#94A3B8" fill-opacity="0.18"><path d="M360 300l240-90 240 90-240 90z"/></g>
+  <g fill="none" stroke="#94A3B8" stroke-width="3">
+  <path d="M360 300l240-90 240 90v180l-240 90-240-90z"/><path d="M360 300l240 90 240-90M600 390v180"/></g></g>
+  <g font-family="Poppins, Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="144" y="196" fill="#94A3B8" font-size="20" letter-spacing="5">INVENTORY</text>
+    <text x="1056" y="196" fill="#64748B" font-size="20" text-anchor="end">14</text>
+    <text x="144" y="506" fill="#94A3B8" font-size="19" letter-spacing="2">Registro de objetos</text>
+  </g>
+</svg>

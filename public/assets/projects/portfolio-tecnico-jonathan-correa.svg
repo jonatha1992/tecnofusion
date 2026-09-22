@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none" role="img" aria-label="Portfolio Tecnico">
+  <title>Portfolio Tecnico - Jonathan Correa</title>
+  <defs>
+    <radialGradient id="portfolio-tecnico-jonathan-correa-ambient" cx="0.5" cy="0.42" r="0.7">
+      <stop stop-color="#60A5FA" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#0F172A" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="portfolio-tecnico-jonathan-correa-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#60A5FA" stroke-opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#0F172A"/>
+  <rect width="1200" height="675" fill="url(#portfolio-tecnico-jonathan-correa-ambient)"/>
+  <rect width="1200" height="675" fill="url(#portfolio-tecnico-jonathan-correa-grid)"/>
+  <rect x="96" y="152" width="1008" height="372" rx="28" stroke="#60A5FA" stroke-opacity="0.24"/>
+  <g fill="#0F172A" stroke="#60A5FA" stroke-width="2.5"><rect x="320" y="208" width="160" height="80" rx="12"/><rect x="520" y="208" width="160" height="80" rx="12"/><rect x="720" y="208" width="160" height="80" rx="12"/><rect x="320" y="312" width="160" height="80" rx="12"/><rect x="520" y="312" width="160" height="80" rx="12"/><rect x="720" y="312" width="160" height="80" rx="12"/><rect x="320" y="416" width="160" height="80" rx="12"/><rect x="520" y="416" width="160" height="80" rx="12"/><rect x="720" y="416" width="160" height="80" rx="12"/></g><g fill="#60A5FA" fill-opacity="0.5"><rect x="340" y="230" width="60" height="10" rx="5"/><rect x="540" y="230" width="92" height="10" rx="5"/><rect x="740" y="230" width="124" height="10" rx="5"/><rect x="340" y="334" width="92" height="10" rx="5"/><rect x="540" y="334" width="124" height="10" rx="5"/><rect x="740" y="334" width="60" height="10" rx="5"/><rect x="340" y="438" width="124" height="10" rx="5"/><rect x="540" y="438" width="60" height="10" rx="5"/><rect x="740" y="438" width="92" height="10" rx="5"/></g>
+  <g font-family="Poppins, Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="144" y="196" fill="#60A5FA" font-size="20" letter-spacing="5">PORTFOLIO / WEB</text>
+    <text x="1056" y="196" fill="#64748B" font-size="20" text-anchor="end">09</text>
+    <text x="144" y="506" fill="#94A3B8" font-size="19" letter-spacing="2">Jonathan Correa</text>
+  </g>
+</svg>

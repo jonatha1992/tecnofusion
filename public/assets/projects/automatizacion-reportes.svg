@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <title>Automatización: pipeline de datos y reportes predictivos</title>
+  <defs>
+    <radialGradient id="automatizacion-reportes-ambient" cx="0.55" cy="0.5" r="0.6">
+      <stop stop-color="#F59E0B" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#0F172A" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="automatizacion-reportes-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M16 20h8m-4-4v8" stroke="#F59E0B" stroke-opacity="0.12"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#0F172A"/>
+  <rect width="1200" height="675" fill="url(#automatizacion-reportes-ambient)"/>
+  <rect width="1200" height="675" fill="url(#automatizacion-reportes-grid)"/>
+  <rect x="96" y="84" width="1008" height="507" rx="32" stroke="#60A5FA" stroke-opacity="0.22"/>
+  <g font-family="Poppins, Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="144" y="146" fill="#F59E0B" font-size="18" letter-spacing="5">PSA / DATA AUTOMATION</text>
+    <text x="1056" y="146" fill="#64748B" font-size="18" text-anchor="end">03</text>
+    <text x="144" y="550" fill="#94A3B8" font-size="16" letter-spacing="3">INGEST / TRANSFORM / REPORT</text>
+  </g>
+  <g stroke="#F59E0B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M350 268h46a16 16 0 0 1 16 16v108a16 16 0 0 1-16 16h-46" stroke-opacity="0.6"/>
+    <path d="M412 338h62m-12-9 12 9-12 9"/>
+    <path d="M626 338h84m-12-9 12 9-12 9"/>
+  </g>
+  <g fill="#1F2937" stroke="#F59E0B" stroke-opacity="0.45" stroke-width="2">
+    <rect x="246" y="220" width="104" height="96" rx="20"/>
+    <rect x="246" y="360" width="104" height="96" rx="20"/>
+    <rect x="474" y="262" width="152" height="152" rx="24"/>
+  </g>
+  <g stroke="#F59E0B" stroke-width="3" stroke-linejoin="round">
+    <path d="M272 250v32c0 14 52 14 52 0v-32"/>
+    <ellipse cx="298" cy="250" rx="26" ry="9"/>
+    <path d="M272 266c0 14 52 14 52 0"/>
+    <path d="M276 386h44v44h-44Zm0 14h44m-30-14v44"/>
+  </g>
+  <circle cx="550" cy="338" r="47" stroke="#F59E0B" stroke-opacity="0.15" stroke-width="12"/>
+  <g stroke="#F59E0B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M514 326a38 38 0 0 1 65-15m-1-13 2 16-16-2"/>
+    <path d="M586 350a38 38 0 0 1-65 15m1 13-2-16 16 2"/>
+    <path d="m538 338 9 9 17-18"/>
+  </g>
+  <rect x="760" y="200" width="192" height="252" rx="16" fill="#1E3A8A" stroke="#60A5FA" stroke-opacity="0.3"/>
+  <rect x="738" y="218" width="192" height="252" rx="16" fill="#1F2937" stroke="#F59E0B" stroke-opacity="0.4"/>
+  <path d="M732 238h124l52 52v180a16 16 0 0 1-16 16H732a16 16 0 0 1-16-16V254a16 16 0 0 1 16-16Z" fill="#0F172A" stroke="#F59E0B" stroke-width="2"/>
+  <path d="M856 238v40a12 12 0 0 0 12 12h40" fill="#F59E0B" fill-opacity="0.12" stroke="#F59E0B" stroke-width="2"/>
+  <path d="M740 266h67" stroke="#F59E0B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M740 286h44" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>
+  <rect x="738" y="308" width="148" height="112" rx="10" fill="#1F2937"/>
+  <path d="M752 320v86h120m-120-28h120m-120-28h120" stroke="#94A3B8" stroke-opacity="0.25"/>
+  <path d="m756 397 112-66" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+  <g fill="#60A5FA">
+    <circle cx="763" cy="381" r="4"/><circle cx="778" cy="395" r="4"/>
+    <circle cx="787" cy="367" r="4"/><circle cx="805" cy="379" r="4"/>
+    <circle cx="815" cy="352" r="4"/><circle cx="834" cy="361" r="4"/>
+    <circle cx="843" cy="336" r="4"/><circle cx="863" cy="347" r="4"/>
+  </g>
+  <path d="M740 438h100m-100 18h70" stroke="#64748B" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="873" cy="450" r="12" fill="#F59E0B"/>
+  <path d="m868 450 4 4 7-8" stroke="#0F172A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#F59E0B">
+    <circle cx="412" cy="338" r="5"/>
+    <circle cx="670" cy="338" r="5"/>
+  </g>
+</svg>

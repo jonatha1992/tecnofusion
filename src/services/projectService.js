@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from "../firebase";
+import { resolveProjectImage } from "../data/projectCovers";
 
 const PROJECTS_COLLECTION = "projects";
 
@@ -78,9 +79,12 @@ export const getAllProjects = async () => {
   const projects = [];
 
   querySnapshot.forEach((doc) => {
+    const data = doc.data();
     projects.push({
       id: doc.id,
-      ...doc.data(),
+      ...data,
+      // La portada local gana sobre la URL de Storage, que hoy responde 402.
+      image: resolveProjectImage(data.title, data.image),
     });
   });
 
