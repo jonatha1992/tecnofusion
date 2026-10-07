@@ -47,3 +47,7 @@ dist-ssr
 .firebase/*.*.cache
 .firebase/hosting.ZGlzdA.cache
 .firebase/hosting.ZGlzdA.cache
+
+# Test scripts
+test-*.js
+test-*.cjs
