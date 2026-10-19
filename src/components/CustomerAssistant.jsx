@@ -139,7 +139,7 @@ function CustomerAssistant() {
       <div key={`${msg.role}-${idx}`} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
         <div
           className={`max-w-[85%] rounded-2xl px-3 py-2 text-xs leading-relaxed shadow ${isUser
-            ? "bg-gradient-to-r from-[#E68369] to-[#d67359] text-white"
+            ? "bg-linear-to-r from-[#E68369] to-[#d67359] text-white"
             : "bg-white/10 border border-white/10 text-white"
             }`}
         >
@@ -153,7 +153,7 @@ function CustomerAssistant() {
     <div className="fixed bottom-4 right-4 z-40">
       {isOpen ? (
         <div className="w-[360px] max-w-[calc(100vw-1.5rem)] bg-[#0b0f20] border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-md">
-          <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#0f172a] to-[#0b1024] border-b border-white/10">
+          <div className="flex items-center justify-between px-4 py-3 bg-linear-to-r from-[#0f172a] to-[#0b1024] border-b border-white/10">
             <div className="space-y-0.5">
               <p className="text-[11px] font-semibold text-white/70">Tecnofusion · Asesor</p>
               <h3 className="text-sm font-bold text-white">Navi</h3>
@@ -208,13 +208,13 @@ function CustomerAssistant() {
                 onKeyDown={handleKeyDown}
                 rows={2}
                 placeholder="Cuéntanos tu idea en 1-2 líneas..."
-                className="flex-1 w-full resize-none rounded-xl bg-white/10 border border-white/15 px-3 py-2 text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/70 focus:border-transparent"
+                className="flex-1 w-full resize-none rounded-xl bg-white/10 border border-white/15 px-3 py-2 text-sm text-white placeholder-white/50 focus:outline-hidden focus:ring-2 focus:ring-[#22d3ee]/70 focus:border-transparent"
                 disabled={loading}
               />
               <button
                 onClick={() => handleSend()}
                 disabled={loading}
-                className="h-10 w-10 flex items-center justify-center rounded-xl bg-gradient-to-r from-[#2563eb] to-[#22d3ee] text-white font-bold shadow-lg hover:shadow-xl transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-10 w-10 flex items-center justify-center rounded-xl bg-linear-to-r from-[#2563eb] to-[#22d3ee] text-white font-bold shadow-lg hover:shadow-xl transition disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Enviar mensaje"
               >
                 {loading ? (
@@ -235,7 +235,7 @@ function CustomerAssistant() {
       ) : (
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#2563eb] to-[#22d3ee] text-white font-semibold shadow-lg hover:shadow-xl transition"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-[#2563eb] to-[#22d3ee] text-white font-semibold shadow-lg hover:shadow-xl transition"
           aria-label="Abrir asistente comercial"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

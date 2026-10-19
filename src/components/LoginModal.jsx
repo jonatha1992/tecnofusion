@@ -59,7 +59,7 @@ function LoginModal({ open, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4"
       onClick={handleClose}
     >
       <div
@@ -69,7 +69,7 @@ function LoginModal({ open, onClose }) {
         {/* Modal */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all">
           {/* Header */}
-          <div className="relative bg-gradient-to-br from-[#131842] via-[#1a2557] to-[#131842] px-6 py-10">
+          <div className="relative bg-linear-to-br from-[#131842] via-[#1a2557] to-[#131842] px-6 py-10">
             <button
               onClick={handleClose}
               className="absolute top-3 right-3 text-white bg-white/20 hover:bg-white/30 hover:text-white rounded-full p-2 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110 z-10"
@@ -82,7 +82,7 @@ function LoginModal({ open, onClose }) {
             </button>
 
             <div className="flex flex-col items-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-[#E68369] to-[#d67359] rounded-full flex items-center justify-center mb-4 shadow-lg ring-4 ring-white/20">
+              <div className="w-20 h-20 bg-linear-to-br from-[#E68369] to-[#d67359] rounded-full flex items-center justify-center mb-4 shadow-lg ring-4 ring-white/20">
                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
@@ -93,7 +93,7 @@ function LoginModal({ open, onClose }) {
           </div>
 
           {/* Body */}
-          <div className="relative px-8 py-8 bg-gradient-to-b from-white to-gray-50">
+          <div className="relative px-8 py-8 bg-linear-to-b from-white to-gray-50">
             {/* Close button visible on white background */}
             <button
               onClick={handleClose}
@@ -109,8 +109,8 @@ function LoginModal({ open, onClose }) {
             <form onSubmit={handleSubmit}>
               {/* Error Alert */}
               {error && (
-                <div className="mb-5 bg-red-50 border-l-4 border-red-500 text-red-800 px-4 py-3.5 rounded-r-lg flex items-start shadow-sm">
-                  <svg className="w-5 h-5 mr-3 flex-shrink-0 mt-0.5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <div className="mb-5 bg-red-50 border-l-4 border-red-500 text-red-800 px-4 py-3.5 rounded-r-lg flex items-start shadow-xs">
+                  <svg className="w-5 h-5 mr-3 shrink-0 mt-0.5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                   </svg>
                   <span className="text-sm font-medium">{error}</span>
@@ -136,7 +136,7 @@ function LoginModal({ open, onClose }) {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E68369] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
+                    className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#E68369] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
                     placeholder="correo@ejemplo.com"
                   />
                 </div>
@@ -161,7 +161,7 @@ function LoginModal({ open, onClose }) {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-11 pr-12 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E68369] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
+                    className="w-full pl-11 pr-12 py-3 border-2 border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#E68369] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
                     placeholder="••••••••"
                   />
                   <button
@@ -188,7 +188,7 @@ function LoginModal({ open, onClose }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-[#E68369] to-[#d67359] text-white py-3.5 rounded-lg font-bold text-base hover:from-[#d67359] hover:to-[#c66349] focus:outline-none focus:ring-4 focus:ring-[#E68369]/30 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transform"
+                className="w-full bg-linear-to-r from-[#E68369] to-[#d67359] text-white py-3.5 rounded-lg font-bold text-base hover:from-[#d67359] hover:to-[#c66349] focus:outline-hidden focus:ring-4 focus:ring-[#E68369]/30 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transform"
               >
                 {loading ? (
                   <div className="flex items-center justify-center">

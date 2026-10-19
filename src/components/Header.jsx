@@ -65,8 +65,8 @@ function Header() {
     };
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-[1201] bg-gray-900/95 backdrop-blur-[10px] shadow-lg border-b border-white/10">
-            <div className="container max-w-screen-lg px-4 mx-auto sm:px-6 md:px-8">
+        <header className="fixed top-0 left-0 right-0 z-1201 bg-gray-900/95 backdrop-blur-[10px] shadow-lg border-b border-white/10">
+            <div className="container max-w-(--breakpoint-lg) px-4 mx-auto sm:px-6 md:px-8">
                 <nav className="flex items-center justify-between min-h-[68px]">
                     {/* Logo - Desktop */}
                     <a

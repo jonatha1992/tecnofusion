@@ -138,7 +138,7 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                         key={index}
                                         className={`group relative cursor-pointer transition-all duration-300 rounded-xl overflow-hidden
                                             ${activeService === index
-                                                ? 'bg-gradient-to-r from-[#E68369]/20 to-[#E68369]/10 border-l-4 border-[#E68369] shadow-lg shadow-[#E68369]/20'
+                                                ? 'bg-linear-to-r from-[#E68369]/20 to-[#E68369]/10 border-l-4 border-[#E68369] shadow-lg shadow-[#E68369]/20'
                                                 : 'bg-white/5 border-l-4 border-transparent hover:bg-white/10 hover:border-l-[#E68369]/50'
                                             }`}
                                         onMouseEnter={() => setActiveService(index)}
@@ -146,10 +146,10 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                         transition={{ duration: 0.2 }}
                                     >
                                         {/* Subtle gradient overlay */}
-                                        <div className={`absolute inset-0 bg-gradient-to-r from-transparent to-[#E68369]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                                        <div className={`absolute inset-0 bg-linear-to-r from-transparent to-[#E68369]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
 
                                         <div className="flex items-center p-4 relative z-10">
-                                            <div className={`flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-300
+                                            <div className={`shrink-0 w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-300
                                                 ${activeService === index
                                                     ? 'bg-[#E68369] shadow-lg shadow-[#E68369]/30 scale-110'
                                                     : 'bg-[#131842] group-hover:bg-[#E68369]/20 group-hover:scale-105'
@@ -170,7 +170,7 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                             </div>
 
                                             <motion.svg
-                                                className={`flex-shrink-0 w-5 h-5 ml-3 transition-colors duration-300
+                                                className={`shrink-0 w-5 h-5 ml-3 transition-colors duration-300
                                                     ${activeService === index ? 'text-[#E68369]' : 'text-gray-500 group-hover:text-[#E68369]'}`}
                                                 fill="none"
                                                 stroke="currentColor"
@@ -199,15 +199,15 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ duration: 0.4, ease: "easeOut" }}
                                     >
-                                        <div className="relative bg-gradient-to-br from-white/[0.08] to-white/[0.03] backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-white/10 overflow-hidden min-h-[520px] flex flex-col">
+                                        <div className="relative bg-linear-to-br from-white/8 to-white/3 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-white/10 overflow-hidden min-h-[520px] flex flex-col">
                                             {/* Decorative gradient */}
-                                            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#E68369]/20 to-transparent rounded-full blur-3xl opacity-50" />
-                                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-[#131842]/40 to-transparent rounded-full blur-3xl opacity-50" />
+                                            <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-[#E68369]/20 to-transparent rounded-full blur-3xl opacity-50" />
+                                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-linear-to-tr from-[#131842]/40 to-transparent rounded-full blur-3xl opacity-50" />
 
                                             <div className="relative z-10 flex flex-col h-full">
                                                 {/* Header */}
                                                 <div className="flex items-center mb-5">
-                                                    <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-gradient-to-br from-[#E68369] to-[#d67359] shadow-lg shadow-[#E68369]/30">
+                                                    <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-linear-to-br from-[#E68369] to-[#d67359] shadow-lg shadow-[#E68369]/30">
                                                         <span className="text-3xl">{serviceList[activeService].icon}</span>
                                                     </div>
                                                     <h3 className="font-bold text-2xl text-white ml-4">
@@ -222,7 +222,7 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                                         alt={serviceList[activeService].title}
                                                         className="w-full h-[160px] object-cover transition-transform duration-500 group-hover/img:scale-105"
                                                     />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-[#131842]/60 to-transparent" />
+                                                    <div className="absolute inset-0 bg-linear-to-t from-[#131842]/60 to-transparent" />
                                                 </div>
 
                                                 {/* Description */}
@@ -242,7 +242,7 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                                         {serviceList[activeService].technologies.map((tech, techIndex) => (
                                                             <span
                                                                 key={techIndex}
-                                                                className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-[#131842]/60 border border-[#E68369]/30 text-[#E68369] backdrop-blur-sm hover:bg-[#E68369]/10 hover:border-[#E68369] transition-all duration-300"
+                                                                className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-[#131842]/60 border border-[#E68369]/30 text-[#E68369] backdrop-blur-xs hover:bg-[#E68369]/10 hover:border-[#E68369] transition-all duration-300"
                                                             >
                                                                 {tech}
                                                             </span>
@@ -264,7 +264,7 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                                                 key={benefitIndex}
                                                                 className="flex items-start text-gray-100 text-sm group/benefit"
                                                             >
-                                                                <svg className="w-5 h-5 mr-2 flex-shrink-0 text-[#E68369] group-hover/benefit:scale-110 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                                                                <svg className="w-5 h-5 mr-2 shrink-0 text-[#E68369] group-hover/benefit:scale-110 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
                                                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                                                 </svg>
                                                                 <span>{benefit}</span>
@@ -283,7 +283,7 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                                     </div>
 
                                                     <motion.button
-                                                        className="relative bg-gradient-to-r from-[#E68369] to-[#d67359] text-white px-6 py-2.5 rounded-lg font-semibold text-sm shadow-lg hover:shadow-[#E68369]/40 transition-all duration-300 overflow-hidden group/btn"
+                                                        className="relative bg-linear-to-r from-[#E68369] to-[#d67359] text-white px-6 py-2.5 rounded-lg font-semibold text-sm shadow-lg hover:shadow-[#E68369]/40 transition-all duration-300 overflow-hidden group/btn"
                                                         whileHover={{ scale: 1.05 }}
                                                         whileTap={{ scale: 0.98 }}
                                                     >
@@ -294,16 +294,16 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                                             </svg>
                                                         </span>
                                                         {/* Button shine effect */}
-                                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-700" />
+                                                        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-700" />
                                                     </motion.button>
                                                 </div>
                                             </div>
                                         </div>
                                     </motion.div>
                                 ) : (
-                                    <div className="bg-gradient-to-br from-white/[0.05] to-white/[0.02] backdrop-blur-sm rounded-2xl flex items-center justify-center min-h-[520px] shadow-xl border border-white/10">
+                                    <div className="bg-linear-to-br from-white/5 to-white/2 backdrop-blur-xs rounded-2xl flex items-center justify-center min-h-[520px] shadow-xl border border-white/10">
                                         <div className="text-center px-6">
-                                            <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#E68369]/20 to-[#131842]/20 rounded-2xl flex items-center justify-center">
+                                            <div className="w-20 h-20 mx-auto mb-4 bg-linear-to-br from-[#E68369]/20 to-[#131842]/20 rounded-2xl flex items-center justify-center">
                                                 <svg className="w-10 h-10 text-[#E68369]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
                                                 </svg>
@@ -340,14 +340,14 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                 <motion.div
                                     className={`cursor-pointer transition-all duration-300 rounded-xl overflow-hidden
                                         ${activeService === index
-                                            ? 'bg-gradient-to-r from-[#E68369]/20 to-[#E68369]/10 border-l-4 border-[#E68369] shadow-lg'
+                                            ? 'bg-linear-to-r from-[#E68369]/20 to-[#E68369]/10 border-l-4 border-[#E68369] shadow-lg'
                                             : 'bg-white/5 border-l-4 border-transparent'
                                         }`}
                                     onClick={() => setActiveService(activeService === index ? null : index)}
                                     whileTap={{ scale: 0.98 }}
                                 >
                                     <div className="flex items-center p-4">
-                                        <div className={`flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-300
+                                        <div className={`shrink-0 w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-300
                                             ${activeService === index
                                                 ? 'bg-[#E68369] shadow-lg shadow-[#E68369]/30'
                                                 : 'bg-[#131842]'
@@ -368,7 +368,7 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                         </div>
 
                                         <motion.svg
-                                            className={`flex-shrink-0 w-5 h-5 ml-2 transition-colors duration-300
+                                            className={`shrink-0 w-5 h-5 ml-2 transition-colors duration-300
                                                 ${activeService === index ? 'text-[#E68369]' : 'text-gray-500'}`}
                                             fill="none"
                                             stroke="currentColor"
@@ -392,7 +392,7 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                     className="overflow-hidden"
                                 >
                                     {activeService === index && (
-                                        <div className="bg-gradient-to-br from-white/[0.08] to-white/[0.03] backdrop-blur-xl rounded-xl p-5 shadow-lg mt-3 mx-2 border border-white/10">
+                                        <div className="bg-linear-to-br from-white/8 to-white/3 backdrop-blur-xl rounded-xl p-5 shadow-lg mt-3 mx-2 border border-white/10">
                                             <img
                                                 src={service.image}
                                                 alt={service.title}
@@ -435,7 +435,7 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                                             key={benefitIndex}
                                                             className="flex items-start text-gray-100 text-xs"
                                                         >
-                                                            <svg className="w-4 h-4 mr-2 flex-shrink-0 text-[#E68369] mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                            <svg className="w-4 h-4 mr-2 shrink-0 text-[#E68369] mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                                             </svg>
                                                             <span>{benefit}</span>
@@ -452,7 +452,7 @@ function Servicios({ id, title, gradientClass, services, containerVariants, item
                                                     <span className="font-semibold text-white">{service.deliveryTime}</span>
                                                 </div>
 
-                                                <button className="w-full sm:w-auto bg-gradient-to-r from-[#E68369] to-[#d67359] text-white px-5 py-2 rounded-lg font-semibold text-xs shadow-lg hover:shadow-[#E68369]/30 transition-all duration-300 flex items-center justify-center">
+                                                <button className="w-full sm:w-auto bg-linear-to-r from-[#E68369] to-[#d67359] text-white px-5 py-2 rounded-lg font-semibold text-xs shadow-lg hover:shadow-[#E68369]/30 transition-all duration-300 flex items-center justify-center">
                                                     Solicitar Cotización
                                                     <svg className="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />

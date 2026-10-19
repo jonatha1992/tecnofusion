@@ -52,7 +52,7 @@ export default function ReadmeModal({ isOpen, onClose, readmeUrl, projectTitle }
 
     return (
         <AnimatePresence>
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={onClose}>
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs" onClick={onClose}>
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -94,7 +94,7 @@ export default function ReadmeModal({ isOpen, onClose, readmeUrl, projectTitle }
                             </div>
                         ) : (
                             <article className="prose prose-invert prose-sm md:prose-base max-w-none 
-                prose-headings:text-white prose-a:text-[#E68369] prose-a:no-underline hover:prose-a:underline
+                prose-headings:text-white prose-a:text-[#E68369] prose-a:no-underline prose-a:hover:underline
                 prose-code:text-[#E68369] prose-pre:bg-[#1a1f4b] prose-pre:border prose-pre:border-white/10
                 prose-blockquote:border-l-[#E68369] prose-img:rounded-lg"
                             >

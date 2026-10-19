@@ -29,7 +29,7 @@ export default function ProjectDetailsModal({ isOpen, onClose, project, onOpenRe
 
     return (
         <AnimatePresence>
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={onClose}>
+            <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs" onClick={onClose}>
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -60,7 +60,7 @@ export default function ProjectDetailsModal({ isOpen, onClose, project, onOpenRe
                             onLoad={() => setImageLoaded(true)}
                             className={`w-full h-full object-cover transition-opacity duration-500 ${imageLoaded ? 'opacity-90' : 'opacity-0'}`}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1f4b] via-transparent to-transparent md:bg-gradient-to-r"></div>
+                        <div className="absolute inset-0 bg-linear-to-t from-[#1a1f4b] via-transparent to-transparent md:bg-linear-to-r"></div>
                     </div>
 
                     {/* Right Column: Content */}
@@ -77,8 +77,8 @@ export default function ProjectDetailsModal({ isOpen, onClose, project, onOpenRe
                                         {project.status && (
                                             <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold shadow-md h-fit ${
                                                 project.status === 'Producción' 
-                                                    ? 'bg-gradient-to-r from-green-600 to-green-500' 
-                                                    : 'bg-gradient-to-r from-yellow-600 to-yellow-500'
+                                                    ? 'bg-linear-to-r from-green-600 to-green-500' 
+                                                    : 'bg-linear-to-r from-yellow-600 to-yellow-500'
                                             } text-white`}>
                                                 {project.status}
                                             </span>
@@ -125,7 +125,7 @@ export default function ProjectDetailsModal({ isOpen, onClose, project, onOpenRe
                                         rel="noopener noreferrer"
                                         className="flex-1 basis-0 w-0 flex items-center justify-center gap-2 text-white border border-white/20 hover:border-[#E68369] bg-white/5 hover:bg-[#E68369]/10 rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 group whitespace-nowrap"
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:text-[#E68369] transition-colors flex-shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:text-[#E68369] transition-colors shrink-0">
                                             <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                                         </svg>
                                         <span className="truncate">Código</span>
@@ -137,9 +137,9 @@ export default function ProjectDetailsModal({ isOpen, onClose, project, onOpenRe
                                         href={project.previewLink}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex-1 basis-0 w-0 flex items-center justify-center gap-2 text-white bg-gradient-to-r from-[#E68369] to-[#d67359] hover:shadow-lg hover:shadow-[#E68369]/30 rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 transform hover:-translate-y-0.5 whitespace-nowrap"
+                                        className="flex-1 basis-0 w-0 flex items-center justify-center gap-2 text-white bg-linear-to-r from-[#E68369] to-[#d67359] hover:shadow-lg hover:shadow-[#E68369]/30 rounded-lg px-4 py-2.5 font-medium text-sm transition-all duration-300 transform hover:-translate-y-0.5 whitespace-nowrap"
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
                                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                             <polyline points="15 3 21 3 21 9"></polyline>
                                             <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -159,7 +159,7 @@ export default function ProjectDetailsModal({ isOpen, onClose, project, onOpenRe
                                             viewBox="0 0 24 24" 
                                             strokeWidth={2} 
                                             stroke="currentColor" 
-                                            className="w-5 h-5 group-hover:text-[#E68369] transition-colors flex-shrink-0"
+                                            className="w-5 h-5 group-hover:text-[#E68369] transition-colors shrink-0"
                                         >
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                                         </svg>

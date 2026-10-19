@@ -120,7 +120,7 @@ function Hero() {
         <div className="absolute inset-0 z-30 bg-black bg-opacity-15"></div>
 
         {/* Gradiente adicional muy sutil */}
-        <div className="absolute inset-0 z-30 bg-gradient-to-b from-transparent via-black/5 to-black/20"></div>
+        <div className="absolute inset-0 z-30 bg-linear-to-b from-transparent via-black/5 to-black/20"></div>
       </div>
 
       {/* Partículas animadas de fondo (opcional, ahora más sutiles) */}
@@ -128,7 +128,7 @@ function Hero() {
         {particles.map(({ id, initialX, initialY, duration, delay }) => (
           <motion.span
             key={id}
-            className="absolute h-1 w-1 rounded-full bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] opacity-60"
+            className="absolute h-1 w-1 rounded-full bg-linear-to-r from-[#ff7e5f] to-[#feb47b] opacity-60"
             initial={{
               x: initialX,
               y: initialY,
@@ -287,7 +287,7 @@ function TypewriterEffect({ text, className, delay = 0 }) {
     <span className={className}>
       {displayText}
       <motion.span
-        className="inline-block w-0.5 h-8 md:h-12 bg-gradient-to-r from-[#ff7e5f] to-[#feb47b] ml-1"
+        className="inline-block w-0.5 h-8 md:h-12 bg-linear-to-r from-[#ff7e5f] to-[#feb47b] ml-1"
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.8, repeat: Infinity }}
       />

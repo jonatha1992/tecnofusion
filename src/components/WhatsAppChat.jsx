@@ -49,7 +49,7 @@ function WhatsAppChat() {
     <>
       <button
         aria-label={isOpen ? "Cerrar chat de WhatsApp" : "Abrir chat de WhatsApp"}
-        className="fixed bottom-5 right-5 flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-full shadow-xl transition-all bg-gradient-to-r from-[#E68369] to-[#d67359] hover:shadow-2xl hover:translate-y-[-1px]"
+        className="fixed bottom-5 right-5 flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-full shadow-xl transition-all bg-linear-to-r from-[#E68369] to-[#d67359] hover:shadow-2xl hover:-translate-y-px"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="text-base">💬</span>
@@ -60,7 +60,7 @@ function WhatsAppChat() {
         <div
           role="dialog"
           aria-label="Chat de WhatsApp"
-          className="fixed z-50 w-80 max-w-[92vw] overflow-hidden rounded-2xl shadow-2xl bottom-24 right-5 bg-gradient-to-b from-[#131842] via-[#1a2557] to-[#0f1230] border border-white/10"
+          className="fixed z-50 w-80 max-w-[92vw] overflow-hidden rounded-2xl shadow-2xl bottom-24 right-5 bg-linear-to-b from-[#131842] via-[#1a2557] to-[#0f1230] border border-white/10"
         >
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
             <div>
@@ -96,14 +96,14 @@ function WhatsAppChat() {
               placeholder="Tu nombre (opcional)"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/15 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E68369]/60"
+              className="w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/15 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#E68369]/60"
             />
             <textarea
               placeholder="Cuéntanos tu necesidad en 1-2 líneas..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/15 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E68369]/60 resize-none"
+              className="w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/15 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#E68369]/60 resize-none"
             />
             <div className="text-[10px] text-white/40">{metaLine}</div>
           </div>
@@ -111,7 +111,7 @@ function WhatsAppChat() {
           <div className="px-4 py-3 bg-[#0f1230]">
             <button
               type="button"
-              className="w-full px-4 py-2 text-sm font-semibold text-white rounded-xl bg-gradient-to-r from-[#E68369] to-[#d67359] shadow-lg hover:shadow-xl transition disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 text-sm font-semibold text-white rounded-xl bg-linear-to-r from-[#E68369] to-[#d67359] shadow-lg hover:shadow-xl transition disabled:opacity-60 disabled:cursor-not-allowed"
               onClick={handleSend}
               disabled={!message.trim()}
             >

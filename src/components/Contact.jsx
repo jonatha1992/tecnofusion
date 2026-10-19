@@ -115,7 +115,7 @@ function Contact({ id, title, gradientClass }) {
             aria-labelledby={`${id}-title`}
             className={`min-h-screen ${gradientClass} text-white py-12 flex items-center justify-center`}
         >
-            <div className="container mx-auto px-4 lg:px-8 max-w-screen-lg">
+            <div className="container mx-auto px-4 lg:px-8 max-w-(--breakpoint-lg)">
                 <motion.div
                     ref={ref}
                     variants={containerVariants}
@@ -173,7 +173,7 @@ function Contact({ id, title, gradientClass }) {
                                             type="text"
                                             value={form.name}
                                             onChange={(e) => setForm({ ...form, name: e.target.value })}
-                                            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/15 text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/70"
+                                            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/15 text-sm text-white placeholder-white/50 focus:outline-hidden focus:ring-2 focus:ring-[#22d3ee]/70"
                                             placeholder="Tu nombre"
                                         />
                                     </div>
@@ -183,7 +183,7 @@ function Contact({ id, title, gradientClass }) {
                                             type="email"
                                             value={form.email}
                                             onChange={(e) => setForm({ ...form, email: e.target.value })}
-                                            className={`w-full px-3 py-2 rounded-lg bg-white/10 border text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 ${
+                                            className={`w-full px-3 py-2 rounded-lg bg-white/10 border text-sm text-white placeholder-white/50 focus:outline-hidden focus:ring-2 ${
                                                 errors.email ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
                                             }`}
                                             placeholder="tu@email.com"
@@ -198,7 +198,7 @@ function Contact({ id, title, gradientClass }) {
                                             value={form.message}
                                             onChange={(e) => setForm({ ...form, message: e.target.value })}
                                             rows={3}
-                                            className={`w-full px-3 py-2 rounded-lg bg-white/10 border text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 ${
+                                            className={`w-full px-3 py-2 rounded-lg bg-white/10 border text-sm text-white placeholder-white/50 focus:outline-hidden focus:ring-2 ${
                                                 errors.message ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
                                             }`}
                                             placeholder="Ej: Web corporativa con blog y formulario"
@@ -212,7 +212,7 @@ function Contact({ id, title, gradientClass }) {
                                     </p>
                                     <button
                                         type="submit"
-                                        className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-[#2563eb] to-[#22d3ee] hover:shadow-lg transition"
+                                        className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white rounded-lg bg-linear-to-r from-[#2563eb] to-[#22d3ee] hover:shadow-lg transition"
                                     >
                                         Validar y enviar a WhatsApp
                                     </button>

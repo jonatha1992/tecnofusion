@@ -317,7 +317,7 @@ function ProjectForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#131842] via-[#1a2557] to-[#131842] py-4 px-3">
+    <div className="min-h-screen bg-linear-to-br from-[#131842] via-[#1a2557] to-[#131842] py-4 px-3">
       <div className="max-w-3xl mx-auto">
         {/* Back Button */}
         <button
@@ -331,9 +331,9 @@ function ProjectForm() {
         </button>
 
         {/* Main Form Card */}
-        <div className="bg-gradient-to-br from-[#1a2557] to-[#131842] backdrop-blur-md rounded-lg shadow-2xl overflow-hidden border border-white/10">
+        <div className="bg-linear-to-br from-[#1a2557] to-[#131842] backdrop-blur-md rounded-lg shadow-2xl overflow-hidden border border-white/10">
           {/* Header */}
-          <div className="px-4 py-3 bg-gradient-to-r from-[#131842] to-[#1a2557] border-b border-white/10">
+          <div className="px-4 py-3 bg-linear-to-r from-[#131842] to-[#1a2557] border-b border-white/10">
             <h1 className="text-lg font-bold text-white">
               {isEditMode ? "Editar Proyecto" : "Nuevo Proyecto"}
             </h1>
@@ -345,7 +345,7 @@ function ProjectForm() {
               {hasSavedData && !isEditMode && (
                 <div className="mb-3 bg-blue-50 border-l-4 border-blue-500 text-blue-800 px-3 py-2 rounded-r flex items-start justify-between">
                   <div className="flex items-start">
-                    <svg className="w-4 h-4 mr-2 flex-shrink-0 text-blue-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 mr-2 shrink-0 text-blue-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                     </svg>
                     <span className="text-xs font-medium">Borrador recuperado automáticamente. Los cambios se guardan mientras escribes.</span>
@@ -362,7 +362,7 @@ function ProjectForm() {
               {/* Error Alert */}
               {error && (
                 <div className="mb-3 bg-red-50 border-l-4 border-red-500 text-red-800 px-3 py-2 rounded-r flex items-start">
-                  <svg className="w-4 h-4 mr-2 flex-shrink-0 text-red-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 mr-2 shrink-0 text-red-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                   </svg>
                   <span className="text-xs font-medium">{error}</span>
@@ -383,7 +383,7 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.githubLink && formik.errors.githubLink
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-hidden focus:ring-2 transition-colors ${formik.touched.githubLink && formik.errors.githubLink
                     ? 'border-red-500 focus:ring-red-500'
                     : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
                     } disabled:bg-gray-100 disabled:cursor-not-allowed`}
@@ -425,7 +425,7 @@ function ProjectForm() {
                     <button
                       type="button"
                       onClick={() => setImportMethod('file')}
-                      className={`px-4 py-2 text-xs font-semibold focus:outline-none transition-colors ${importMethod === 'file'
+                      className={`px-4 py-2 text-xs font-semibold focus:outline-hidden transition-colors ${importMethod === 'file'
                         ? 'text-[#E68369] border-b-2 border-[#E68369]'
                         : 'text-gray-400 hover:text-white'
                         }`}
@@ -435,7 +435,7 @@ function ProjectForm() {
                     <button
                       type="button"
                       onClick={() => setImportMethod('github')}
-                      className={`px-4 py-2 text-xs font-semibold focus:outline-none transition-colors ${importMethod === 'github'
+                      className={`px-4 py-2 text-xs font-semibold focus:outline-hidden transition-colors ${importMethod === 'github'
                         ? 'text-[#E68369] border-b-2 border-[#E68369]'
                         : 'text-gray-400 hover:text-white'
                         }`}
@@ -457,7 +457,7 @@ function ProjectForm() {
                           className="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#E68369]/10 file:text-[#E68369] hover:file:bg-[#E68369]/20"
                         />
                         {readmeFile && (
-                          <div className="mt-2 flex items-center justify-between bg-white/5 px-2 py-1 rounded">
+                          <div className="mt-2 flex items-center justify-between bg-white/5 px-2 py-1 rounded-sm">
                             <span className="text-xs text-[#E68369]">{readmeFile.name}</span>
                             <button
                               type="button"
@@ -478,7 +478,7 @@ function ProjectForm() {
                           placeholder="Pega aquí el contenido del README..."
                           value={readmeText}
                           onChange={(e) => setReadmeText(e.target.value)}
-                          className="w-full px-3 py-2 text-sm text-gray-200 bg-[#131842]/50 border border-white/10 rounded-md focus:outline-none focus:ring-1 focus:ring-[#E68369] resize-none"
+                          className="w-full px-3 py-2 text-sm text-gray-200 bg-[#131842]/50 border border-white/10 rounded-md focus:outline-hidden focus:ring-1 focus:ring-[#E68369] resize-none"
                         />
                       </div>
                     </>
@@ -487,7 +487,7 @@ function ProjectForm() {
                       <p className="text-xs text-gray-300 mb-2">
                         Usaremos el enlace de GitHub del formulario para buscar el README automáticamente.
                       </p>
-                      <div className="bg-[#131842]/50 p-3 rounded border border-white/10 text-xs text-gray-400 italic">
+                      <div className="bg-[#131842]/50 p-3 rounded-sm border border-white/10 text-xs text-gray-400 italic">
                         {formik.values.githubLink
                           ? `Repo detectado: ${formik.values.githubLink}`
                           : "Primero ingresa el enlace de GitHub arriba 👆"}
@@ -528,7 +528,7 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.title && formik.errors.title
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-hidden focus:ring-2 transition-colors ${formik.touched.title && formik.errors.title
                     ? 'border-red-500 focus:ring-red-500'
                     : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
                     } disabled:bg-gray-100 disabled:cursor-not-allowed`}
@@ -551,7 +551,7 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors resize-none ${formik.touched.description && formik.errors.description
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-hidden focus:ring-2 transition-colors resize-none ${formik.touched.description && formik.errors.description
                     ? 'border-red-500 focus:ring-red-500'
                     : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
                     } disabled:bg-gray-100 disabled:cursor-not-allowed`}
@@ -575,7 +575,7 @@ function ProjectForm() {
                       checked={formik.values.isDeployed}
                       onChange={formik.handleChange}
                       disabled={loading}
-                      className="w-4 h-4 text-[#E68369] bg-white/10 border-white/20 rounded focus:ring-[#E68369] focus:ring-offset-0 focus:ring-offset-[#131842]"
+                      className="w-4 h-4 text-[#E68369] bg-white/10 border-white/20 rounded-sm focus:ring-[#E68369] focus:ring-offset-0 focus:ring-offset-[#131842]"
                     />
                     <span className="text-xs text-gray-300 select-none">Proyecto Desplegado</span>
                   </label>
@@ -592,7 +592,7 @@ function ProjectForm() {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       disabled={loading || !formik.values.isDeployed}
-                      className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.previewLink && formik.errors.previewLink
+                      className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-hidden focus:ring-2 transition-colors ${formik.touched.previewLink && formik.errors.previewLink
                         ? 'border-red-500 focus:ring-red-500'
                         : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
                         } disabled:bg-gray-100 disabled:cursor-not-allowed`}
@@ -623,7 +623,7 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.technologies && formik.errors.technologies
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-hidden focus:ring-2 transition-colors ${formik.touched.technologies && formik.errors.technologies
                     ? 'border-red-500 focus:ring-red-500'
                     : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
                     } disabled:bg-gray-100 disabled:cursor-not-allowed`}
@@ -645,7 +645,7 @@ function ProjectForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   disabled={loading}
-                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-none focus:ring-2 transition-colors ${formik.touched.status && formik.errors.status
+                  className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md focus:outline-hidden focus:ring-2 transition-colors ${formik.touched.status && formik.errors.status
                     ? 'border-red-500 focus:ring-red-500'
                     : 'border-gray-300 focus:ring-[#E68369] focus:border-[#E68369]'
                     } disabled:bg-gray-100 disabled:cursor-not-allowed`}
@@ -715,7 +715,7 @@ function ProjectForm() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[#E68369] to-[#d67359] rounded-md hover:from-[#d67359] hover:to-[#c66349] shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-linear-to-r from-[#E68369] to-[#d67359] rounded-md hover:from-[#d67359] hover:to-[#c66349] shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <>

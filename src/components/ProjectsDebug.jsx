@@ -62,7 +62,7 @@ function ProjectsDebug() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 p-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-purple-900 to-gray-900 p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -128,10 +128,10 @@ function ProjectsDebug() {
                 logs.map((log, index) => (
                   <div
                     key={index}
-                    className={`mb-2 p-3 rounded border-l-4 ${getLogColor(log.type)}`}
+                    className={`mb-2 p-3 rounded-sm border-l-4 ${getLogColor(log.type)}`}
                   >
                     <div className="text-xs opacity-60 mb-1">{log.timestamp}</div>
-                    <div className="whitespace-pre-wrap break-words">{log.message}</div>
+                    <div className="whitespace-pre-wrap wrap-break-word">{log.message}</div>
                   </div>
                 ))
               )}
@@ -174,7 +174,7 @@ function ProjectsDebug() {
                         <img
                           src={project.image}
                           alt={project.title}
-                          className="w-24 h-24 object-cover rounded"
+                          className="w-24 h-24 object-cover rounded-sm"
                           onError={(e) => {
                             e.target.src = 'https://via.placeholder.com/96x96?text=Error';
                           }}
@@ -193,7 +193,7 @@ function ProjectsDebug() {
                               href={project.githubLink}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="px-2 py-1 bg-gray-700 text-gray-300 rounded hover:bg-gray-600"
+                              className="px-2 py-1 bg-gray-700 text-gray-300 rounded-sm hover:bg-gray-600"
                             >
                               GitHub
                             </a>
@@ -203,7 +203,7 @@ function ProjectsDebug() {
                               href={project.previewLink}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="px-2 py-1 bg-purple-600 text-white rounded hover:bg-purple-500"
+                              className="px-2 py-1 bg-purple-600 text-white rounded-sm hover:bg-purple-500"
                             >
                               Preview
                             </a>
@@ -237,7 +237,7 @@ function ProjectsDebug() {
               {error.stack && (
                 <div>
                   <span className="text-gray-400">Stack:</span>
-                  <pre className="text-xs text-gray-300 mt-2 bg-black/30 p-3 rounded overflow-x-auto">
+                  <pre className="text-xs text-gray-300 mt-2 bg-black/30 p-3 rounded-sm overflow-x-auto">
                     {error.stack}
                   </pre>
                 </div>
