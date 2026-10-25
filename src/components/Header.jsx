@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { HiMenu, HiLogin, HiLogout, HiUserCircle } from "react-icons/hi";
+import { HiMenu, HiLogin, HiLogout, HiUserCircle, HiHome, HiFolderOpen, HiCog, HiMail } from "react-icons/hi";
 import { useAuth } from "../context/AuthContext";
 import LoginModal from "./LoginModal";
 import { useNavigate } from "react-router-dom";
 
 const navItems = [
-    { href: "#home", label: "Inicio" },
-    { href: "#proyectos", label: "Proyectos" },
-    { href: "#Servicios", label: "Servicios" },
-    { href: "#Contacto", label: "Contacto" },
+    { href: "#home", label: "Inicio", Icon: HiHome },
+    { href: "#proyectos", label: "Proyectos", Icon: HiFolderOpen },
+    { href: "#Servicios", label: "Servicios", Icon: HiCog },
+    { href: "#Contacto", label: "Contacto", Icon: HiMail },
 ];
 
 const adminNavItem = { href: "/admin/dashboard", label: "Gestión", isRoute: true };
@@ -102,8 +102,9 @@ function Header() {
                             <button
                                 key={item.href}
                                 onClick={(event) => handleNavClick(event, item.href, item.isRoute)}
-                                className="px-4 py-2 my-2 text-white transition-colors rounded-md hover:bg-white/10"
+                                className="flex items-center gap-2 px-4 py-2 my-2 text-white transition-colors rounded-md hover:bg-white/10"
                             >
+                                {item.Icon && <item.Icon className="w-5 h-5 text-[#E68369]" aria-hidden="true" />}
                                 {item.label}
                             </button>
                         ))}
@@ -155,8 +156,9 @@ function Header() {
                                 <button
                                     key={item.href}
                                     onClick={(event) => handleNavClick(event, item.href, item.isRoute)}
-                                    className="w-full py-3 text-lg font-medium text-center text-white transition-colors hover:bg-white/10"
+                                    className="flex items-center justify-center w-full gap-2 py-3 text-lg font-medium text-white transition-colors hover:bg-white/10"
                                 >
+                                    {item.Icon && <item.Icon className="w-5 h-5 text-[#E68369]" aria-hidden="true" />}
                                     {item.label}
                                 </button>
                             ))}
