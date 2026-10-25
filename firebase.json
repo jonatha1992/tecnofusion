@@ -5,6 +5,7 @@
     "ignore": ["node_modules", ".git", ".npm-cache", ".cache", "test", "*-debug.log", "*.local"]
   },
   "hosting": {
+    "site": "tecnofusion-dev",
     "public": "dist",
     "ignore": [
       "firebase.json",

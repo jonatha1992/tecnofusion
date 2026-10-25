@@ -5,4 +5,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://tecnofuision-it.web.app/sitemap.xml
+Sitemap: https://tecnofusion.dev/sitemap.xml
