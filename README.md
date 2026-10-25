@@ -1,4 +1,4 @@
-# TecnoFusion Portfolio
+# tecnofusion.dev Portfolio
 
 A modern, dynamic portfolio application built with React, Vite, and Firebase. This project features a powerful Admin Panel controlled by AI for automated project analysis and management.
 

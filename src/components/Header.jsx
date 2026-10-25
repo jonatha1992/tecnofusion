@@ -73,8 +73,8 @@ function Header() {
                         href="#"
                         className="hidden md:flex items-center gap-3 font-mono font-bold tracking-[0.3rem] text-white no-underline mr-6 shrink-0"
                     >
-                        <img src="/logo_sin_fondo.png" alt="Tecnofusión.IT Logo" className="w-auto h-14" />
-                        TECNOFUSIÓN.IT
+                        <img src="/logo_sin_fondo.png" alt="tecnofusion.dev Logo" className="w-auto h-14" />
+                        tecnofusion.dev
                     </a>
 
                     {/* Mobile Menu Button & Logo */}
@@ -91,8 +91,8 @@ function Header() {
                             href="#"
                             className="flex-1 flex items-center gap-2 font-mono font-bold tracking-[0.2rem] text-white no-underline ml-3 text-sm"
                         >
-                            <img src="/logo_sin_fondo.png" alt="Tecnofusión.IT Logo" className="w-auto h-8" />
-                            TECNOFUSIÓN.IT
+                            <img src="/logo_sin_fondo.png" alt="tecnofusion.dev Logo" className="w-auto h-8" />
+                            tecnofusion.dev
                         </a>
                     </div>
 

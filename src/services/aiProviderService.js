@@ -90,7 +90,7 @@ const callOpenRouter = async (prompt) =>
       "HTTP-Referer":
         ENV.VITE_OPENROUTER_SITE_URL ||
         (typeof window !== "undefined" ? window.location.origin : "http://localhost"),
-      "X-Title": ENV.VITE_OPENROUTER_APP_NAME || "Tecnofusion",
+      "X-Title": ENV.VITE_OPENROUTER_APP_NAME || "tecnofusion.dev",
     },
   });
 

@@ -23,7 +23,7 @@ export const sendToGoogleSheets = async (data) => {
                 timestamp: new Date().toISOString(),
                 fecha: new Date().toLocaleDateString('es-AR'),
                 hora: new Date().toLocaleTimeString('es-AR'),
-                source: "Tecnofusion Web"
+                source: "tecnofusion.dev"
             }),
         });
 

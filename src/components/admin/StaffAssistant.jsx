@@ -103,7 +103,7 @@ function StaffAssistant() {
         <div className="w-[360px] max-w-[calc(100vw-1.5rem)] bg-[#0b0f20] border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-md">
           <div className="flex items-center justify-between px-4 py-3 bg-linear-to-r from-[#0f172a] to-[#0b1024] border-b border-white/10">
             <div className="space-y-0.5">
-              <p className="text-[11px] font-semibold text-white/60">Tecnofusion · IA Staff</p>
+              <p className="text-[11px] font-semibold text-white/60">tecnofusion.dev · IA Staff</p>
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-bold text-white">Navi</h3>
                 <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-emerald-500/15 text-emerald-200 border border-emerald-500/30">

@@ -155,7 +155,7 @@ function CustomerAssistant() {
         <div className="w-[360px] max-w-[calc(100vw-1.5rem)] bg-[#0b0f20] border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-md">
           <div className="flex items-center justify-between px-4 py-3 bg-linear-to-r from-[#0f172a] to-[#0b1024] border-b border-white/10">
             <div className="space-y-0.5">
-              <p className="text-[11px] font-semibold text-white/70">Tecnofusion · Asesor</p>
+              <p className="text-[11px] font-semibold text-white/70">tecnofusion.dev · Asesor</p>
               <h3 className="text-sm font-bold text-white">Navi</h3>
             </div>
             <div className="flex items-center gap-1.5">

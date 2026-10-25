@@ -65,7 +65,7 @@ function WhatsAppChat() {
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
             <div>
               <p className="text-[11px] text-white/60 font-semibold">Asesor en línea</p>
-              <h6 className="text-sm font-bold text-white">Chatea con Tecnofusion</h6>
+              <h6 className="text-sm font-bold text-white">Chatea con tecnofusion.dev</h6>
             </div>
             <button
               onClick={() => setIsOpen(false)}

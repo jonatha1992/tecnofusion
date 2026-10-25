@@ -165,7 +165,7 @@ function Hero() {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 1, duration: 0.5, type: "spring" }}
               >
-                Tecnofusión.IT
+                tecnofusion.dev
               </motion.span>
             </motion.div>
 

@@ -10,7 +10,7 @@ function Layout({ children }) {
             <footer className="py-6 px-4 mt-auto bg-[#E68369] text-[#131842]">
                 <div className="container mx-auto max-w-(--breakpoint-sm)">
                     <p className="text-center text-sm">
-                        Todos los derechos reservados. &copy; {new Date().getFullYear()} Tecnofusión.IT
+                        Todos los derechos reservados. &copy; {new Date().getFullYear()} tecnofusion.dev
                     </p>
                 </div>
             </footer>

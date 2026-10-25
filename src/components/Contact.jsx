@@ -64,7 +64,7 @@ function Contact({ id, title, gradientClass }) {
 
     const handleWhatsAppClick = () => {
         const phoneNumber = "5491159910666";
-        const message = "¡Hola! Me interesa conocer más sobre los servicios de Tecnofusión.IT";
+        const message = "¡Hola! Me interesa conocer más sobre los servicios de tecnofusion.dev";
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     };
@@ -230,7 +230,7 @@ function Contact({ id, title, gradientClass }) {
                                     Email
                                 </h3>
                                 <p className="text-sm text-white/80">
-                                    Tecnofusion.it@gmail.com
+                                    tecnofusion.it@gmail.com
                                 </p>
                             </div>
 

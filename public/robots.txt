@@ -1,4 +1,4 @@
-# robots.txt for TecnoFusion Portfolio
+# robots.txt for tecnofusion.dev Portfolio
 # Allow all search engines to crawl all content
 
 User-agent: *
