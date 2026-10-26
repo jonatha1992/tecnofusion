@@ -117,7 +117,7 @@ function Hero() {
         <div className={`absolute inset-0 bg-moving-gradient z-10 ${!videoLoaded ? 'opacity-100' : 'opacity-0 pointer-events-none'} transition-opacity duration-300`}></div>
 
         {/* Overlay sutil para mejorar la legibilidad del texto */}
-        <div className="absolute inset-0 z-30 bg-black bg-opacity-15"></div>
+        <div className="absolute inset-0 z-30 bg-black/15"></div>
 
         {/* Gradiente adicional muy sutil */}
         <div className="absolute inset-0 z-30 bg-linear-to-b from-transparent via-black/5 to-black/20"></div>
