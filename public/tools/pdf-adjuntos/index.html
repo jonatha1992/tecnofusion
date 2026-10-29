@@ -42,11 +42,15 @@
   #vbody img, #vbody video { max-width:100%; max-height:100%; margin:auto; }
   #vbody pre { width:100%; margin:0; padding:16px; white-space:pre-wrap; word-break:break-word; }
   #vbody .msg { padding:24px; }
+  html,body{min-height:100%} body{display:flex;flex-direction:column;min-height:100vh} main{flex:1;width:100%}
+  .tf-foot{display:flex;align-items:center;justify-content:center;gap:16px;padding:20px 16px;background:#020617;border-top:1px solid #1e293b;color:var(--mut);font-size:.85rem}
+  .tf-foot img{height:72px;display:block} .tf-foot div{display:flex;flex-direction:column;gap:2px}
+  .tf-foot strong{color:var(--acc);font-size:1rem} .tf-foot small{color:#64748b}
 </style>
 </head>
 <body>
 <main>
-  <a href="https://tecnofusion.dev"><img src="logo.png" alt="tecnofusion.dev" style="height:56px;margin-bottom:12px"></a>
+  <a href="https://tecnofusion.dev"><img src="logo.png" alt="tecnofusion.dev" style="height:96px;margin:-16px 0 0 -16px"></a>
   <h1>Extractor de adjuntos PDF</h1>
   <p class="sub">Cargá uno o varios PDF, mirá sus adjuntos y guardalos. Todo se procesa en tu PC, nada se sube a internet.</p>
   <p style="background:#14532d;color:#dcfce7;border-radius:8px;padding:10px 14px;margin:0 0 20px;font-size:.9rem">🔒 <strong>Privacidad:</strong> no guardamos ninguna información. Tus archivos se procesan solo en tu navegador, no se envían a ningún servidor y se descartan al cerrar la página.</p>
@@ -64,7 +68,7 @@
 
   <div id="out"></div>
 </main>
-<footer style="display:flex;align-items:center;justify-content:center;gap:10px;padding:24px 16px;margin-top:32px;background:#E68369;color:#131842;text-align:center;font-size:.875rem"><img src="logo.png" alt="" style="height:28px">Todos los derechos reservados. &copy; <span id="tfy"></span> <a href="https://tecnofusion.dev" style="color:#131842;font-weight:600">tecnofusion.dev</a><script>document.getElementById("tfy").textContent=new Date().getFullYear()</script></footer>
+<footer class="tf-foot"><a href="https://tecnofusion.dev"><img src="logo.png" alt="tecnofusion.dev"></a><div><strong>tecnofusion.dev</strong><span>Herramientas gratuitas · tus archivos nunca salen de tu PC</span><small>© <span id="tfy"></span> Todos los derechos reservados.</small></div><script>document.getElementById("tfy").textContent=new Date().getFullYear()</script></footer>
 
 <dialog id="viewer">
   <div class="vhead"><span id="vname"></span><span><button id="vdl">Guardar</button> <button id="vclose" class="sec">Cerrar</button></span></div>
