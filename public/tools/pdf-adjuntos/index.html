@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png">
 <title>Extractor de adjuntos PDF</title>
 <style>
   :root { --bg:#0f172a; --card:#1e293b; --txt:#e2e8f0; --mut:#94a3b8; --acc:#38bdf8; --ok:#22c55e; --err:#f87171; }
@@ -45,8 +46,10 @@
 </head>
 <body>
 <main>
+  <a href="https://tecnofusion.dev"><img src="logo.png" alt="tecnofusion.dev" style="height:56px;margin-bottom:12px"></a>
   <h1>Extractor de adjuntos PDF</h1>
   <p class="sub">Cargá uno o varios PDF, mirá sus adjuntos y guardalos. Todo se procesa en tu PC, nada se sube a internet.</p>
+  <p style="background:#14532d;color:#dcfce7;border-radius:8px;padding:10px 14px;margin:0 0 20px;font-size:.9rem">🔒 <strong>Privacidad:</strong> no guardamos ninguna información. Tus archivos se procesan solo en tu navegador, no se envían a ningún servidor y se descartan al cerrar la página.</p>
   <div class="tip">Con <b>Guardar todos</b> se abre la carpeta donde está el PDF: tocá <b>Seleccionar carpeta</b> y después <b>Permitir</b>. Los adjuntos quedan en una subcarpeta <b>NOMBRE-DEL-PDF_adjuntos</b> al lado del PDF.</div>
 
   <div id="drop"><strong>Hacé clic o arrastrá PDFs acá</strong><br><span class="msg">Podés cargar varios a la vez</span></div>
@@ -61,7 +64,7 @@
 
   <div id="out"></div>
 </main>
-<footer style="padding:24px 16px;margin-top:32px;background:#E68369;color:#131842;text-align:center;font-size:.875rem">Todos los derechos reservados. &copy; <span id="tfy"></span> <a href="https://tecnofusion.dev" style="color:#131842;font-weight:600">tecnofusion.dev</a><script>document.getElementById("tfy").textContent=new Date().getFullYear()</script></footer>
+<footer style="display:flex;align-items:center;justify-content:center;gap:10px;padding:24px 16px;margin-top:32px;background:#E68369;color:#131842;text-align:center;font-size:.875rem"><img src="logo.png" alt="" style="height:28px">Todos los derechos reservados. &copy; <span id="tfy"></span> <a href="https://tecnofusion.dev" style="color:#131842;font-weight:600">tecnofusion.dev</a><script>document.getElementById("tfy").textContent=new Date().getFullYear()</script></footer>
 
 <dialog id="viewer">
   <div class="vhead"><span id="vname"></span><span><button id="vdl">Guardar</button> <button id="vclose" class="sec">Cerrar</button></span></div>
