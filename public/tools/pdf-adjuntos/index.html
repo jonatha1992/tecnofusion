@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extractor de adjuntos PDF</title>
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --txt:#e2e8f0; --mut:#94a3b8; --acc:#38bdf8; --ok:#22c55e; --err:#f87171; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--txt); }
+  main { max-width:900px; margin:0 auto; padding:24px 16px; }
+  h1 { font-size:1.5rem; margin:0 0 4px; }
+  p.sub { color:var(--mut); margin:0 0 20px; }
+  #drop { border:2px dashed var(--acc); border-radius:12px; padding:40px 16px; text-align:center; cursor:pointer; background:var(--card); transition:.15s; }
+  #drop.over { background:#0c4a6e; }
+  #drop strong { color:var(--acc); }
+  .bar { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0; align-items:center; }
+  button { background:var(--acc); color:#0f172a; border:0; border-radius:8px; padding:10px 16px; font-weight:600; cursor:pointer; min-height:44px; }
+  button.sec { background:#334155; color:var(--txt); }
+  button:disabled { opacity:.4; cursor:not-allowed; }
+  .pdf { background:var(--card); border-radius:12px; padding:16px; margin-bottom:12px; }
+  .pdf h2 { font-size:1rem; margin:0 0 8px; word-break:break-all; }
+  .msg { color:var(--mut); font-size:.9rem; }
+  .err { color:var(--err); }
+  ul { list-style:none; padding:0; margin:0; }
+  li { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 0; border-top:1px solid #334155; }
+  li .info { min-width:0; }
+  li .name { word-break:break-all; }
+  li .meta { color:var(--mut); font-size:.8rem; }
+  #total { color:var(--mut); }
+  .ok { color:var(--ok); font-size:.9rem; margin-top:8px; word-break:break-all; }
+  .tip { background:#0c4a6e; border-radius:8px; padding:10px 12px; font-size:.85rem; margin-bottom:16px; }
+  .pdf .bar { margin:8px 0 0; }
+  .acts { display:flex; gap:6px; flex-shrink:0; }
+  dialog { width:min(95vw,1000px); height:90vh; padding:0; border:0; border-radius:12px; background:var(--card); color:var(--txt); }
+  dialog::backdrop { background:rgba(0,0,0,.7); }
+  dialog[open] { display:flex; flex-direction:column; }
+  .vhead { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid #334155; word-break:break-all; }
+  #vbody { flex:1; overflow:auto; display:flex; justify-content:center; align-items:flex-start; }
+  #vbody iframe { width:100%; height:100%; border:0; background:#fff; }
+  #vbody img, #vbody video { max-width:100%; max-height:100%; margin:auto; }
+  #vbody pre { width:100%; margin:0; padding:16px; white-space:pre-wrap; word-break:break-word; }
+  #vbody .msg { padding:24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Extractor de adjuntos PDF</h1>
+  <p class="sub">Cargá uno o varios PDF, mirá sus adjuntos y guardalos. Todo se procesa en tu PC, nada se sube a internet.</p>
+  <div class="tip">Con <b>Guardar todos</b> se abre la carpeta donde está el PDF: tocá <b>Seleccionar carpeta</b> y después <b>Permitir</b>. Los adjuntos quedan en una subcarpeta <b>NOMBRE-DEL-PDF_adjuntos</b> al lado del PDF.</div>
+
+  <div id="drop"><strong>Hacé clic o arrastrá PDFs acá</strong><br><span class="msg">Podés cargar varios a la vez</span></div>
+  <input id="file" type="file" accept="application/pdf,.pdf" multiple hidden>
+
+  <div class="bar">
+    <button id="all" disabled>Guardar todos</button>
+    <button id="zip" class="sec" disabled>Descargar ZIP</button>
+    <button id="clear" class="sec" disabled>Limpiar</button>
+    <span id="total"></span>
+  </div>
+
+  <div id="out"></div>
+</main>
+
+<dialog id="viewer">
+  <div class="vhead"><span id="vname"></span><span><button id="vdl">Guardar</button> <button id="vclose" class="sec">Cerrar</button></span></div>
+  <div id="vbody"></div>
+</dialog>
+
+<script src="lib/pdf.worker.min.js"></script>
+<script src="lib/pdf.min.js"></script>
+<script src="lib/jszip.min.js"></script>
+<script>
+const FILE_ATTACHMENT = 17;
+const canPickDir = 'showDirectoryPicker' in window;
+const groups = [];
+const $ = id => document.getElementById(id);
+const drop = $('drop'), input = $('file'), out = $('out'), total = $('total');
+
+const MIME = {
+  pdf:'application/pdf', png:'image/png', jpg:'image/jpeg', jpeg:'image/jpeg', gif:'image/gif', webp:'image/webp', bmp:'image/bmp', svg:'image/svg+xml',
+  txt:'text/plain', csv:'text/plain', xml:'text/plain', json:'text/plain', html:'text/plain', htm:'text/plain', log:'text/plain', md:'text/plain',
+  mp4:'video/mp4', webm:'video/webm', mp3:'audio/mpeg', wav:'audio/wav', ogg:'audio/ogg'
+};
+const ext = n => (n.split('.').pop() || '').toLowerCase();
+const mime = n => MIME[ext(n)] || 'application/octet-stream';
+
+drop.onclick = async () => {
+  if (!('showOpenFilePicker' in window)) return input.click();
+  let hs;
+  try { hs = await showOpenFilePicker({ multiple: true, id: 'pdfs', types: [{ description: 'PDF', accept: { 'application/pdf': ['.pdf'] } }] }); }
+  catch { return; }
+  for (const h of hs) await handle(await h.getFile(), h);
+};
+input.onchange = async () => { for (const f of input.files) await handle(f, null); input.value = ''; };
+drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); };
+drop.ondragleave = () => drop.classList.remove('over');
+drop.ondrop = async e => {
+  e.preventDefault(); drop.classList.remove('over');
+  const entries = [...e.dataTransfer.items].filter(i => i.kind === 'file')
+    .map(i => ({ file: i.getAsFile(), h: i.getAsFileSystemHandle ? i.getAsFileSystemHandle() : null }));
+  for (const en of entries) await handle(en.file, en.h ? await en.h : null);
+};
+
+$('clear').onclick = () => { groups.length = 0; out.innerHTML = ''; refresh(); };
+$('zip').onclick = async () => {
+  const zip = new JSZip();
+  for (const g of groups) unique(g.items).forEach((n, i) => zip.file(`${base(g.pdf)}/${n}`, g.items[i].data));
+  save(await zip.generateAsync({ type: 'blob' }), 'adjuntos.zip');
+};
+$('all').onclick = async () => {
+  const withItems = groups.filter(g => g.items.length);
+  if (!canPickDir) return $('zip').click();
+  const dir = await pickDir(withItems[0].handle);
+  if (!dir) return;
+  for (const g of withItems) g.status.textContent = await writeGroup(dir, g);
+};
+
+function base(n) { return n.replace(/\.pdf$/i, ''); }
+function unique(items) {
+  const used = new Set();
+  return items.map(it => {
+    let n = it.name, k = 1;
+    while (used.has(n.toLowerCase())) n = it.name.replace(/(\.[^.]*)?$/, m => ` (${k++})${m}`);
+    used.add(n.toLowerCase());
+    return n;
+  });
+}
+
+async function pickDir(handle) {
+  try { return await showDirectoryPicker({ id: 'destino', mode: 'readwrite', startIn: handle || 'downloads' }); }
+  catch { return null; }
+}
+
+async function writeGroup(dir, g) {
+  const sub = await dir.getDirectoryHandle(`${base(g.pdf)}_adjuntos`, { create: true });
+  const names = unique(g.items);
+  for (let i = 0; i < names.length; i++) {
+    const w = await (await sub.getFileHandle(names[i], { create: true })).createWritable();
+    await w.write(g.items[i].data);
+    await w.close();
+  }
+  return `✔ ${names.length} archivo(s) guardados en: ${dir.name}\\${sub.name}\\  (${names.join(', ')})`;
+}
+
+function refresh() {
+  const n = groups.reduce((s, g) => s + g.items.length, 0);
+  $('all').disabled = $('zip').disabled = n === 0;
+  $('clear').disabled = out.children.length === 0;
+  total.textContent = n ? `${n} adjunto(s) encontrados` : '';
+}
+
+function save(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement('a'), { href: url, download: name });
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function saveOne(it, handle) {
+  if (!('showSaveFilePicker' in window)) return save(new Blob([it.data]), it.name);
+  try {
+    const h = await showSaveFilePicker({ suggestedName: it.name, startIn: handle || 'downloads' });
+    const w = await h.createWritable(); await w.write(it.data); await w.close();
+    return `✔ Guardado: ${h.name}`;
+  } catch { return ''; }
+}
+
+function size(b) {
+  if (b < 1024) return `${b} B`;
+  if (b < 1048576) return `${(b / 1024).toFixed(1)} KB`;
+  return `${(b / 1048576).toFixed(1)} MB`;
+}
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+
+let vUrl = null, vItem = null, vHandle = null;
+function view(it, handle) {
+  vItem = it; vHandle = handle;
+  const type = mime(it.name), body = $('vbody');
+  body.innerHTML = '';
+  $('vname').textContent = it.name;
+  if (vUrl) URL.revokeObjectURL(vUrl);
+  vUrl = URL.createObjectURL(new Blob([it.data], { type }));
+  if (type === 'application/pdf') body.append(Object.assign(el('iframe'), { src: vUrl }));
+  else if (type.startsWith('image/')) body.append(Object.assign(el('img'), { src: vUrl }));
+  else if (type.startsWith('video/')) body.append(Object.assign(el('video'), { src: vUrl, controls: true }));
+  else if (type.startsWith('audio/')) body.append(Object.assign(el('audio'), { src: vUrl, controls: true }));
+  else if (type === 'text/plain') body.append(el('pre', null, new TextDecoder().decode(it.data)));
+  else body.append(el('div', 'msg', `No se puede previsualizar un archivo .${ext(it.name)}. Descargalo para abrirlo con su programa.`));
+  $('viewer').showModal();
+}
+$('vclose').onclick = () => $('viewer').close();
+$('vdl').onclick = () => saveOne(vItem, vHandle);
+
+async function handle(file, handle) {
+  const card = el('div', 'pdf');
+  card.append(el('h2', null, file.name));
+  const msg = el('div', 'msg', 'Procesando…');
+  card.append(msg);
+  out.prepend(card);
+  refresh();
+  try {
+    const items = await extract(file);
+    msg.remove();
+    const status = el('div', 'ok');
+    const g = { pdf: file.name, handle, items, status };
+    groups.push(g);
+    if (!items.length) { card.append(el('div', 'msg', 'Este PDF no tiene adjuntos.')); return refresh(); }
+    const ul = el('ul');
+    for (const it of items) {
+      const li = el('li');
+      const info = el('div', 'info');
+      info.append(el('div', 'name', it.name), el('div', 'meta', `${size(it.data.length)} · ${it.origin}`));
+      const acts = el('div', 'acts');
+      const v = el('button', 'sec', 'Ver');
+      v.onclick = () => view(it, handle);
+      const d = el('button', null, 'Guardar');
+      d.onclick = async () => { status.textContent = await saveOne(it, handle) || status.textContent; };
+      acts.append(v, d);
+      li.append(info, acts);
+      ul.append(li);
+    }
+    card.append(ul);
+    if (canPickDir) {
+      const bar = el('div', 'bar');
+      const b = el('button', null, `Guardar los ${items.length} en la carpeta del PDF`);
+      b.onclick = async () => { const dir = await pickDir(handle); if (dir) status.textContent = await writeGroup(dir, g); };
+      bar.append(b);
+      card.append(bar);
+    }
+    card.append(status);
+  } catch (e) {
+    msg.className = 'msg err';
+    msg.textContent = e.name === 'PasswordException' ? 'El PDF está protegido con contraseña.' : `No se pudo leer el PDF: ${e.message}`;
+  }
+  refresh();
+}
+
+async function extract(file) {
+  const doc = await pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+  const items = [];
+  const atts = await doc.getAttachments();
+  if (atts) for (const [key, a] of Object.entries(atts)) {
+    items.push({ name: a.filename || key, data: a.content, origin: 'Adjunto del documento' });
+  }
+  for (let p = 1; p <= doc.numPages; p++) {
+    const page = await doc.getPage(p);
+    for (const ann of await page.getAnnotations()) {
+      if (ann.annotationType === FILE_ATTACHMENT && ann.file) {
+        items.push({ name: ann.file.filename, data: ann.file.content, origin: `Anotación en página ${p}` });
+      }
+    }
+  }
+  await doc.destroy();
+  return items;
+}
+</script>
+</body>
+</html>
