@@ -75,6 +75,21 @@
           "destination": "/pdf-adjuntos/",
           "type": 302
         }
+      ],
+      "headers": [
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Content-Security-Policy",
+              "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src blob:; frame-src blob:; object-src blob:; worker-src 'self' blob:; connect-src 'none'; form-action 'none'; base-uri 'none'"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "no-referrer"
+            }
+          ]
+        }
       ]
     }
   ],
