@@ -9,7 +9,7 @@
     "node": "20"
   },
   "scripts": {
-    "test": "node --test test/get-projects.test.js"
+    "test": "node --test test/*.test.js"
   },
   "dependencies": {
     "firebase-admin": "^13.0.0",
