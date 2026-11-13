@@ -9,29 +9,36 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { db, storage } from "../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { auth, db, storage } from "../firebase";
 import { resolveProjectImage } from "../data/projectCovers";
+import { createPortfolioImageClient, optimizeProjectImage } from "./portfolioImageClient";
 
 const PROJECTS_COLLECTION = "projects";
+const imagesApiUrl = import.meta.env.VITE_IMAGES_API_URL;
+const portfolioImages = () => createPortfolioImageClient({ apiUrl: imagesApiUrl, auth });
+
+const isManagedProjectImage = (imageUrl) => {
+  if (!imagesApiUrl || !imageUrl) return false;
+  try {
+    return new URL(imageUrl).origin === new URL(imagesApiUrl).origin;
+  } catch {
+    return false;
+  }
+};
 
 /**
- * Sube una imagen a Firebase Storage
+ * Sube una imagen optimizada al servicio de imágenes del portfolio
  * @param {File} file - Archivo de imagen
- * @param {string} projectId - ID del proyecto (para organizar carpetas)
- * @returns {Promise<string>} URL de descarga de la imagen
+ * @param {string} projectId - ID del proyecto
+ * @returns {Promise<string>} URL pública de la imagen
  */
 export const uploadProjectImage = async (file, projectId) => {
   if (!file) throw new Error("No se proporcionó ningún archivo");
 
-  const timestamp = Date.now();
-  const fileName = `${timestamp}_${file.name}`;
-  const storageRef = ref(storage, `projects/${projectId}/${fileName}`);
-
-  await uploadBytes(storageRef, file);
-  const downloadURL = await getDownloadURL(storageRef);
-
-  return downloadURL;
+  const image = await optimizeProjectImage(file);
+  image.filename = `${projectId}-${Date.now()}-${image.filename}`;
+  return portfolioImages().upload(image);
 };
 
 /**
@@ -58,9 +65,9 @@ export const uploadProjectReadme = async (file, projectId) => {
  * @param {string} imageUrl - URL de la imagen a eliminar
  */
 export const deleteProjectImage = async (imageUrl) => {
+  if (!isManagedProjectImage(imageUrl)) return;
   try {
-    const imageRef = ref(storage, imageUrl);
-    await deleteObject(imageRef);
+    await portfolioImages().delete(imageUrl);
   } catch (error) {
     console.error("Error al eliminar imagen:", error);
   }
@@ -188,18 +195,11 @@ export const updateProject = async (projectId, projectData, imageFile, readmeFil
     updatedAt: serverTimestamp(),
   };
 
-  // Si hay nueva imagen, eliminar la anterior y subir la nueva
+  let previousImageUrl;
   if (imageFile) {
     const currentProject = await getProjectById(projectId);
-
-    // Eliminar imagen anterior si existe y es de Firebase Storage
-    if (currentProject.image && currentProject.image.includes("firebase")) {
-      await deleteProjectImage(currentProject.image);
-    }
-
-    // Subir nueva imagen
-    const imageUrl = await uploadProjectImage(imageFile, projectId);
-    updateData.image = imageUrl;
+    previousImageUrl = currentProject.image;
+    updateData.image = await uploadProjectImage(imageFile, projectId);
   }
 
   // Si hay nuevo README, subirlo y actualizar URL
@@ -213,6 +213,7 @@ export const updateProject = async (projectId, projectData, imageFile, readmeFil
   }
 
   await updateDoc(projectRef, updateData);
+  if (previousImageUrl) await deleteProjectImage(previousImageUrl);
 };
 
 /**
@@ -224,10 +225,7 @@ export const deleteProject = async (projectId) => {
   // Obtener datos del proyecto para eliminar imagen
   const project = await getProjectById(projectId);
 
-  // Eliminar imagen si existe y es de Firebase Storage
-  if (project.image && project.image.includes("firebase")) {
-    await deleteProjectImage(project.image);
-  }
+  if (project.image) await deleteProjectImage(project.image);
 
   // Eliminar documento
   await deleteDoc(doc(db, PROJECTS_COLLECTION, projectId));

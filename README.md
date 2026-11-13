@@ -64,6 +64,9 @@ A modern, dynamic portfolio application built with React, Vite, and Firebase. Th
     VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
     VITE_FIREBASE_APP_ID=your_app_id
 
+    # Servicio de imágenes de proyectos (Control Apps / Garage)
+    VITE_IMAGES_API_URL=https://images-api.example.com
+
     # AI Providers (fallback: Gemini -> OpenRouter -> Groq)
     VITE_GEMINI_API_KEY=your_gemini_api_key
     VITE_OPEN_ROUTER_API_KEY=your_openrouter_api_key
@@ -77,6 +80,8 @@ A modern, dynamic portfolio application built with React, Vite, and Firebase. Th
 
     Important for Vite:
     - Client-side variables must use the `VITE_` prefix.
+    - Configure `VITE_IMAGES_API_URL` with the Control Apps image API base URL; the admin project form uses its `/v1/portfolio-images` endpoint. If it is unset, image uploads show a configuration error.
+    - Project image URLs remain public strings in Firestore; README uploads still use Firebase Storage.
     - Access them with `import.meta.env`.
     - Restart `npm run dev` after changing `.env`.
 
