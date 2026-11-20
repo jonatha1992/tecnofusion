@@ -78,6 +78,7 @@ export const deleteProjectImage = async (imageUrl) => {
  * @returns {Promise<Array>} Lista de proyectos ordenados por fecha (más recientes primero)
  */
 export const getAllProjects = async () => {
+  if (!db) return [];
   // Obtenemos sin orderBy para evitar requerir índices en Firestore
   // El ordenamiento se hace en el cliente
   const projectsQuery = query(collection(db, PROJECTS_COLLECTION));

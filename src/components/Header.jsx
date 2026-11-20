@@ -1,182 +1,55 @@
 import { useState } from "react";
-import { HiMenu, HiLogin, HiLogout, HiUserCircle, HiHome, HiFolderOpen, HiCog, HiMail } from "react-icons/hi";
+import { HiMenu, HiLogin, HiLogout, HiUserCircle } from "react-icons/hi";
 import { useAuth } from "../context/AuthContext";
 import LoginModal from "./LoginModal";
 import { useNavigate } from "react-router-dom";
 
 const navItems = [
-    { href: "#home", label: "Inicio", Icon: HiHome },
-    { href: "#proyectos", label: "Proyectos", Icon: HiFolderOpen },
-    { href: "#Servicios", label: "Servicios", Icon: HiCog },
-    { href: "#Contacto", label: "Contacto", Icon: HiMail },
+    { href: "#hero", label: "Inicio" },
+    { href: "#projects", label: "Proyectos" },
+    { href: "#servicios", label: "Servicios" },
+    { href: "#contact", label: "Contacto" },
 ];
-
-const adminNavItem = { href: "/admin/dashboard", label: "Gestión", isRoute: true };
 
 function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [openLoginModal, setOpenLoginModal] = useState(false);
     const { user, logout } = useAuth();
     const navigate = useNavigate();
-
-    const handleCloseNavMenu = () => {
-        setMobileMenuOpen(false);
-    };
-
-    const handleOpenLogin = () => {
-        setOpenLoginModal(true);
-    };
-
-    const handleCloseLogin = () => {
-        setOpenLoginModal(false);
-    };
-
-    const handleLogout = async () => {
-        try {
-            await logout();
-        } catch (error) {
-            console.error("Error al cerrar sesión:", error);
-        }
-    };
-
+    const handleLogout = async () => { await logout(); };
     const handleNavClick = (event, href, isRoute = false) => {
         event.preventDefault();
-        handleCloseNavMenu();
-
-        if (isRoute) {
-            // Si es una ruta, usar navigate
-            navigate(href);
-        } else {
-            // Pequeño delay para asegurar que el menú se cierre primero en mobile
-            setTimeout(() => {
-                const targetElement = document.querySelector(href);
-                if (targetElement) {
-                    const headerOffset = 80;
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth",
-                    });
-                }
-            }, 100);
-        }
+        setMobileMenuOpen(false);
+        if (isRoute) return navigate(href);
+        const targetElement = document.querySelector(href);
+        if (targetElement) targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-1201 bg-gray-900/95 backdrop-blur-[10px] shadow-lg border-b border-white/10">
-            <div className="container max-w-(--breakpoint-lg) px-4 mx-auto sm:px-6 md:px-8">
-                <nav className="flex items-center justify-between min-h-[68px]">
-                    {/* Logo - Desktop */}
-                    <a
-                        href="#"
-                        className="hidden md:flex items-center gap-3 font-mono font-bold tracking-[0.3rem] text-white no-underline mr-6 shrink-0"
-                    >
-                        <img src="/logo_sin_fondo.png" alt="tecnofusion.dev Logo" className="w-auto h-14" />
-                        tecnofusion.dev
-                    </a>
-
-                    {/* Mobile Menu Button & Logo */}
-                    <div className="flex items-center flex-1 md:hidden">
-                        <button
-                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="p-2 text-white transition-colors rounded-md hover:bg-white/10"
-                            aria-label="Toggle navigation menu"
-                            aria-expanded={mobileMenuOpen}
-                        >
-                            <HiMenu className="w-6 h-6" />
-                        </button>
-                        <a
-                            href="#"
-                            className="flex-1 flex items-center gap-2 font-mono font-bold tracking-[0.2rem] text-white no-underline ml-3 text-sm"
-                        >
-                            <img src="/logo_sin_fondo.png" alt="tecnofusion.dev Logo" className="w-auto h-8" />
-                            tecnofusion.dev
-                        </a>
-                    </div>
-
-                    {/* Desktop Navigation */}
-                    <div className="items-center flex-1 hidden gap-0 md:flex">
-                        {navItems.map((item) => (
-                            <button
-                                key={item.href}
-                                onClick={(event) => handleNavClick(event, item.href, item.isRoute)}
-                                className="flex items-center gap-2 px-4 py-2 my-2 text-white transition-colors rounded-md hover:bg-white/10"
-                            >
-                                {item.Icon && <item.Icon className="w-5 h-5 text-[#E68369]" aria-hidden="true" />}
-                                {item.label}
-                            </button>
-                        ))}
-                        {user && (
-                            <button
-                                onClick={(event) => handleNavClick(event, adminNavItem.href, adminNavItem.isRoute)}
-                                className="my-2 text-[#E68369] px-4 py-2 hover:bg-white/10 rounded-md transition-colors font-semibold border-l border-white/10 ml-2 pl-4"
-                            >
-                                {adminNavItem.label}
-                            </button>
-                        )}
-                    </div>
-
-                    {/* Login/Logout Section */}
-                    <div className="flex items-center gap-2">
-                        {user ? (
-                            <>
-                                <div className="items-center hidden gap-2 sm:flex">
-                                    <HiUserCircle className="w-5 h-5 text-white" />
-                                    <span className="hidden text-sm text-white md:block">
-                                        {user.email}
-                                    </span>
-                                </div>
-                                <button
-                                    onClick={handleLogout}
-                                    className="flex items-center gap-2 ml-2 px-3 py-1.5 text-white border border-white/30 rounded-md hover:border-white/50 hover:bg-white/10 transition-colors"
-                                >
-                                    <HiLogout className="w-4 h-4" />
-                                    Salir
-                                </button>
-                            </>
-                        ) : (
-                            <button
-                                onClick={handleOpenLogin}
-                                className="flex items-center gap-2 ml-2 px-3 py-1.5 text-white border border-white/30 rounded-md hover:border-white/50 hover:bg-white/10 transition-colors"
-                            >
-                                <HiLogin className="w-4 h-4" />
-                                Entrar
-                            </button>
-                        )}
-                    </div>
-                </nav>
-
-                {/* Mobile Menu Dropdown */}
-                {mobileMenuOpen && (
-                    <div className="absolute left-0 right-0 bg-gray-900 shadow-lg md:hidden top-full">
-                        <div className="flex flex-col">
-                            {navItems.map((item) => (
-                                <button
-                                    key={item.href}
-                                    onClick={(event) => handleNavClick(event, item.href, item.isRoute)}
-                                    className="flex items-center justify-center w-full gap-2 py-3 text-lg font-medium text-white transition-colors hover:bg-white/10"
-                                >
-                                    {item.Icon && <item.Icon className="w-5 h-5 text-[#E68369]" aria-hidden="true" />}
-                                    {item.label}
-                                </button>
-                            ))}
-                            {user && (
-                                <button
-                                    onClick={(event) => handleNavClick(event, adminNavItem.href, adminNavItem.isRoute)}
-                                    className="w-full text-center py-3 text-[#E68369] hover:bg-white/10 transition-colors font-semibold text-lg border-t border-white/10"
-                                >
-                                    {adminNavItem.label}
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* Login Modal */}
-            <LoginModal open={openLoginModal} onClose={handleCloseLogin} />
+        <header className="fixed top-0 left-0 right-0 z-[1201] border-b border-[#1C1C1C]/15 bg-[#F2EFE9]/95">
+            <nav className="mx-auto flex h-14 max-w-[1400px] items-center justify-between gap-3 px-4 md:px-6">
+                <a href="#hero" className="flex shrink-0 items-center gap-2.5 no-underline">
+                    <span className="rounded-[6px] bg-[#1C1C1C] px-2.5 py-1 text-sm font-semibold tracking-[-0.03em] text-[#F2EFE9]">TF</span>
+                    <span className="text-base font-semibold tracking-[-0.03em] text-[#1C1C1C]">tecnofusion.dev</span>
+                    <span className="h-2 w-2 rounded-full bg-[#8FA68E]" aria-label="En línea" />
+                </a>
+                <div className="hidden items-center gap-1 md:flex">
+                    {navItems.map((item) => <a key={item.href} href={item.href} onClick={(event) => handleNavClick(event, item.href)} className="rounded-[6px] px-3 py-2 text-sm text-[#1C1C1C] transition-colors hover:bg-[#1C1C1C] hover:text-[#F2EFE9]">{item.label}</a>)}
+                    {user && <button onClick={() => navigate("/admin/dashboard")} className="rounded-[6px] px-3 py-2 text-sm text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-[#F2EFE9]">Gestión</button>}
+                </div>
+                <div className="flex items-center gap-2">
+                    {user && <span className="hidden items-center gap-1.5 text-sm sm:flex"><HiUserCircle className="h-5 w-5" />{user.email}</span>}
+                    <button onClick={user ? handleLogout : () => setOpenLoginModal(true)} className="rounded-[6px] bg-[#DFDCD2] px-3.5 py-1.5 text-sm font-medium text-[#1C1C1C] transition-colors hover:bg-[#1C1C1C] hover:text-[#F2EFE9]">
+                        <span className="flex items-center gap-1.5">{user ? <><HiLogout className="h-4 w-4" />Salir</> : <><HiLogin className="h-4 w-4" />Entrar</>}</span>
+                    </button>
+                    <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="rounded-[6px] p-2 md:hidden" aria-label="Abrir navegación" aria-expanded={mobileMenuOpen}><HiMenu className="h-5 w-5" /></button>
+                </div>
+            </nav>
+            {mobileMenuOpen && <div className="absolute left-0 right-0 top-full border-b border-[#1C1C1C]/15 bg-[#F2EFE9] p-2 md:hidden">
+                {navItems.map((item) => <a key={item.href} href={item.href} onClick={(event) => handleNavClick(event, item.href)} className="block rounded-[6px] px-4 py-3 text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-[#F2EFE9]">{item.label}</a>)}
+                {user && <button onClick={(event) => handleNavClick(event, "/admin/dashboard", true)} className="w-full rounded-[6px] px-4 py-3 text-left">Gestión</button>}
+            </div>}
+            <LoginModal open={openLoginModal} onClose={() => setOpenLoginModal(false)} />
         </header>
     );
 }
