@@ -79,12 +79,12 @@ function Projects({ title, id, children }) {
           Sistemas y proyectos en producción
         </h1>
         <p className="mt-3 mb-6 text-sm text-[#45433E]">{title || "Sistemas y productos desarrollados para operar."}</p>
-        <div role="group" aria-label="Filtrar proyectos por categoría" className="mb-8 -mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto border-b border-[#1C1C1C]/15 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex gap-6 min-w-max">
+        <div role="group" aria-label="Filtrar proyectos por categoría" className="mb-8 -mx-4 pl-4 pr-10 md:mx-0 md:px-0 overflow-x-auto snap-x snap-proximity md:overflow-visible border-b border-[#1C1C1C]/15 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,#000_calc(100%-2.5rem),transparent)] md:[mask-image:none]">
+          <div className="flex gap-6 min-w-max md:min-w-0 md:flex-wrap md:gap-x-8 md:gap-y-0">
             {[{ id: "todas", label: "Todas", count: projects.length }, ...categories].map((c) => {
               const active = selectedCategory === c.id;
               return (
-                <button key={c.id} type="button" aria-pressed={active} onClick={() => setSelectedCategory(c.id)} className={`relative -mb-px inline-flex items-center gap-2 whitespace-nowrap border-b-2 py-3 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C1C1C] ${active ? "border-[#1C1C1C] text-[#1C1C1C]" : "border-transparent text-[#57554F] hover:text-[#1C1C1C]"}`}>
+                <button key={c.id} type="button" aria-pressed={active} onClick={() => setSelectedCategory(c.id)} className={`relative -mb-px snap-start inline-flex items-center gap-2 whitespace-nowrap border-b-2 py-3 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C1C1C] ${active ? "border-[#1C1C1C] text-[#1C1C1C]" : "border-transparent text-[#57554F] hover:text-[#1C1C1C]"}`}>
                   {c.featured && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#8FA68E]" />}
                   {c.label}
                   <span className="text-[#1C1C1C]/45">{String(c.count).padStart(2, "0")}</span>
