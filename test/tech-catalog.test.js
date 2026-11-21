@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeTech, normalizeTechList, categoriesForProject, buildCategoryFilters, filterByCategory } from "../src/data/techCatalog.js";
+import { getTechIcon, normalizeTech, normalizeTechList, categoriesForProject, buildCategoryFilters, filterByCategory } from "../src/data/techCatalog.js";
 
 test("unifica alias duplicados a un nombre canónico", () => {
   const grupos = [
@@ -40,4 +40,10 @@ test("categorías: Sistemas distribuidos primero, conteos y sin vacías", () => 
   assert.ok(!f.some((c) => c.id === "ia"));
   assert.equal(filterByCategory(projects, "mobile").length, 1);
   assert.equal(filterByCategory(projects, "todas").length, 5);
+});
+
+test("íconos: existen para tecnologías conocidas y son null para el resto", () => {
+  for (const t of ["React", "Docker", "FastAPI", "Firebase", "Vue"]) assert.match(getTechIcon(t).path, /^M/, t);
+  assert.equal(getTechIcon("Tkinter"), null);
+  assert.equal(getTechIcon(normalizeTech("Vue.js 3")) !== null, true);
 });

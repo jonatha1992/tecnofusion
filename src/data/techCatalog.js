@@ -1,3 +1,10 @@
+import {
+  siAngular, siBlazor, siBootstrap, siCelery, siChartdotjs, siDjango, siDocker, siDotnet, siEslint, siExpo,
+  siExpress, siFastapi, siFfmpeg, siFirebase, siGithubactions, siGooglecloud, siGooglegemini, siJsonwebtokens,
+  siLeaflet, siMercadopago, siMui, siNextdotjs, siNodedotjs, siPinia, siPostgresql, siPython, siRailway, siReact,
+  siRedis, siSqlite, siSupabase, siSwagger, siTailwindcss, siTypescript, siVite, siVuedotjs,
+} from "simple-icons";
+
 export const CATEGORIES = [
   { id: "distribuidos", label: "Sistemas distribuidos", featured: true },
   { id: "fullstack", label: "Full-Stack Web" },
@@ -5,6 +12,21 @@ export const CATEGORIES = [
   { id: "mobile", label: "Mobile" },
   { id: "datos", label: "Datos & Automatización" },
 ];
+
+const ICONS = {
+  Docker: siDocker, Celery: siCelery, Redis: siRedis, Railway: siRailway, "Cloud Functions": siGooglecloud,
+  "GitHub Actions": siGithubactions, "Django REST Framework": siDjango, FastAPI: siFastapi, "Node.js": siNodedotjs,
+  Express: siExpress, Supabase: siSupabase, JWT: siJsonwebtokens, "ASP.NET Core": siDotnet, Swagger: siSwagger,
+  React: siReact, Vue: siVuedotjs, Angular: siAngular, "Next.js": siNextdotjs, Pinia: siPinia, Vite: siVite,
+  TypeScript: siTypescript, "Tailwind CSS": siTailwindcss, Bootstrap: siBootstrap, "Material UI": siMui,
+  Django: siDjango, "Blazor Server": siBlazor, Firebase: siFirebase, ESLint: siEslint, MercadoPago: siMercadopago,
+  PostgreSQL: siPostgresql, "Google Gemini": siGooglegemini, Expo: siExpo, "React Native": siReact, Python: siPython,
+  FFmpeg: siFfmpeg, "Chart.js": siChartdotjs, Leaflet: siLeaflet, SQLite: siSqlite,
+};
+
+export function getTechIcon(canonicalName) {
+  return ICONS[canonicalName] ?? null;
+}
 
 const slug = (s) => String(s).toLowerCase().replace(/[\s_\-.]+/g, "");
 

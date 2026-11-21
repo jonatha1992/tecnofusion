@@ -4,6 +4,7 @@ import LoadingSpinner from "./common/LoadingSpinner";
 import { getAllProjects } from "../services/projectService";
 import ReadmeModal from "./modals/ReadmeModal";
 import ProjectDetailsModal from "./modals/ProjectDetailsModal";
+import TechIcon from "./common/TechIcon";
 import { buildCategoryFilters, filterByCategory, normalizeTechList } from "../data/techCatalog";
 const SPAN_CLASSES = ['md:col-span-7', 'md:col-span-5', 'md:col-span-4', 'md:col-span-4', 'md:col-span-4'];
 
@@ -153,7 +154,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
       <div className="p-5 text-left flex-1 flex flex-col justify-between bg-[#FFFFFF]">
         <h3 className="text-xl font-semibold tracking-[-0.03em] leading-snug text-[#1C1C1C] mb-2">{title}</h3>
         <p className="text-sm text-[#45433E] leading-relaxed mb-4 flex-1 line-clamp-3">{description}</p>
-        {techArray.length > 0 && <p className="mb-4 font-mono text-[11px] leading-relaxed tracking-[0.04em] text-[#57554F]">{techArray.slice(0, 4).join(" · ")}{techArray.length > 4 && <span className="text-[#1C1C1C]/45"> · +{techArray.length - 4}</span>}</p>}
+        {techArray.length > 0 && <ul className="mb-4 flex flex-wrap gap-x-3 gap-y-1.5 font-mono text-[11px] tracking-[0.04em] text-[#57554F]">{techArray.slice(0, 4).map((tech) => <li key={tech} className="inline-flex items-center gap-1.5"><TechIcon name={tech} size={14} />{tech}</li>)}{techArray.length > 4 && <li className="text-[#1C1C1C]/45">+{techArray.length - 4}</li>}</ul>}
         <div className="flex flex-wrap gap-2 mt-auto" onClick={(e) => e.stopPropagation()}>
           <button onClick={onOpenDetails} className="bg-[#DFDCD2] hover:bg-[#1C1C1C] hover:text-[#F2EFE9] text-[#1C1C1C] rounded-[6px] px-3.5 py-2 text-xs font-medium transition-colors">Ver ficha</button>
           {previewLink && <a href={previewLink} target="_blank" rel="noopener noreferrer" className="bg-[#1C1C1C] text-[#F2EFE9] hover:bg-[#333333] rounded-[6px] px-3.5 py-2 text-xs font-medium">Demo</a>}
