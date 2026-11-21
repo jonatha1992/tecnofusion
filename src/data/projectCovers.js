@@ -20,6 +20,7 @@ export const projectScreens = new Set([
   'payalert-saas-gestion-de-flujo-de-caja',
   'pdf-adjuntos',
   'portfolio-tecnico-jonathan-correa',
+  'showroom-isabella-tienda-de-ropa-online',
   'tecnofusion',
   'tutor-mate',
 ])
@@ -34,7 +35,6 @@ export const projectCovers = {
   'forgotten-objects-system': '/assets/projects/forgotten-objects-system.svg',
   'gestion-de-polizas': '/assets/projects/gestion-de-polizas.svg',
   'gestorcoc-v2-0': '/assets/projects/gestorcoc-v2-0.svg',
-  'matilda-vintage-tienda-de-ropa-online': '/assets/projects/matilda-vintage-tienda-de-ropa-online.svg',
   'neon-designs-carteles-de-neon-led': '/assets/projects/neon-designs-carteles-de-neon-led.svg',
   'payalert-saas-gestion-de-flujo-de-caja': '/assets/projects/payalert-saas-gestion-de-flujo-de-caja.svg',
   'portfolio-tecnico-jonathan-correa': '/assets/projects/portfolio-tecnico-jonathan-correa.svg',

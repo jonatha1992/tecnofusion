@@ -32,3 +32,8 @@ test("cada proyecto nuevo con captura resuelve a su WebP", async () => {
   }
   assert.equal(resolveProjectImage("PayAlert SaaS - Gestión de Flujo de Caja", "https://x/y.png"), "/assets/projects/screens/payalert-saas-gestion-de-flujo-de-caja.webp");
 });
+
+test("Showroom Isabella resuelve a su captura real", () => {
+  assert.equal(resolveProjectImage("Showroom Isabella — Tienda de Ropa Online"), "/assets/projects/screens/showroom-isabella-tienda-de-ropa-online.webp");
+  assert.ok(existsSync("public/assets/projects/screens/showroom-isabella-tienda-de-ropa-online-600.webp"));
+});
