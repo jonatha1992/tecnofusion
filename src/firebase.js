@@ -12,9 +12,15 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const storage = getStorage(app);
+const hasValidFirebaseConfig = Boolean(
+    firebaseConfig.apiKey &&
+    !String(firebaseConfig.apiKey).startsWith("your_") &&
+    firebaseConfig.projectId
+);
+
+const app = hasValidFirebaseConfig ? initializeApp(firebaseConfig) : null;
+const db = app ? getFirestore(app) : null;
+const auth = app ? getAuth(app) : null;
+const storage = app ? getStorage(app) : null;
 
 export { db, auth, storage };

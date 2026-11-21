@@ -26,9 +26,9 @@ function HomePage() {
     <Layout>
       <Hero />
       <Suspense fallback={<div className="min-h-[60vh]"></div>}>
-        <Projects title="Proyectos" id="proyectos" gradientClass="bg-radial-gradient-right" />
-        <Servicios title="Servicios" id="Servicios" gradientClass="bg-radial-gradient-left" />
-        <Contact title="Contacto" id="Contacto" />
+        <Projects title="Proyectos" id="projects" gradientClass="bg-radial-gradient-right" />
+        <Servicios title="Servicios" id="servicios" gradientClass="bg-radial-gradient-left" />
+        <Contact title="Contacto" id="contact" />
         <CustomerAssistant />
       </Suspense>
     </Layout>

@@ -1,297 +1,34 @@
-import _SliderModule from "react-slick";
-const Slider = _SliderModule?.default ?? _SliderModule;
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
-import heroVideo from "../assets/video-hero.mp4";
+const productCards = [
+  { name: "MatchAnalyzer", description: "Modelos predictivos & ML" },
+  { name: "Control Apps", description: "Orquestación & despliegue" },
+  { name: "KINETIQ PRO", description: "Plataforma SaaS fitness" },
+  { name: "AudioText & SpinPredictor", description: "IA & datos en tiempo real" },
+];
 
 function Hero() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [videoLoaded, setVideoLoaded] = useState(true);  // Asumimos que el video está disponible inicialmente
-
-  // Precargar el video para evitar parpadeo
-  useEffect(() => {
-    const video = document.createElement('video');
-    video.src = heroVideo;
-    video.muted = true;
-    video.preload = 'auto';
-
-    video.addEventListener('canplaythrough', () => {
-      setVideoLoaded(true);
-    });
-
-    video.addEventListener('error', () => {
-      console.log('Error precargando video');
-      setVideoLoaded(false);
-    });
-
-    // Iniciar precarga
-    video.load();
-  }, []);
-
-  const settings = {
-    dots: true,
-    fade: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    waitForAnimate: false,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    arrows: false,
-    beforeChange: (oldIndex, newIndex) => setCurrentSlide(newIndex),
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: 0.5, // Retraso para que el video aparezca primero
-        duration: 0.8,
-        staggerChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 }
-    }
-  };
-
-  const buttonVariants = {
-    hover: {
-      scale: 1.02,
-      boxShadow: "0px 8px 25px rgba(255, 126, 95, 0.3)",
-      transition: { duration: 0.2, ease: "easeInOut" }
-    },
-    tap: {
-      scale: 0.98,
-      transition: { duration: 0.1 }
-    }
-  };
-  // Configuración de las partículas del fondo
-  const particles = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    initialX: Math.random() * window.innerWidth,
-    initialY: Math.random() * window.innerHeight,
-    duration: Math.random() * 3 + 2,
-    delay: Math.random() * 2
-  }));
-
   return (
-    <motion.section
-      id="home"
-      className="relative flex items-center w-full min-h-screen overflow-hidden text-white"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {/* Fondo de video */}
-      <div className="absolute inset-0 z-0 w-full h-full">
-        {/* Video de fondo - siempre visible */}
-        <video
-          className="absolute top-0 left-0 z-20 object-cover w-full h-full opacity-70"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          onError={() => {
-            console.log('Error cargando video, mostrando fondo CSS');
-            setVideoLoaded(false);
-          }}
-        >
-          <source src={heroVideo} type="video/mp4" />
-          Tu navegador no soporta videos HTML5.
-        </video>
-
-        {/* Fondo CSS de respaldo - solo visible si el video falla completamente */}
-        <div className={`absolute inset-0 bg-moving-gradient z-10 ${!videoLoaded ? 'opacity-100' : 'opacity-0 pointer-events-none'} transition-opacity duration-300`}></div>
-
-        {/* Overlay sutil para mejorar la legibilidad del texto */}
-        <div className="absolute inset-0 z-30 bg-black/15"></div>
-
-        {/* Gradiente adicional muy sutil */}
-        <div className="absolute inset-0 z-30 bg-linear-to-b from-transparent via-black/5 to-black/20"></div>
-      </div>
-
-      {/* Partículas animadas de fondo (opcional, ahora más sutiles) */}
-      <div className="absolute inset-0 z-10 overflow-hidden">
-        {particles.map(({ id, initialX, initialY, duration, delay }) => (
-          <motion.span
-            key={id}
-            className="absolute h-1 w-1 rounded-full bg-linear-to-r from-[#ff7e5f] to-[#feb47b] opacity-60"
-            initial={{
-              x: initialX,
-              y: initialY,
-              opacity: 0
-            }}
-            animate={{
-              y: [null, Math.random() * window.innerHeight],
-              opacity: [0, 0.4, 0]
-            }}
-            transition={{
-              duration,
-              repeat: Infinity,
-              delay
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Contenido principal */}
-      <div className="container relative z-20 w-full px-4 mx-auto">
-        <Slider {...settings} className="w-full">
-          <div
-            className="flex flex-col items-center justify-center min-h-[80vh] w-full py-12"
-            key={`slide-${currentSlide}`}
-          >
-            <motion.div variants={itemVariants}>
-              <TypewriterEffect
-                text="Bienvenido a "
-                className="mb-4 text-4xl font-bold md:text-6xl"
-              />
-              <motion.span
-                className="text-4xl font-bold text-gradient-animated md:text-6xl"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 1, duration: 0.5, type: "spring" }}
-              >
-                tecnofusion.dev
-              </motion.span>
-            </motion.div>
-
-            <motion.p
-              className="max-w-3xl mt-6 text-lg leading-normal text-center md:text-2xl"
-              variants={itemVariants}
-            >
-              Desarrollamos experiencias digitales innovadoras que transforman ideas en realidad
-            </motion.p>
-
-            <motion.div
-              className="mt-12 hero-button-container"
-              variants={itemVariants}
-            >
-              <motion.button
-                className="hero-button hero-button-primary"
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-                onClick={() => document.getElementById('Contacto')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                <span className="button-icon">✨</span>
-                Contáctanos
-              </motion.button>
-              <motion.button
-                className="hero-button hero-button-secondary"
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-                onClick={() => document.getElementById('proyectos')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                <span className="button-icon">🚀</span>
-                Ver Proyectos
-              </motion.button>
-            </motion.div>
+    <section id="hero" className="mx-auto max-w-[1400px] px-4 pb-8 pt-20 md:px-6">
+      <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-12">
+        <div className="flex min-h-[420px] flex-col justify-between rounded-[6px] bg-[#DFDCD2] p-6 text-left text-[#1C1C1C] md:p-9 lg:col-span-7">
+          <div>
+            <p className="flex items-center gap-2 text-sm text-[#45433E]"><span className="h-2 w-2 rounded-full bg-[#8FA68E]" />Estudio de ingeniería de software & productos SaaS · Buenos Aires</p>
+            <h1 className="mt-4 text-[clamp(2.25rem,4.2vw,3.9rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-[#1C1C1C]">Sistemas distribuidos en producción, arquitectura Full-Stack e inteligencia artificial aplicada.</h1>
+            <p className="mt-5 max-w-[56ch] text-base leading-relaxed text-[#45433E] md:text-lg">Diseñamos, construimos y operamos sistemas distribuidos, plataformas web, agentes de IA, pipelines de datos y productos SaaS propios con estándares de ingeniería verificables.</p>
           </div>
-
-          <motion.div
-            className="flex flex-col items-center justify-center h-full py-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            key={`slide-${currentSlide}-2`}
-          >
-            <motion.div variants={itemVariants} className="text-center">
-              <TypewriterEffect
-                text="Innovación & "
-                className="mb-4 text-4xl font-bold md:text-6xl"
-                delay={0.5}
-              />
-              <motion.span
-                className="text-4xl font-bold text-gradient-animated md:text-6xl"
-                initial={{ scale: 0, rotate: -10, opacity: 0 }}
-                animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                transition={{ delay: 1.5, duration: 0.6, type: "spring" }}
-              >
-                Tecnología
-              </motion.span>
-            </motion.div>
-
-            <motion.p
-              className="max-w-3xl mt-6 text-lg leading-normal text-center md:text-2xl"
-              variants={itemVariants}
-            >
-              Creamos soluciones digitales que impulsan el crecimiento de tu negocio
-            </motion.p>
-
-            <motion.div
-              className="mt-12 hero-button-container"
-              variants={itemVariants}
-            >
-              <motion.button
-                className="hero-button hero-button-primary"
-                style={{ minWidth: '220px' }}
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-                onClick={() => document.getElementById('Servicios')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                <span className="button-icon">💼</span>
-                Nuestros Servicios
-              </motion.button>
-              <motion.button
-                className="hero-button hero-button-secondary"
-                style={{ minWidth: '220px' }}
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-                onClick={() => document.getElementById('Contacto')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                <span className="button-icon">📅</span>
-                Agenda una consultoría
-              </motion.button>
-            </motion.div>
-          </motion.div>
-        </Slider>
+          <div className="mt-8 flex flex-wrap gap-2.5"><a href="#projects" className="rounded-[6px] bg-[#1C1C1C] px-5 py-3 text-sm font-medium text-[#F2EFE9] transition-colors hover:bg-[#333333]">Ver sistemas en producción</a><a href="#contact" className="rounded-[6px] border border-[#1C1C1C]/20 bg-[#F2EFE9] px-5 py-3 text-sm font-medium text-[#1C1C1C] hover:border-[#1C1C1C]">Iniciar un proyecto</a></div>
+        </div>
+        <div className="grid grid-rows-2 gap-2.5 lg:col-span-5">
+          <article className="flex flex-col justify-between overflow-hidden rounded-[6px] bg-[#1C1C1C] text-[#F2EFE9]"><img src="/assets/projects/payalert-saas-gestion-de-flujo-de-caja.svg" alt="PayAlert SaaS" width="640" height="360" fetchPriority="high" className="h-48 w-full object-cover" /><div className="flex min-h-8 items-center justify-between gap-3 bg-[#1C1C1C] px-4 py-2 text-xs text-[#F2EFE9]/90"><span>PayAlert — SaaS de gestión de flujo de caja</span><span className="shrink-0">Producción · React / Node / PostgreSQL</span></div></article>
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+            <article className="flex flex-col justify-between overflow-hidden rounded-[6px] bg-[#E5E1D6]"><img src="/assets/projects/sentinel-compliance-engine-corvux-aml-dashboard.svg" alt="Sentinel Compliance Engine" width="480" height="270" className="h-32 w-full object-cover" /><div className="flex items-center justify-between gap-2 bg-[#DFDCD2] px-3.5 py-2 text-xs text-[#1C1C1C]"><span>Sentinel AML Engine</span><span>Python / FastAPI</span></div></article>
+            <article className="flex flex-col justify-between rounded-[6px] bg-[#8FA68E] p-5 text-[#1C1C1C]"><div><p className="text-4xl font-semibold leading-none tracking-[-0.04em]">15+</p><p className="mt-3 text-sm">Sistemas desplegados entre productos SaaS propios, motores de IA y plataformas operativas.</p></div><p className="mt-4 text-xs">TypeScript · React · Python · Node.js · Cloud</p></article>
+          </div>
+        </div>
       </div>
-    </motion.section>
-  );
-}
-
-// Componente de efecto de máquina de escribir
-function TypewriterEffect({ text, className, delay = 0 }) {
-  const [displayText, setDisplayText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText(prev => prev + text[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
-      }, 100 + delay * 1000);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [currentIndex, text, delay]);
-
-  return (
-    <span className={className}>
-      {displayText}
-      <motion.span
-        className="inline-block w-0.5 h-8 md:h-12 bg-linear-to-r from-[#ff7e5f] to-[#feb47b] ml-1"
-        animate={{ opacity: [1, 0] }}
-        transition={{ duration: 0.8, repeat: Infinity }}
-      />
-    </span>
+      <div className="mt-2.5 grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
+        {productCards.map((product) => <a key={product.name} href="#projects" className="flex items-center justify-between gap-3 rounded-[6px] border border-[#1C1C1C]/10 bg-[#FFFFFF] p-4 text-[#1C1C1C] no-underline"><span><strong className="block text-sm font-semibold">{product.name}</strong><span className="mt-1 block text-xs text-[#57554F]">{product.description}</span></span><span aria-hidden="true">↗</span></a>)}
+      </div>
+    </section>
   );
 }
 
