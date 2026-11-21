@@ -9,10 +9,19 @@
 // billing vuelva, borra la entrada correspondiente de este mapa.
 // Capturas reales (WebP 1200x750 + variante -600) de las demos publicas que responden.
 export const projectScreens = new Set([
+  'certihash',
+  'entre-lineas',
   'expenses-tracker',
+  'home-server',
+  'huellitas-felices',
+  'kinetiq-pro',
+  'matchanalyzer',
   'neon-designs-carteles-de-neon-led',
+  'payalert-saas-gestion-de-flujo-de-caja',
+  'pdf-adjuntos',
   'portfolio-tecnico-jonathan-correa',
   'tecnofusion',
+  'tutor-mate',
 ])
 
 export const projectCovers = {

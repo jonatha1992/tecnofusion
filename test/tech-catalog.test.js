@@ -47,3 +47,10 @@ test("íconos: existen para tecnologías conocidas y son null para el resto", ()
   assert.equal(getTechIcon("Tkinter"), null);
   assert.equal(getTechIcon(normalizeTech("Vue.js 3")) !== null, true);
 });
+
+test("tecnologías nuevas tienen categoría e ícono", () => {
+  assert.ok(categoriesForProject({ technologies: ["scikit-learn", "sklearn"] }).has("ia"));
+  assert.ok(categoriesForProject({ technologies: ["Traefik"] }).has("distribuidos"));
+  assert.equal(normalizeTech("Cloudflare Tunnel"), "Cloudflare");
+  for (const t of ["JavaScript", "Prisma", "Cloudflare", "Traefik", "scikit-learn", "TensorFlow"]) assert.ok(getTechIcon(t), t);
+});

@@ -1,0 +1,82 @@
+[
+  {
+    "title": "MatchAnalyzer",
+    "description": "Plataforma SaaS de análisis estadístico deportivo con modelos de Machine Learning propios, que genera proyecciones por deporte para suscriptores con acceso según su plan. Incluye API REST, pagos con Mercado Pago y actualización diaria automatizada de los análisis.",
+    "status": "Producción",
+    "technologies": ["React", "Vite", "Tailwind CSS", "Django REST Framework", "PostgreSQL", "Machine Learning", "scikit-learn", "TensorFlow", "LightGBM", "MercadoPago", "GitHub Actions"],
+    "previewLink": "https://matchanalyzer.com.ar",
+    "githubLink": ""
+  },
+  {
+    "title": "KINETIQ PRO",
+    "description": "Aplicación web para planificar y registrar rutinas de fuerza y entrenamiento según los objetivos y el equipamiento de cada usuario. Permite ingresar con Google o correo, usar modo invitado y guardar el progreso en la nube.",
+    "status": "Producción",
+    "technologies": ["React", "Vite", "Tailwind CSS", "Firebase", "Cloud Functions"],
+    "previewLink": "https://gym-personal-funcional.web.app",
+    "githubLink": ""
+  },
+  {
+    "title": "Huellitas Felices",
+    "description": "Web de reserva de turnos para una peluquería canina, con inicio de sesión con Google y reservas atómicas que evitan superposición de horarios. Incluye panel de administración con agenda, bloqueo de fechas y recordatorios por WhatsApp.",
+    "status": "Producción",
+    "technologies": ["JavaScript", "Firebase", "Cloud Functions", "GitHub Actions"],
+    "previewLink": "https://huellitasfelices.web.app",
+    "githubLink": ""
+  },
+  {
+    "title": "Control Apps",
+    "description": "Servicio central para controlar aplicaciones: emite licencias firmadas, permite el apagado remoto y cuenta el uso de IA sobre texto que el cliente ya enmascaró. Incluye un panel de administración con auditoría sin contenido y estado de despliegues.",
+    "status": "Producción",
+    "technologies": ["Node.js", "Express", "SQLite", "React", "Tailwind CSS", "Docker"],
+    "previewLink": "",
+    "githubLink": ""
+  },
+  {
+    "title": "CertiHash",
+    "description": "Aplicación web para registrar y verificar la integridad de archivos con SHA-256: el hash se calcula en el navegador y el archivo nunca se sube. El servidor sella cada registro con timestamp UTC, firma Ed25519 y encadenamiento, y emite certificados verificables en JSON y PDF.",
+    "status": "Producción",
+    "technologies": ["Python", "FastAPI", "Uvicorn", "SQLite", "JavaScript", "Docker"],
+    "previewLink": "https://certihash.tecnofusion.dev",
+    "githubLink": ""
+  },
+  {
+    "title": "Entre Líneas",
+    "description": "CMS de noticias con publicación por categorías y panel de administración con roles de administrador y colaborador. Construido con Next.js, Prisma y autenticación con NextAuth, e incorpora la lectura de feeds RSS.",
+    "status": "Producción",
+    "technologies": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL", "Docker"],
+    "previewLink": "https://entrelineas.tecnofusion.dev",
+    "githubLink": ""
+  },
+  {
+    "title": "PDF Adjuntos",
+    "description": "Herramienta web para extraer los archivos adjuntos de uno o varios PDF y descargarlos en un ZIP o guardarlos en una carpeta. Todo se procesa en el navegador: los PDF no se envían a ningún servidor.",
+    "status": "Producción",
+    "technologies": ["JavaScript", "PDF.js", "JSZip"],
+    "previewLink": "https://tecnofusion.dev/tools/pdf-adjuntos/",
+    "githubLink": "https://github.com/jonatha1992/tecnofusion/tree/main/public/tools/pdf-adjuntos"
+  },
+  {
+    "title": "Tutor-Mate",
+    "description": "Pizarra digital para estudiar matemática con un tutor guiado: ofrece pistas por niveles y verifica con SymPy, en el backend, la equivalencia de cada paso. Incluye cuaderno de apuntes, fuentes y seguimiento de progreso, con acceso mediante Google.",
+    "status": "Desarrollo",
+    "technologies": ["React", "Vite", "TypeScript", "Tailwind CSS", "Firebase", "FastAPI", "Uvicorn", "PostgreSQL", "SymPy", "Docker"],
+    "previewLink": "",
+    "githubLink": ""
+  },
+  {
+    "title": "Home Server",
+    "description": "Infraestructura doméstica auto-gestionada sobre Docker Compose, con proxy Traefik, arranque de stacks bajo demanda con Sablier y publicación de servicios mediante Cloudflare Tunnel. Suma un desplegador propio con versionado por SHA, tareas programadas y backups diarios de PostgreSQL.",
+    "status": "Producción",
+    "technologies": ["Docker", "Traefik", "Cloudflare", "Python", "PostgreSQL"],
+    "previewLink": "",
+    "githubLink": ""
+  },
+  {
+    "title": "Trading Bot",
+    "description": "Bot de trading automático con cuatro estrategias intercambiables y un dashboard web en tiempo real con gráfico de velas. Opera cripto y acciones contra un simulador o cuentas de prueba de Alpaca y Binance, sin dinero real.",
+    "status": "Desarrollo",
+    "technologies": ["Python", "FastAPI", "Uvicorn", "React", "Vite", "TypeScript", "Tailwind CSS", "scikit-learn", "Machine Learning", "Docker"],
+    "previewLink": "",
+    "githubLink": ""
+  }
+]

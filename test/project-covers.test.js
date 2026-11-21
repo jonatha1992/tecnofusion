@@ -19,3 +19,16 @@ test("srcset solo para capturas", () => {
   assert.match(coverImageProps("/assets/projects/screens/tecnofusion.webp").srcSet, /tecnofusion-600\.webp 600w/);
   assert.equal(coverImageProps("/assets/projects/spin-predictor.svg").srcSet, undefined);
 });
+
+test("cada proyecto nuevo con captura resuelve a su WebP", async () => {
+  const { readFileSync } = await import("node:fs");
+  const nuevos = JSON.parse(readFileSync("scripts/new-projects.json", "utf8"));
+  const sinCaptura = new Set(["Control Apps", "Trading Bot"]);
+  for (const { title } of nuevos) {
+    const src = resolveProjectImage(title);
+    if (sinCaptura.has(title)) continue;
+    assert.match(src, /^\/assets\/projects\/screens\/.+\.webp$/, title);
+    assert.ok(existsSync(`public${src}`), title);
+  }
+  assert.equal(resolveProjectImage("PayAlert SaaS - Gestión de Flujo de Caja", "https://x/y.png"), "/assets/projects/screens/payalert-saas-gestion-de-flujo-de-caja.webp");
+});

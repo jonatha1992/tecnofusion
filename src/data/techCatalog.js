@@ -1,8 +1,8 @@
 import {
-  siAngular, siBlazor, siBootstrap, siCelery, siChartdotjs, siDjango, siDocker, siDotnet, siEslint, siExpo,
-  siExpress, siFastapi, siFfmpeg, siFirebase, siGithubactions, siGooglecloud, siGooglegemini, siJsonwebtokens,
-  siLeaflet, siMercadopago, siMui, siNextdotjs, siNodedotjs, siPinia, siPostgresql, siPython, siRailway, siReact,
-  siRedis, siSqlite, siSupabase, siSwagger, siTailwindcss, siTypescript, siVite, siVuedotjs,
+  siAngular, siBlazor, siBootstrap, siCelery, siChartdotjs, siCloudflare, siDjango, siDocker, siDotnet, siEslint, siExpo,
+  siExpress, siFastapi, siFfmpeg, siFirebase, siGithubactions, siGooglecloud, siGooglegemini, siJavascript, siJsonwebtokens,
+  siLeaflet, siMercadopago, siMui, siNextdotjs, siNodedotjs, siPinia, siPostgresql, siPrisma, siPython, siRailway, siReact,
+  siRedis, siScikitlearn, siSqlite, siSupabase, siSwagger, siTailwindcss, siTensorflow, siTraefikproxy, siTypescript, siVite, siVuedotjs,
 } from "simple-icons";
 
 export const CATEGORIES = [
@@ -21,7 +21,8 @@ const ICONS = {
   TypeScript: siTypescript, "Tailwind CSS": siTailwindcss, Bootstrap: siBootstrap, "Material UI": siMui,
   Django: siDjango, "Blazor Server": siBlazor, Firebase: siFirebase, ESLint: siEslint, MercadoPago: siMercadopago,
   PostgreSQL: siPostgresql, "Google Gemini": siGooglegemini, Expo: siExpo, "React Native": siReact, Python: siPython,
-  FFmpeg: siFfmpeg, "Chart.js": siChartdotjs, Leaflet: siLeaflet, SQLite: siSqlite,
+  FFmpeg: siFfmpeg, "Chart.js": siChartdotjs, Leaflet: siLeaflet, SQLite: siSqlite, JavaScript: siJavascript,
+  Prisma: siPrisma, Cloudflare: siCloudflare, Traefik: siTraefikproxy, "scikit-learn": siScikitlearn, TensorFlow: siTensorflow,
 };
 
 export function getTechIcon(canonicalName) {
@@ -39,6 +40,8 @@ const CANON = {
   "GitHub Actions": ["distribuidos"],
   "Django REST Framework": ["distribuidos", "fullstack"],
   FastAPI: ["distribuidos"],
+  Traefik: ["distribuidos"],
+  Cloudflare: ["distribuidos"],
   Uvicorn: ["distribuidos"],
   "Node.js": ["distribuidos", "fullstack"],
   Express: ["distribuidos", "fullstack"],
@@ -56,6 +59,8 @@ const CANON = {
   Pinia: ["fullstack"],
   Vite: ["fullstack"],
   TypeScript: ["fullstack"],
+  JavaScript: ["fullstack"],
+  Prisma: ["fullstack"],
   "Tailwind CSS": ["fullstack"],
   Bootstrap: ["fullstack"],
   "Material UI": ["fullstack"],
@@ -70,6 +75,9 @@ const CANON = {
   "Google Speech Recognition": ["ia"],
   "Argos Translate": ["ia"],
   "Machine Learning": ["ia"],
+  "scikit-learn": ["ia"],
+  TensorFlow: ["ia"],
+  LightGBM: ["ia"],
   IA: ["ia"],
   Expo: ["mobile"],
   "React Native": ["mobile"],
@@ -77,6 +85,9 @@ const CANON = {
   PyDub: ["datos"],
   PyMuPDF: ["datos"],
   FFmpeg: ["datos"],
+  "PDF.js": ["datos"],
+  JSZip: ["datos"],
+  SymPy: ["datos"],
   "Chart.js": ["datos"],
   Leaflet: ["datos"],
   SQLite: ["datos"],
@@ -99,6 +110,9 @@ const ALIASES = {
   "Node.js": ["Node", "NodeJS"],
   Express: ["Express.js"],
   "Machine Learning": ["ML"],
+  "scikit-learn": ["sklearn"],
+  Cloudflare: ["Cloudflare Tunnel"],
+  "PDF.js": ["PDFJS"],
   "Next.js": ["NextJS"],
   "Django REST Framework": ["DRF", "Django REST"],
   "Blazor Server": ["Blazor"],
