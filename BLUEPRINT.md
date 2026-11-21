@@ -3,6 +3,10 @@
 > Estado vivo del proyecto. Lee este archivo al empezar cada sesión y actualízalo antes de terminar.
 > Última actualización: 2026-11-19 — Rediseño completo 'The well-kept board' (Tablero Editorial & Muro Asimétrico) en rama `dev`.
 
+## Estado de despliegue (2026-11-20)
+- Menú: ya corregido en prod (version.json sha a038146). Fichas sin Demo/Código: el build de prod no traía `VITE_FIREBASE_*` (desde 6862616 quitó GitHub Actions y el desplegador builda sin env) -> `db=null` -> `fallbackProjects`. Fix: `.env.production` versionado con la config web pública de Firebase (de `/__/firebase/init.json`; sin keys de IA) + links reales en `fallbackProjects`.
+- Bloqueo de deploy: en `home-server/deployer/apps.json` tecnofusion tiene `main.deploy=false` y componente `hosting` con `deploy: []`; solo hay preview `test`. Para publicar vía desplegador hay que activar `main.deploy=true` y agregar `npx firebase-tools@13 deploy --only hosting:tecnofusion-dev --project tecnofuision-it` (+ credenciales Firebase en el host).
+
 ## 1. Resumen
 - **Qué hace**: Sitio oficial y estudio/portfolio técnico de Tecnofusion (`tecnofusion.dev`), enfocado en Sistemas Distribuidos, Ingeniería de Software Full-Stack, Sistemas con IA, Automatización Operativa y Productos SaaS propios en producción, con panel de administración en Firebase y asistente comercial con IA (Navi / Gemini).
 - **Para quién**: Clientes de ingeniería de software, empresas que buscan desarrollo SaaS/IA a medida y presentación de productos propios en producción.

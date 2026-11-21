@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .env*
+!.env.example
+!.env.production
 
 # Editor directories and files
 .idea
