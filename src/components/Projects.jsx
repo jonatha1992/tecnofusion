@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import LoadingSpinner from "./common/LoadingSpinner";
 
 import { getAllProjects } from "../services/projectService";
 import ReadmeModal from "./modals/ReadmeModal";
 import ProjectDetailsModal from "./modals/ProjectDetailsModal";
+import { buildCategoryFilters, filterByCategory, normalizeTechList } from "../data/techCatalog";
 const SPAN_CLASSES = ['md:col-span-7', 'md:col-span-5', 'md:col-span-4', 'md:col-span-4', 'md:col-span-4'];
 
 const fallbackProjects = [
@@ -18,7 +19,8 @@ const fallbackProjects = [
 function Projects({ title, id, children }) {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedTech, setSelectedTech] = useState("Todas");
+  const [selectedCategory, setSelectedCategory] = useState("todas");
+  const categories = useMemo(() => buildCategoryFilters(projects), [projects]);
 
   useEffect(() => {
     loadProjects();
@@ -77,7 +79,21 @@ function Projects({ title, id, children }) {
           Sistemas y proyectos en producción
         </h1>
         <p className="mt-3 mb-6 text-sm text-[#45433E]">{title || "Sistemas y productos desarrollados para operar."}</p>
-        <div className="flex flex-wrap gap-2 mb-6">{["Todas", ...new Set(projects.flatMap((p) => Array.isArray(p.technologies) ? p.technologies : []))].map((tech) => <button key={tech} onClick={() => setSelectedTech(tech)} className={`rounded-[6px] px-3 py-2 text-sm ${selectedTech === tech ? "bg-[#1C1C1C] text-[#F2EFE9]" : "bg-[#DFDCD2] text-[#1C1C1C] hover:bg-[#D5D1C5]"}`}>{tech}</button>)}</div>
+        <div role="group" aria-label="Filtrar proyectos por categoría" className="mb-8 -mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto border-b border-[#1C1C1C]/15 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex gap-6 min-w-max">
+            {[{ id: "todas", label: "Todas", count: projects.length }, ...categories].map((c) => {
+              const active = selectedCategory === c.id;
+              return (
+                <button key={c.id} type="button" aria-pressed={active} onClick={() => setSelectedCategory(c.id)} className={`relative -mb-px inline-flex items-center gap-2 whitespace-nowrap border-b-2 py-3 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C1C1C] ${active ? "border-[#1C1C1C] text-[#1C1C1C]" : "border-transparent text-[#57554F] hover:text-[#1C1C1C]"}`}>
+                  {c.featured && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#8FA68E]" />}
+                  {c.label}
+                  <span className="text-[#1C1C1C]/45">{String(c.count).padStart(2, "0")}</span>
+                  {c.featured && <span className="sr-only"> (especialidad)</span>}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         {loading ? (
           <div className="flex justify-center items-center min-h-[320px]">
@@ -91,7 +107,7 @@ function Projects({ title, id, children }) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-12 gap-2.5">
             {children ||
-              projects.filter(p => selectedTech === "Todas" || (Array.isArray(p.technologies) && p.technologies.includes(selectedTech))).map((p, index) => (
+              filterByCategory(projects, selectedCategory).map((p, index) => (
                 <div key={p.id || p.title || index} className={SPAN_CLASSES[index % SPAN_CLASSES.length]}>
                   <ProjectCard 
                     {...p} 
@@ -123,7 +139,7 @@ function Projects({ title, id, children }) {
 
 function ProjectCard({ title, description, image, githubLink, previewLink, technologies, status, readmeUrl, onOpenReadme, onOpenDetails }) {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const techArray = Array.isArray(technologies) ? technologies : (typeof technologies === "string" ? technologies.split(",").map((tech) => tech.trim()).filter(Boolean) : []);
+  const techArray = normalizeTechList(technologies);
   return (
     <article onClick={onOpenDetails} className="group bg-[#FFFFFF] border border-[#1C1C1C]/15 rounded-[6px] overflow-hidden flex flex-col justify-between transition-colors hover:border-[#1C1C1C] h-full cursor-pointer">
       <div className="relative overflow-hidden h-52 md:h-60 bg-[#DFDCD2]">
@@ -132,12 +148,12 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
       </div>
       <div className="px-5 py-2.5 bg-[#DFDCD2] text-xs text-[#1C1C1C] flex items-center justify-between border-y border-[#1C1C1C]/12">
         <span className="inline-flex items-center gap-2"><span className={`w-2 h-2 rounded-full ${ (status || "Producción") === "Producción" ? "bg-[#8FA68E]" : "bg-[#D95D39]"}`} />{status || "Producción"}</span>
-        <span>{techArray.slice(0, 3).join(" · ")}</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#1C1C1C]/60">{techArray.length} tec.</span>
       </div>
       <div className="p-5 text-left flex-1 flex flex-col justify-between bg-[#FFFFFF]">
         <h3 className="text-xl font-semibold tracking-[-0.03em] leading-snug text-[#1C1C1C] mb-2">{title}</h3>
         <p className="text-sm text-[#45433E] leading-relaxed mb-4 flex-1 line-clamp-3">{description}</p>
-        {techArray.length > 0 && <div className="flex flex-wrap gap-2 mb-4">{techArray.slice(0, 3).map((tech, i) => <span key={i} className="inline-flex items-center px-2.5 py-1 rounded-[4px] text-xs font-medium bg-[#F2EFE9] border border-[#1C1C1C]/12 text-[#1C1C1C]">{tech}</span>)}</div>}
+        {techArray.length > 0 && <p className="mb-4 font-mono text-[11px] leading-relaxed tracking-[0.04em] text-[#57554F]">{techArray.slice(0, 4).join(" · ")}{techArray.length > 4 && <span className="text-[#1C1C1C]/45"> · +{techArray.length - 4}</span>}</p>}
         <div className="flex flex-wrap gap-2 mt-auto" onClick={(e) => e.stopPropagation()}>
           <button onClick={onOpenDetails} className="bg-[#DFDCD2] hover:bg-[#1C1C1C] hover:text-[#F2EFE9] text-[#1C1C1C] rounded-[6px] px-3.5 py-2 text-xs font-medium transition-colors">Ver ficha</button>
           {previewLink && <a href={previewLink} target="_blank" rel="noopener noreferrer" className="bg-[#1C1C1C] text-[#F2EFE9] hover:bg-[#333333] rounded-[6px] px-3.5 py-2 text-xs font-medium">Demo</a>}

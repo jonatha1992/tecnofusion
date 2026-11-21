@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { getTechIcon } from '../../utils/techIcons';
+import { normalizeTechList } from '../../data/techCatalog';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 export default function ProjectDetailsModal({ isOpen, onClose, project, onOpenReadme }) {
@@ -42,7 +43,7 @@ export default function ProjectDetailsModal({ isOpen, onClose, project, onOpenRe
                                         <h2 className="text-2xl md:text-3xl font-semibold tracking-[-0.03em] leading-tight">{project.title}</h2>
                                         {project.status && <span className="px-2.5 py-1 rounded-[6px] text-xs font-medium bg-[#DFDCD2]">{project.status}</span>}
                                     </div>
-                                    {project.technologies && <div className="flex flex-wrap gap-2 mt-3">{(Array.isArray(project.technologies) ? project.technologies : typeof project.technologies === 'string' ? project.technologies.split(',') : []).map((tech, idx) => {
+                                    {project.technologies && <div className="flex flex-wrap gap-2 mt-3">{normalizeTechList(project.technologies).map((tech, idx) => {
                                         const techName = typeof tech === 'string' ? tech.trim() : tech;
                                         if (!techName) return null;
                                         return <span key={idx} className="flex items-center gap-1.5 px-3 py-1.5 bg-[#DFDCD2] border border-[#1C1C1C]/15 text-[#1C1C1C] rounded-[6px] text-xs font-medium"><span className="text-lg">{getTechIcon(techName)}</span>{techName}</span>;
