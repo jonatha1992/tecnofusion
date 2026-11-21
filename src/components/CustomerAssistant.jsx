@@ -138,9 +138,9 @@ function CustomerAssistant() {
     return (
       <div key={`${msg.role}-${idx}`} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
         <div
-          className={`max-w-[85%] rounded-[6px] px-3 py-2 text-xs leading-relaxed ${isUser
-            ? "bg-[#1C1C1C] text-[#F2EFE9]"
-            : "bg-[#DFDCD2] text-[#1C1C1C]"
+          className={`max-w-[85%] rounded-2xl px-3 py-2 text-xs leading-relaxed shadow ${isUser
+            ? "bg-linear-to-r from-[#E68369] to-[#d67359] text-white"
+            : "bg-white/10 border border-white/10 text-white"
             }`}
         >
           <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -152,16 +152,16 @@ function CustomerAssistant() {
   return (
     <div className="fixed bottom-4 right-4 z-40">
       {isOpen ? (
-        <div className="w-[360px] max-w-[calc(100vw-1.5rem)] bg-[#F2EFE9] text-[#1C1C1C] border border-[#1C1C1C]/15 rounded-[6px] overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-3 bg-[#DFDCD2] border-b border-[#1C1C1C]/12">
+        <div className="w-[360px] max-w-[calc(100vw-1.5rem)] bg-[#0b0f20] border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-md">
+          <div className="flex items-center justify-between px-4 py-3 bg-linear-to-r from-[#0f172a] to-[#0b1024] border-b border-white/10">
             <div className="space-y-0.5">
-              <p className="text-[11px] font-semibold text-[#57554F]">tecnofusion.dev · Asesor</p>
-              <h3 className="text-sm font-bold text-[#1C1C1C]">Navi</h3>
+              <p className="text-[11px] font-semibold text-white/70">tecnofusion.dev · Asesor</p>
+              <h3 className="text-sm font-bold text-white">Navi</h3>
             </div>
             <div className="flex items-center gap-1.5">
               <button
                 onClick={handleReset}
-                className="p-2 text-[#57554F] hover:text-[#1C1C1C] bg-transparent hover:bg-[#1C1C1C]/10 rounded-[6px] transition text-lg leading-none"
+                className="p-2 text-white/80 hover:text-white bg-white/0 hover:bg-white/10 rounded-full transition text-lg leading-none"
                 aria-label="Reiniciar chat"
                 title="Reiniciar chat"
               >
@@ -169,7 +169,7 @@ function CustomerAssistant() {
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2 text-[#57554F] hover:text-[#1C1C1C] hover:bg-[#1C1C1C]/10 rounded-[6px] transition"
+                className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition"
                 aria-label="Cerrar asistente"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -179,12 +179,12 @@ function CustomerAssistant() {
             </div>
           </div>
 
-          <div className="px-4 py-3 h-80 overflow-y-auto space-y-2 bg-[#F2EFE9]">
+          <div className="px-4 py-3 h-80 overflow-y-auto space-y-2 bg-[#080c1c]">
             {messages.map((msg, idx) => renderMessage(msg, idx))}
             {loading && (
               <div className="flex justify-start">
-                <div className="flex items-center gap-2 px-3 py-2 text-[11px] text-[#57554F] bg-[#DFDCD2] border border-[#1C1C1C]/12 rounded-[6px]">
-                  <span className="inline-flex h-2 w-2 bg-[#8FA68E] rounded-full animate-ping" />
+                <div className="flex items-center gap-2 px-3 py-2 text-[11px] text-white/70 bg-white/5 border border-white/10 rounded-2xl">
+                  <span className="inline-flex h-2 w-2 bg-emerald-400 rounded-full animate-ping" />
                   Escribiendo...
                 </div>
               </div>
@@ -193,12 +193,12 @@ function CustomerAssistant() {
           </div>
 
           {error && (
-            <div className="px-4 py-2 text-xs text-[#D95D39] bg-[#D95D39]/10 border-t border-[#D95D39]/30">
+            <div className="px-4 py-2 text-xs text-red-200 bg-red-900/40 border-t border-red-500/30">
               {error}
             </div>
           )}
 
-          <div className="p-3 bg-[#DFDCD2] border-t border-[#1C1C1C]/12">
+          <div className="p-3 bg-[#0f1230] border-t border-white/10">
 
 
             <div className="flex items-end gap-2">
@@ -208,13 +208,13 @@ function CustomerAssistant() {
                 onKeyDown={handleKeyDown}
                 rows={2}
                 placeholder="Cuéntanos tu idea en 1-2 líneas..."
-                className="flex-1 w-full resize-none rounded-[6px] bg-[#F2EFE9] border border-[#1C1C1C]/20 px-3 py-2 text-sm text-[#1C1C1C] placeholder-[#45433E]/70 focus:outline-hidden focus:ring-2 focus:ring-[#1C1C1C]/30"
+                className="flex-1 w-full resize-none rounded-xl bg-white/10 border border-white/15 px-3 py-2 text-sm text-white placeholder-white/50 focus:outline-hidden focus:ring-2 focus:ring-[#22d3ee]/70 focus:border-transparent"
                 disabled={loading}
               />
               <button
                 onClick={() => handleSend()}
                 disabled={loading}
-                className="h-10 w-10 flex items-center justify-center rounded-[6px] bg-[#1C1C1C] text-[#F2EFE9] font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-10 w-10 flex items-center justify-center rounded-xl bg-linear-to-r from-[#2563eb] to-[#22d3ee] text-white font-bold shadow-lg hover:shadow-xl transition disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Enviar mensaje"
               >
                 {loading ? (
@@ -229,13 +229,13 @@ function CustomerAssistant() {
                 )}
               </button>
             </div>
-            <p className="mt-1 text-[10px] text-[#57554F]">Enter envía · Shift+Enter nuevo renglón</p>
+            <p className="mt-1 text-[10px] text-white/40">Enter envía · Shift+Enter nuevo renglón</p>
           </div>
         </div>
       ) : (
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-[6px] bg-[#1C1C1C] text-[#F2EFE9] font-semibold transition"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-[#2563eb] to-[#22d3ee] text-white font-semibold shadow-lg hover:shadow-xl transition"
           aria-label="Abrir asistente comercial"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

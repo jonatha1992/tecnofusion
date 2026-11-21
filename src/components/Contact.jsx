@@ -1,5 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { FaWhatsapp } from "react-icons/fa";
+import { HiMail, HiLocationMarker } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { sendToGoogleSheets } from "../services/googleSheetsService";
 
@@ -13,12 +15,12 @@ const itemVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
-function Contact({ id, title }) {
+function Contact({ id, title, gradientClass }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
     const [form, setForm] = useState({ name: "", email: "", message: "" });
     const [errors, setErrors] = useState({});
-    const [selectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
 
     // Puente de datos con Navi
     useEffect(() => {
@@ -40,7 +42,7 @@ function Contact({ id, title }) {
             email: form.email,
             appointmentDate: selectedDate ? selectedDate.toISOString() : null
         }));
-    }, [form.name, form.email, selectedDate]);
+    }, [form.name, form.email]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -54,9 +56,7 @@ function Contact({ id, title }) {
                         name: parsed.name || prev.name,
                         email: parsed.email || prev.email,
                     }));
-                } catch {
-                    // ignore malformed storage
-                }
+                } catch (e) {}
             }
         }, 2000);
         return () => clearInterval(interval);
@@ -72,6 +72,7 @@ function Contact({ id, title }) {
     const validateForm = () => {
         const newErrors = {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        const phoneDigits = form.phone.replace(/\D/g, "");
 
         // Email opcional, pero si se provee debe ser válido
         if (form.email.trim() && !emailRegex.test(form.email.trim())) {
@@ -109,56 +110,152 @@ function Contact({ id, title }) {
     };
 
     return (
-        <section id={id} aria-labelledby={`${id}-title`} className="bg-[#F2EFE9] text-[#1C1C1C] py-16 px-4 md:px-6 border-t border-[#1C1C1C]/12">
-            <div className="max-w-[1400px] mx-auto">
+        <section
+            id={id}
+            aria-labelledby={`${id}-title`}
+            className={`min-h-screen ${gradientClass} text-white py-12 flex items-center justify-center`}
+        >
+            <div className="container mx-auto px-4 lg:px-8 max-w-(--breakpoint-lg)">
                 <motion.div
                     ref={ref}
                     variants={containerVariants}
                     initial="hidden"
                     animate={isInView ? "visible" : "hidden"}
+                    className="text-center"
                 >
-                    <motion.header variants={itemVariants} className="text-left">
-                        <p className="text-xs font-medium tracking-wide text-[#57554F]">Contacto directo · Buenos Aires</p>
-                        <h1 id={`${id}-title`} className="text-[clamp(2rem,3.6vw,3.25rem)] font-semibold tracking-[-0.04em] leading-[0.95] text-[#1C1C1C] mt-2">
-                            {title || "Iniciemos un proyecto"}
+                    <motion.div variants={itemVariants}>
+                        <h1
+                            id={`${id}-title`}
+                            className="text-5xl font-bold mb-4 text-gradient"
+                        >
+                            {title}
                         </h1>
-                    </motion.header>
+                        <p className="text-xl opacity-90 max-w-3xl mx-auto mb-8 leading-relaxed">
+                            ¿Listo para transformar tu idea en realidad digital?
+                            Contáctanos directamente por WhatsApp y comencemos tu proyecto hoy mismo.
+                        </p>
+                    </motion.div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-2.5 mt-8">
-                        <motion.div variants={itemVariants} className="lg:col-span-5 bg-[#1C1C1C] text-[#F2EFE9] rounded-[6px] p-6 md:p-8 flex flex-col justify-between text-left min-h-[380px]">
-                            <div>
-                                <h2 className="text-2xl font-semibold tracking-[-0.03em]">Canal directo de ingeniería</h2>
-                                <p className="mt-3 text-sm leading-relaxed text-[#F2EFE9]/75">Consultas técnicas, alcance de arquitectura, desarrollo de productos SaaS o integración de agentes de IA. Respuesta directa sin intermediarios comerciales.</p>
-                                <button type="button" onClick={handleWhatsAppClick} className="mt-6 inline-flex items-center justify-between w-full bg-[#8FA68E] hover:bg-[#9FB59E] text-[#1C1C1C] font-semibold px-5 py-3.5 rounded-[6px] text-sm transition-colors"><span>Iniciar conversación por WhatsApp</span><span>→</span></button>
+                    <motion.div variants={itemVariants} className="flex flex-col items-center max-w-4xl mx-auto space-y-6">
+                        {/* Botón principal de WhatsApp */}
+                        <div className="bg-green-600/10 backdrop-blur-md border-2 border-green-600/30 rounded-2xl p-8 w-full max-w-2xl transition-all duration-300 hover:bg-green-600/20 hover:border-green-600/60 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)]">
+                            <div className="text-center">
+                                <FaWhatsapp className="text-5xl text-green-500 mx-auto mb-4" />
+                                <h2 className="text-2xl font-bold text-white mb-3">
+                                    Conversemos por WhatsApp
+                                </h2>
+                                <p className="text-white/80 mb-6 leading-relaxed">
+                                    Obtén respuesta inmediata a tus consultas. Nuestro equipo está disponible para
+                                    asesorarte y crear la solución perfecta para tu negocio.
+                                </p>
+                                <button
+                                    onClick={handleWhatsAppClick}
+                                    className="inline-flex items-center gap-3 bg-green-500 text-white px-8 py-4 text-xl font-bold rounded-xl hover:bg-green-600 hover:scale-105 transition-all duration-300 shadow-lg"
+                                >
+                                    <FaWhatsapp className="text-2xl" />
+                                    Iniciar Conversación
+                                </button>
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-8 pt-6 border-t border-[#F2EFE9]/15 text-xs">
-                                <div><p className="text-[#F2EFE9]/55">Email</p><p className="mt-1">tecnofusion.it@gmail.com</p></div>
-                                <div><p className="text-[#F2EFE9]/55">Ubicación</p><p className="mt-1">Buenos Aires, Argentina · Remoto</p></div>
-                            </div>
-                        </motion.div>
+                        </div>
 
-                        <motion.div variants={itemVariants} className="lg:col-span-7 bg-[#DFDCD2] text-[#1C1C1C] rounded-[6px] p-6 md:p-8 text-left">
-                            <h2 className="text-xl font-semibold tracking-[-0.03em] text-[#1C1C1C]">Brief rápido de proyecto</h2>
-                            <p className="mt-2 text-sm text-[#57554F]">Completá tu necesidad y abrimos el canal con el resumen técnico listo.</p>
-                            <form className="space-y-4 mt-6" onSubmit={handleSubmit} noValidate>
-                                <div>
-                                    <label className="block text-xs font-medium mb-1">Nombre (opcional)</label>
-                                    <input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full bg-[#FFFFFF] border border-[#1C1C1C]/20 rounded-[6px] px-3.5 py-2.5 text-sm text-[#1C1C1C] placeholder-[#57554F]/60 focus:outline-none focus:border-[#1C1C1C]" placeholder="Tu nombre" />
+                        {/* Formulario con validación inteligente */}
+                        <motion.div
+                            variants={itemVariants}
+                            className="w-full max-w-2xl bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md shadow-lg"
+                        >
+                            <h3 className="text-lg font-bold text-white mb-2">Prefieres dejarnos tus datos</h3>
+                            <p className="text-sm text-white/70 mb-4">Puedes completar estos campos de forma opcional.</p>
+                            <form className="space-y-3" onSubmit={handleSubmit} noValidate>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="text-xs text-white/70 mb-1 block">Nombre (opcional)</label>
+                                        <input
+                                            type="text"
+                                            value={form.name}
+                                            onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/15 text-sm text-white placeholder-white/50 focus:outline-hidden focus:ring-2 focus:ring-[#22d3ee]/70"
+                                            placeholder="Tu nombre"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-xs text-white/70 mb-1 block">Email (opcional)</label>
+                                        <input
+                                            type="email"
+                                            value={form.email}
+                                            onChange={(e) => setForm({ ...form, email: e.target.value })}
+                                            className={`w-full px-3 py-2 rounded-lg bg-white/10 border text-sm text-white placeholder-white/50 focus:outline-hidden focus:ring-2 ${
+                                                errors.email ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
+                                            }`}
+                                            placeholder="tu@email.com"
+                                        />
+                                        {errors.email && <p className="text-xs text-red-200 mt-1">{errors.email}</p>}
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-medium mb-1">Email (opcional)</label>
-                                    <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="w-full bg-[#FFFFFF] border border-[#1C1C1C]/20 rounded-[6px] px-3.5 py-2.5 text-sm text-[#1C1C1C] placeholder-[#57554F]/60 focus:outline-none focus:border-[#1C1C1C]" placeholder="tu@email.com" />
-                                    {errors.email && <p className="text-xs text-[#D95D39] font-medium mt-1">{errors.email}</p>}
+
+                                    <div>
+                                        <label className="text-xs text-white/70 mb-1 block">¿Qué necesitas? *</label>
+                                        <textarea
+                                            value={form.message}
+                                            onChange={(e) => setForm({ ...form, message: e.target.value })}
+                                            rows={3}
+                                            className={`w-full px-3 py-2 rounded-lg bg-white/10 border text-sm text-white placeholder-white/50 focus:outline-hidden focus:ring-2 ${
+                                                errors.message ? "border-red-400 focus:ring-red-400" : "border-white/15 focus:ring-[#22d3ee]/70"
+                                            }`}
+                                            placeholder="Ej: Web corporativa con blog y formulario"
+                                        />
+                                        {errors.message && <p className="text-xs text-red-200 mt-1">{errors.message}</p>}
+                                    </div>
+
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                    <p className="text-xs text-white/60">
+                                        Procesamos tus datos para facilitar el contacto inicial.
+                                    </p>
+                                    <button
+                                        type="submit"
+                                        className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white rounded-lg bg-linear-to-r from-[#2563eb] to-[#22d3ee] hover:shadow-lg transition"
+                                    >
+                                        Validar y enviar a WhatsApp
+                                    </button>
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-medium mb-1">¿Qué necesitas? *</label>
-                                    <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} rows={4} className="w-full bg-[#FFFFFF] border border-[#1C1C1C]/20 rounded-[6px] px-3.5 py-2.5 text-sm text-[#1C1C1C] placeholder-[#57554F]/60 focus:outline-none focus:border-[#1C1C1C]" placeholder="Ej: Web corporativa con blog y formulario" />
-                                    {errors.message && <p className="text-xs text-[#D95D39] font-medium mt-1">{errors.message}</p>}
-                                </div>
-                                <button type="submit" className="px-6 py-3 text-sm font-medium bg-[#1C1C1C] hover:bg-[#333333] text-[#F2EFE9] rounded-[6px] transition-colors">Validar y enviar a WhatsApp</button>
                             </form>
                         </motion.div>
-                    </div>
+
+                        {/* Información de contacto adicional */}
+                        <motion.div variants={itemVariants} className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+
+
+                            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:bg-[#E68369]/10 hover:border-[#E68369]/30">
+                                <HiMail className="text-5xl text-[#E68369] mx-auto mb-4" />
+                                <h3 className="text-lg font-bold text-white mb-2">
+                                    Email
+                                </h3>
+                                <p className="text-sm text-white/80">
+                                    tecnofusion.it@gmail.com
+                                </p>
+                            </div>
+
+                            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:bg-[#E68369]/10 hover:border-[#E68369]/30">
+                                <HiLocationMarker className="text-5xl text-[#E68369] mx-auto mb-4" />
+                                <h3 className="text-lg font-bold text-white mb-2">
+                                    Ubicación
+                                </h3>
+                                <p className="text-sm text-white/80">
+                                    Buenos Aires, Argentina
+                                </p>
+                            </div>
+                        </motion.div>
+
+                        {/* Call to action adicional */}
+                        <motion.div variants={itemVariants} className="text-center pt-6">
+                            <h3 className="text-xl text-white/80 mb-3">
+                                🚀 ¿Tienes un proyecto en mente?
+                            </h3>
+                            <p className="text-white/70 max-w-2xl mx-auto">
+                                No esperes más. Cada día que pasa sin digitalizar tu negocio es una oportunidad perdida.
+                                Hablemos y hagamos realidad tu visión tecnológica.
+                            </p>
+                        </motion.div>
+                    </motion.div>
                 </motion.div>
             </div>
         </section>
