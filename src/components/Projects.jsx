@@ -6,6 +6,7 @@ import ReadmeModal from "./modals/ReadmeModal";
 import ProjectDetailsModal from "./modals/ProjectDetailsModal";
 import TechIcon from "./common/TechIcon";
 import { buildCategoryFilters, filterByCategory, normalizeTechList } from "../data/techCatalog";
+import { coverImageProps } from "../data/projectCovers";
 const SPAN_CLASSES = ['md:col-span-7', 'md:col-span-5', 'md:col-span-4', 'md:col-span-4', 'md:col-span-4'];
 
 const fallbackProjects = [
@@ -145,7 +146,7 @@ function ProjectCard({ title, description, image, githubLink, previewLink, techn
     <article onClick={onOpenDetails} className="group bg-[#FFFFFF] border border-[#1C1C1C]/15 rounded-[6px] overflow-hidden flex flex-col justify-between transition-colors hover:border-[#1C1C1C] h-full cursor-pointer">
       <div className="relative overflow-hidden h-52 md:h-60 bg-[#DFDCD2]">
         {!imageLoaded && <div className="absolute inset-0 flex items-center justify-center bg-[#DFDCD2]"><LoadingSpinner /></div>}
-        <img src={image} alt={title} loading="lazy" width="640" height="360" onLoad={() => setImageLoaded(true)} className="w-full h-full object-cover block" />
+        <img src={image} {...coverImageProps(image)} sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw" alt={title} loading="lazy" decoding="async" onLoad={() => setImageLoaded(true)} className="w-full h-full object-cover object-top block" />
       </div>
       <div className="px-5 py-2.5 bg-[#DFDCD2] text-xs text-[#1C1C1C] flex items-center justify-between border-y border-[#1C1C1C]/12">
         <span className="inline-flex items-center gap-2"><span className={`w-2 h-2 rounded-full ${ (status || "Producción") === "Producción" ? "bg-[#8FA68E]" : "bg-[#D95D39]"}`} />{status || "Producción"}</span>

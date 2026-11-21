@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import TechIcon from '../common/TechIcon';
 import { normalizeTechList } from '../../data/techCatalog';
 import LoadingSpinner from '../common/LoadingSpinner';
+import { coverImageProps } from '../../data/projectCovers';
 
 export default function ProjectDetailsModal({ isOpen, onClose, project, onOpenReadme }) {
     const [imageLoaded, setImageLoaded] = useState(false);
@@ -33,7 +34,7 @@ export default function ProjectDetailsModal({ isOpen, onClose, project, onOpenRe
                     </button>
                     <div className="w-full md:w-1/2 h-48 md:h-auto relative bg-[#DFDCD2]">
                         {!imageLoaded && <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#DFDCD2]"><LoadingSpinner /></div>}
-                        <img src={project.image} alt={project.title} onLoad={() => setImageLoaded(true)} className={`w-full h-full object-cover transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`} />
+                        <img src={project.image} {...coverImageProps(project.image)} sizes="(min-width: 768px) 512px, 100vw" alt={project.title} decoding="async" onLoad={() => setImageLoaded(true)} className={`w-full h-full object-cover object-top transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`} />
                     </div>
                     <div className="w-full md:w-1/2 flex flex-col h-full bg-[#F2EFE9] text-[#1C1C1C]">
                         <div className="flex-1 overflow-y-auto p-6 md:p-8">

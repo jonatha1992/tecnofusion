@@ -7,6 +7,14 @@
 //
 // La clave es el slug del titulo del proyecto. Para volver a Storage cuando el
 // billing vuelva, borra la entrada correspondiente de este mapa.
+// Capturas reales (WebP 1200x750 + variante -600) de las demos publicas que responden.
+export const projectScreens = new Set([
+  'expenses-tracker',
+  'neon-designs-carteles-de-neon-led',
+  'portfolio-tecnico-jonathan-correa',
+  'tecnofusion',
+])
+
 export const projectCovers = {
   'aesfron-plataforma-educativa': '/assets/projects/aesfron-plataforma-educativa.svg',
   'api-de-logistica-integracion-envia-com': '/assets/projects/api-de-logistica-integracion-envia-com.svg',
@@ -51,5 +59,21 @@ export function toProjectSlug(title) {
  * @returns {string}
  */
 export function resolveProjectImage(title, remoteImage) {
-  return projectCovers[toProjectSlug(title)] || remoteImage || ''
+  const slug = toProjectSlug(title)
+  if (projectScreens.has(slug)) return `/assets/projects/screens/${slug}.webp`
+  return projectCovers[slug] || remoteImage || ''
+}
+
+/**
+ * Atributos responsive para capturas WebP; vacio para SVG u otras URLs.
+ * @param {string} src
+ * @returns {{ srcSet?: string, width: number, height: number }}
+ */
+export function coverImageProps(src) {
+  if (!/\/screens\/[^/]+\.webp$/.test(src || '')) return { width: 640, height: 360 }
+  return {
+    srcSet: `${src.replace('.webp', '-600.webp')} 600w, ${src} 1200w`,
+    width: 1200,
+    height: 750,
+  }
 }
